@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AiOutlineLogin } from "react-icons/ai";
+
 
 import { Link } from 'react-router-dom';
 const Dropdown = () => {
@@ -8,7 +8,7 @@ const Dropdown = () => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-const user=null;
+  const user = null;
   return (
     <div className="relative inline-block">
 
@@ -34,7 +34,7 @@ const user=null;
         <div
           className="absolute right-0 z-20 lg:w-64 md:w-56 w-48 py-2 mt-2 overflow-hidden origin-top-right bg-white rounded-md shadow-xl dark:bg-gray-800"
         >
-          <li  className="flex items-center p-2 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+          <li className="flex items-center p-2 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
             <img
               className="flex-shrink-0 object-cover mx-1 rounded-full w-4 h-4"
               src={user?.photoURL || 'https://randomuser.me/api/portraits'}
@@ -43,7 +43,7 @@ const user=null;
             <div className=" text-center">
               <h1 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                 {user?.displayName || 'No Name'}
-                 </h1>
+              </h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 {user?.email || 'No Email'}
               </p>
@@ -57,7 +57,7 @@ const user=null;
           </Link>
 
           <Link to={'dashboard/profilePage'} className="block px-2 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white text-center">
-          Update Profile
+            Update Profile
           </Link>
 
           <hr className="border-gray-200 dark:border-gray-700" />
