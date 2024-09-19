@@ -29,6 +29,9 @@ const Newsletters = () => {
             <h1 className='text-3xl text-center my-4 font-semibold text-blue-600'>
                 Newsletters
             </h1>
+            <p className='text-center text-gray-500'>
+                Subscribe to our newsletter and get our latest updates.Get collaborate with us.
+            </p>
            <div className="w-full py-3 bg-gray-500 transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0" style={{backgroundImage: "url('https://www.dooly.ai/wp-content/uploads/2023/11/Why-Sales-Team-Collaboration-Matters-for-Improving-Deal-Efficiency-1.jpg')", backgroundPosition: "center center", backgroundBlendMode: "multiply", backgroundSize: "cover"}}>
 	<div className="container flex flex-col flex-wrap content-center justify-center p-4 py-20 mx-auto md:p-10">
 		<h1 className="text-5xl antialiased font-semibold leading-none text-center text-gray-100">Get Our Updates</h1>
