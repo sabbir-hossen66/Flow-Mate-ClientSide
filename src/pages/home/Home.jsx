@@ -18,9 +18,6 @@ import OurTeams from "@/components/ourTeams/OurTeams";
 const Home = () => {
   return (
     <div>
-
-      <Hero />
-    
       <Banner />
       <Features />
       <OurTeams/>
