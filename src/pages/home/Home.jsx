@@ -6,19 +6,16 @@ import Hero from "@/Shared/hero/Hero";
 import PricingPlans from "./../../components/PricingPlans";
 import Newsletters from "@/components/newsletters/Newsletters";
 import Testmonial from "@/components/Testmonial/Testmonial";
-
-
-
-
-
+import OurTeams from "@/components/ourTeams/OurTeams";
 const Home = () => {
   return (
     <div>
 
       <Hero />
-
+    
       <Banner />
       <Features />
+      <OurTeams/>
       <Newsletters />
       <PricingPlans />
       <Testmonial />
