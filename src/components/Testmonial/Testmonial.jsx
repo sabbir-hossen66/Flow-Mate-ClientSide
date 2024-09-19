@@ -3,7 +3,7 @@ import React from 'react';
 const Testmonial = () => {
   return (
     <div>
-     
+
       <section className="bg-white">
         <div className="container px-6 py-10 mx-auto">
           <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
@@ -17,7 +17,7 @@ const Testmonial = () => {
           <section className="grid grid-cols-1 gap-8 mt-8 xl:mt-12 md:grid-cols-2 lg:grid-cols-3">
             <div className="p-8 border rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
               <p className="leading-loose">
-                "Team collaboration brings efficiency and creativity in every project we undertake."
+                "Team collaboration brings efficiency and creativity in every project we take it."
               </p>
 
               <div className="flex items-center mt-8 -mx-2">
