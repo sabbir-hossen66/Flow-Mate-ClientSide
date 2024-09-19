@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaSearchengin, FaTimes } from "react-icons/fa";
+import Dropdown from "@/components/dropdown/Dropdown";
+import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   const [isOpen, setIsOpen] = useState(false);
