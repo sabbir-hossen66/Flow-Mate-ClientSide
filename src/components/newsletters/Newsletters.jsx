@@ -15,16 +15,12 @@ const Newsletters = () => {
     
     const onSubmit = (data) => {
         const { email } = data;
-         
-          Swal.fire({
+        Swal.fire({
             title: 'Subscribed!',
-            text: `${email} has been subscribed to our newsletter`,
+            text: `You have successfully subscribed with email: ${email}`,
             icon: 'success',
-            showConfirmButton: false,
-            timer: 2000,
-            });
-            reset();
-         
+            confirmButtonText: 'Cool!',
+        });
         
 
     }

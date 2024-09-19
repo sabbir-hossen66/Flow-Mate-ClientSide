@@ -98,7 +98,7 @@ const Hero = () => {
                  placeholder="Enter Your Query"
                   type="text"
                   className="border border-gray-300 rounded-lg p-2 focus:outline-none w-[75lvw] 
-                  lg:w-[70lvw] xl:w-[65lvw] 2xl:w-[42lvw]  dark:bg-gray-800"
+                  lg:w-[70lvw] xl:w-[63lvw] 2xl:w-[45lvw]  dark:bg-gray-800"
                  
                 />
                 <button className="ml-2 text-red-500" onClick={() => setSearchOpen(false)}>
