@@ -1,4 +1,9 @@
 
+
+import AboutScrum from '@/components/aboutscrum/AboutScrum';
+import FlowMateService from '@/components/flowMateService/FlowMateService';
+import React from 'react';
+
 const AboutPage = () => {
   const services = [
     {
@@ -57,6 +62,8 @@ const AboutPage = () => {
           </div>
         ))}
       </div>
+      <AboutScrum/>
+      <FlowMateService/>
     </div>
   );
 };

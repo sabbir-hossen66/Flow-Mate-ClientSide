@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaSearchengin, FaTimes } from "react-icons/fa";
+import Dropdown from "@/components/dropdown/Dropdown";
+import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false); // Track search input visibility
-
+  const [searchOpen, setSearchOpen] = useState(false); 
+ const user = null; // Get user from context
   return (
     <div>
        <nav className="relative shadow rounded-3xl">
@@ -13,7 +15,7 @@ const Hero = () => {
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="flex items-center justify-between">
             <Link to={'/'}>
-              <img className="lg:h-20 md:h-16 h-12 w-auto rounded-full" src="https://i.ibb.co.com/WgPKBVY/Screenshot-2024-09-18-161854-removebg-preview.png" alt="Logo" />
+              <img className="xl:h-20 md:h-16 h-12 w-auto rounded-full" src="https://i.ibb.co.com/WgPKBVY/Screenshot-2024-09-18-161854-removebg-preview.png" alt="Logo" />
             </Link>
 
             {/* Mobile menu button */}
@@ -54,7 +56,7 @@ const Hero = () => {
                 </NavLink>
                 <NavLink
                   className="text-gray-700 transition-colors duration-300 transform lg:mx-8 dark:text-gray-200 dark:hover:text-blue-400 hover:text-blue-500"
-                  to="/components"
+                  to="/about"
                 >
                   About us
                 </NavLink>
@@ -75,16 +77,29 @@ const Hero = () => {
                   className="text-gray-700 transition-colors duration-300 transform lg:mx-8 dark:text-gray-200 dark:hover:text-blue-400 hover:text-blue-500 mx-auto"
                   onClick={() => setSearchOpen(true)}
                 >
-                  <FaSearchengin />
+                  <FaSearchengin className="text-lg" />
                 </button>
+                <div className="flex items-center  lg:mt-0 justify-center gap-1">
+                            {
+                                user ? <Dropdown /> : (
+                                    <Link to={'/login'}>
+                                        <Button color="gray" type="button" className="flex items-center focus:outline-none bg-[#0047AB] text-white" aria-label="toggle profile dropdown">
+                                            Login
+                                        </Button>
+                                    </Link>
+                                )
+                            }
+                        </div>
               </div>
             ) : (
               // Search Input Field with Cross Button and Full Width
               <div className="relative flex items-center justify-between w-full">
                 <input
+                 placeholder="Enter Your Query"
                   type="text"
-                  className="border border-gray-300 rounded-lg p-2 focus:outline-none w-lvw"
-                  placeholder="Search..."
+                  className="border border-gray-300 rounded-lg p-2 focus:outline-none w-[75lvw] 
+                  lg:w-[70lvw] xl:w-[63lvw] 2xl:w-[45lvw]  dark:bg-gray-800"
+                 
                 />
                 <button className="ml-2 text-red-500" onClick={() => setSearchOpen(false)}>
                   <FaTimes />
