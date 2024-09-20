@@ -10,6 +10,11 @@ import OurTeams from "@/components/ourTeams/OurTeams";
 
 
 
+import OurTeams from "@/components/ourTeams/OurTeams";
+import MarketingComponent from "@/components/marketing/MarketingComponent";
+
+
+
 
 
 const Home = () => {
@@ -17,6 +22,7 @@ const Home = () => {
     <div>
 
       <Banner />
+      <MarketingComponent/>
       <Features />
       <OurTeams/>
       <Newsletters />

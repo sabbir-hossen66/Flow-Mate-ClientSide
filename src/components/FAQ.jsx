@@ -8,7 +8,7 @@ import Container from "./Container";
 
 export function FAQ() {
   return (
-    <Container className="flex flex-col  md:flex-row justify-between gap-5">
+    <Container className="flex flex-col max-w-6xl mx-auto my-20 md:flex-row justify-between gap-5">
       <div className="md:w-1/2">
         <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
         <p className="text-md font-normal mb-12 ">

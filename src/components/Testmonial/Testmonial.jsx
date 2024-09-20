@@ -4,8 +4,8 @@ const Testmonial = () => {
   return (
     <div>
 
-      <section className="bg-white">
-        <div className="container px-6 py-10 mx-auto">
+      <section className="bg-gray-100">
+        <div className="max-w-6xl mx-auto px-6 py-20 ">
           <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
             What our <span className="text-blue-500">team</span> says
           </h1>
@@ -15,7 +15,7 @@ const Testmonial = () => {
           </p>
 
           <section className="grid grid-cols-1 gap-8 mt-8 xl:mt-12 md:grid-cols-2 lg:grid-cols-3">
-            <div className="p-8 border rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
+            <div className="p-8 border rounded-lg hover:bg-blue-500 bg-white hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
               <p className="leading-loose">
                 "Team collaboration brings efficiency and creativity in every project we take it."
               </p>
@@ -33,7 +33,7 @@ const Testmonial = () => {
               </div>
             </div>
 
-            <div className="p-8 border rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
+            <div className="p-8 border rounded-lg hover:bg-blue-500 bg-white hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
               <p className="leading-loose">
                 "We work in sync to bring the best front-end experiences to life!"
               </p>
@@ -51,7 +51,7 @@ const Testmonial = () => {
               </div>
             </div>
 
-            <div className="p-8 border rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
+            <div className="p-8 border rounded-lg hover:bg-blue-500 bg-white hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
               <p className="leading-loose">
                 "As a full stack developer, collaboration bridges the gap between front and back end seamlessly."
               </p>
@@ -69,7 +69,7 @@ const Testmonial = () => {
               </div>
             </div>
 
-            <div className="p-8 border rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
+            <div className="p-8 border rounded-lg hover:bg-blue-500 bg-white hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
               <p className="leading-loose">
                 "Our backend services are made better with close team collaboration."
               </p>
@@ -87,7 +87,7 @@ const Testmonial = () => {
               </div>
             </div>
 
-            <div className="p-8 border rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
+            <div className="p-8 border rounded-lg hover:bg-blue-500 bg-white hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
               <p className="leading-loose">
                 "Working with this team makes front-end development a seamless process."
               </p>
@@ -105,7 +105,7 @@ const Testmonial = () => {
               </div>
             </div>
 
-            <div className="p-8 border rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
+            <div className="p-8 border rounded-lg hover:bg-blue-500 bg-white hover:text-white transition-all duration-300 ease-in-out animate-fadeIn">
               <p className="leading-loose">
                 "Frontend development is easier when working with such an amazing team! "
               </p>

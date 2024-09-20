@@ -1,32 +1,17 @@
-
-
 import AboutScrum from '@/components/aboutscrum/AboutScrum';
-import FlowMateService from '@/components/flowMateService/FlowMateService';
-import React from 'react';
+// import FlowMateService from '@/components/flowMateService/FlowMateService';
+import TeamOrganize from '@/components/organize/TeamOrganize';
 
 const AboutPage = () => {
-  const services = [
-    {
-      id: 1,
-      title: 'Organize your work your way',
-      description: 'Whether it’s for work, a side project, or even the next family vacation, Trello helps your team stay organized.',
-      image: 'https://images.pexels.com/photos/6335/man-coffee-cup-pen.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      id: 2,
-      title: 'Collaborate with your team',
-      description: 'From brainstorming to planning to execution, Trello allows you to collaborate seamlessly with your team.',
-      image: 'https://images.pexels.com/photos/3727456/pexels-photo-3727456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      id: 3,
-      title: 'Stay on top of your tasks',
-      description: 'With Trello’s visual boards, lists, and cards, you can manage tasks and stay on top of deadlines effortlessly.',
-      image: 'https://images.pexels.com/photos/27934883/pexels-photo-27934883/free-photo-of-holding-graphic-tablet-device-blank-screen-mockup.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-  ];
+ 
 
   return (
+
+    <div className="bg-gray-50 py-12">   
+      <AboutScrum/>
+      <TeamOrganize/>
+      {/* <FlowMateService/> */}
+
     <div className="bg-gray-50 py-12">
       <AboutScrum/>
       <div className="text-center mb-12">
@@ -65,6 +50,7 @@ const AboutPage = () => {
       </div>
       
       <FlowMateService/>
+
     </div>
   );
 };
