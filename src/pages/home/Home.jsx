@@ -10,12 +10,19 @@ import Contact from "@/components/contact/Contact";
 
 
 
+const Home = () => {
+  return (
+    <div>
+      <Hero />
+
+
 
 import OurTeams from "@/components/ourTeams/OurTeams";
 
 const Home = () => {
   return (
     <div>
+
       <Banner />
       <Features />
       <OurTeams/>
