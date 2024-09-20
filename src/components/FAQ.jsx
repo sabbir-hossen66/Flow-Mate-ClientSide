@@ -11,33 +11,28 @@ export function FAQ() {
     <Container className="flex flex-col max-w-6xl mx-auto my-20 md:flex-row justify-between gap-5">
       <div className="md:w-1/2">
         <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-        <p className="text-md font-normal mb-12 ">
+        <p className="text-md font-normal mb-12">
           Here are some of our FAQs. If you have any other questions you’d like
-          answered please feel free to email us.
+          answered, please feel free to email us.
         </p>
       </div>
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1">
-          <AccordionTrigger>How does the billing work?</AccordionTrigger>
+          <AccordionTrigger>How do I get started with FlowMate?</AccordionTrigger>
           <AccordionContent>
-            Springerdata offers a variety of billing options, including monthly
-            and annual subscription plans, as well as pay-as-you-go pricing for
-            certain services. Payment is typically made through a credit card or
-            other secure online payment method.
+            To get started, simply sign up for an account using your email or Google Sign-In. Once registered, you can create your first project, invite team members, and start organizing tasks right away.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger>Is it styled?</AccordionTrigger>
+          <AccordionTrigger>Can I integrate FlowMate with other tools?</AccordionTrigger>
           <AccordionContent>
-            Yes. It comes with default styles that matches the other
-            components&apos; aesthetic.
+            Yes, FlowMate supports integration with various third-party tools like Google Calendar, Slack, and more to streamline your workflow and enhance collaboration within your team.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">
-          <AccordionTrigger>Is it animated?</AccordionTrigger>
+          <AccordionTrigger>Is my data secure on FlowMate?</AccordionTrigger>
           <AccordionContent>
-            Yes. It&apos;s animated by default, but you can disable it if you
-            prefer.
+            Absolutely. FlowMate uses industry-standard encryption and secure authentication protocols to protect your data. Your information is kept private and is only accessible to authorized team members.
           </AccordionContent>
         </AccordionItem>
       </Accordion>

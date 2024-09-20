@@ -22,9 +22,15 @@ const Newsletters = () => {
     });
   };
   return (
-    <div className="max-w-7xl mx-auto bg-gray-100">
+    <div className="max-w-7xl mx-auto ">
+      <div className="text-center py-10">
+        <h2 className="text-4xl font-bold">Stay Connected with FlowMate</h2>
+        <p className="text-lg text-gray-600 ">
+          Sign up to receive our latest news, updates, and exclusive content.
+        </p>
+      </div>
       <div
-        className="w-full py-3 mt-20 bg-gray-500 transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0"
+        className="w-full py-3  mt-4 bg-gray-500 transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0"
         style={{
           backgroundImage:
             "url('https://www.dooly.ai/wp-content/uploads/2023/11/Why-Sales-Team-Collaboration-Matters-for-Improving-Deal-Efficiency-1.jpg')",
