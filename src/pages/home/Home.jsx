@@ -6,18 +6,11 @@ import PricingPlans from "./../../components/PricingPlans";
 import Newsletters from "@/components/newsletters/Newsletters";
 import Testmonial from "@/components/Testmonial/Testmonial";
 import Contact from "@/components/contact/Contact";
-
-
-
-
-const Home = () => {
-  return (
-    <div>
-      <Hero />
-
-
-
 import OurTeams from "@/components/ourTeams/OurTeams";
+
+
+
+
 
 const Home = () => {
   return (
