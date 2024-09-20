@@ -26,6 +26,7 @@ const AboutPage = () => {
 
   return (
     <div className="bg-gray-50 py-12">
+      <AboutScrum/>
       <div className="text-center mb-12">
         <h2 className="text-gray-500 uppercase tracking-wider">About</h2>
         <h1 className="text-4xl font-bold mt-4">The platform that brings your team together.</h1>
@@ -60,7 +61,7 @@ const AboutPage = () => {
           </div>
         ))}
       </div>
-      <AboutScrum/>
+      
       <FlowMateService/>
     </div>
   );
