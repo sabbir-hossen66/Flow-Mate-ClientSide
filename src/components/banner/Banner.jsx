@@ -19,7 +19,7 @@ import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
 
 const Banner = () => {
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto py-20 bg-gradient-to-b from-[#e0f2fc] to-[#f9fbfc]">
 
       <Swiper
         effect={'coverflow'}

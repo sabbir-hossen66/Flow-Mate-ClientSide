@@ -1,15 +1,18 @@
 
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import us from "../../assets/flag.png";
-
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="bg-white text-gray-800 hover:bg-white">
    
-      <section className="max-w-screen-xl mx-auto px-4 py-12 md:flex md:justify-between md:space-x-8">
+      <section className="max-w-6xl mx-auto px-4 py-12 md:flex md:justify-between md:space-x-8">
         {/* Logo and Brand Name */}
         <div className="mb-6 md:mb-0">
-          <h1 className='text-4xl'>Flow<span className="text-blue-600">Mate</span></h1>
+          {/* <h1 className='text-4xl'>Flow<span className="text-blue-600">Mate</span></h1> */}
+          <Link to={'/'}>
+              <img className="xl:h-20 md:h-16 h-12 w-auto rounded-full" src="https://i.ibb.co.com/WgPKBVY/Screenshot-2024-09-18-161854-removebg-preview.png" alt="Logo" />
+            </Link>
           <p className="text-sm mt-1 text-gray-600">Worlds best Team Collaboration tool for work</p>
         </div>
 
@@ -51,9 +54,9 @@ const Footer = () => {
       </section>
 
       {/* Social Media and Footer Links */}
-      <section className="bg-white text-gray-800 rounded-lg shadow m-4">
+      <section className="bg-white text-gray-800 ">
         <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-          <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-4">
+          <div className="flex flex-col px-10 md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-4">
             {/* Social Media Icons */}
             <div className="flex justify-center md:justify-start">
               <ul className="flex gap-4">

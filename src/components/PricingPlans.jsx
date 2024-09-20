@@ -48,8 +48,10 @@ const PricingPlans = () => (
     <section className="p-4 md:p-8">
       <div className="py-8 max-w-screen-xl lg:py-16">
         <div className="mx-auto max-w-3xl text-center pb-12 md:pb-20">
-          <h2 className="text-3xl font-bold sm:text-4xl mb-4">Pricing Plans</h2>
-          <p className="text-xl">
+          <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
+          Pricing  <span className="text-blue-500"> Plans</span>
+            </h1>
+          <p className="text-center text-gray-500">
             Choose a plan that best suits your data needs.
           </p>
         </div>

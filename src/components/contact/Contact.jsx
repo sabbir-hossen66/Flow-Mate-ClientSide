@@ -17,7 +17,7 @@ const Contact = () => {
             Send us a Message
           </h2>
           <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="col-span-1">
+            <div className="col-span-2 lg:col-span-1">
               <label className="block text-sm mb-2" htmlFor="name">
                 Name
               </label>
@@ -28,7 +28,7 @@ const Contact = () => {
                 placeholder="Enter your name"
               />
             </div>
-            <div className="col-span-1">
+            <div className="col-span-2 lg:col-span-1">
               <label className="block text-sm mb-2" htmlFor="email">
                 Email
               </label>
@@ -75,7 +75,7 @@ const Contact = () => {
                 </span>
                 <span className="material-icons">Location_on</span>
               </div>
-              <p>123 Main Street, Anytown, USA</p>
+              <p className="ml-5">123 Main Street, Anytown, USA</p>
             </li>
             <li>
               <div className="flex items-center">
@@ -84,7 +84,7 @@ const Contact = () => {
                 </span>
                 <span className="material-icons">Phone</span>
               </div>
-              <p>+1 555-555-5555</p>
+              <p  className="ml-5">+1 555-555-5555</p>
             </li>
             <li>
               <div className="flex items-center">
@@ -93,7 +93,7 @@ const Contact = () => {
                 </span>
                 <span className="material-icons">Email</span>
               </div>
-              <p>info@example.com</p>
+              <p  className="ml-5">info@example.com</p>
             </li>
           </ul>
 
