@@ -1,4 +1,3 @@
-import React from 'react';
 
 const AboutPage = () => {
   const services = [
@@ -48,7 +47,7 @@ const AboutPage = () => {
               alt={service.title}
             />
             <div className="flex items-center justify-between mb-4">
-              <span className="text-green-500 text-xl font-semibold">{`0${service.id}`}</span>
+              <span className="text-blue-500 text-xl font-semibold">{`0${service.id}`}</span>
               <button className="text-sm text-gray-500 bg-gray-200 px-3 py-1 rounded-full">
                 Active Status
               </button>
