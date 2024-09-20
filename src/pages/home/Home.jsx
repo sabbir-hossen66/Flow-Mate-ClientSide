@@ -5,7 +5,6 @@ import { FAQ } from "./../../components/FAQ";
 import PricingPlans from "./../../components/PricingPlans";
 import Newsletters from "@/components/newsletters/Newsletters";
 import Testmonial from "@/components/Testmonial/Testmonial";
-
 import Contact from "@/components/contact/Contact";
 
 
