@@ -8,9 +8,6 @@ import Testmonial from "@/components/Testmonial/Testmonial";
 import Contact from "@/components/contact/Contact";
 import OurTeams from "@/components/ourTeams/OurTeams";
 
-
-
-import OurTeams from "@/components/ourTeams/OurTeams";
 import MarketingComponent from "@/components/marketing/MarketingComponent";
 
 
