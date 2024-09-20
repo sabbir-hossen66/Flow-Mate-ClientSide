@@ -8,6 +8,10 @@ import Testmonial from "@/components/Testmonial/Testmonial";
 import Contact from "@/components/contact/Contact";
 import OurTeams from "@/components/ourTeams/OurTeams";
 
+
+
+
+
 const Home = () => {
   return (
     <div>
