@@ -17,6 +17,7 @@ const googleProvider = new GoogleAuthProvider();
 // Initial state
 const initialState = {
   user: null,
+  isAuthenticated: false, 
   loading: false,
   error: null,
 };
@@ -141,13 +142,16 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
-      state.loading = false; // Ensure loading is false when setting the user
+      state.isAuthenticated = !!action.payload; // Set isAuthenticated based on payload
+      state.loading = false;
     },
     clearUser: (state) => {
       state.user = null;
-      state.loading = false; // Ensure loading is false when clearing the user
+      state.isAuthenticated = false; // Clear authentication state
+      state.loading = false;
     },
     setLoading: (state, action) => {
+      
       state.loading = action.payload; // Set loading state based on the action payload
     },
   },
