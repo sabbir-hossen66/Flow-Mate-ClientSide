@@ -1,3 +1,4 @@
+import UseAxiosCommon from '@/hooks/UseAxiosCommon';
 import { signInWithEmail, signInWithGoogle } from '@/redux/slices/authSlice';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,6 +10,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const [error, setError] = useState("");
   const  navigate  = useNavigate();
+  const axiosCommon=UseAxiosCommon();
     const {
         register,
         handleSubmit,
@@ -19,13 +21,45 @@ const Login = () => {
       const handleGoogleSignIn = () => {
         dispatch(signInWithGoogle())
           .unwrap()
-          .then(() => {
-            Swal.fire({
-              icon: "success",
-              title: "Welcome!",
-              text: "Signed in successfully with Google!",
-            });
-            navigate("/"); // Navigate to home or another route after successful sign-in
+          .then((userCredential) => {
+            // Get the user from the userCredential
+           console.log(userCredential);
+           const user = userCredential; // Extract the user object from the credential
+      
+            // Prepare user info to send to the backend
+            const userInfo = {
+              name: user.displayName,
+              email: user.email,
+              role: 'member',
+            };
+      
+            // Send user info to the backend
+            axiosCommon.post('/users', userInfo)
+              .then((res) => {
+                if (res.data.insertedId) {
+                  Swal.fire({
+                    icon: "success",
+                    title: "Congratulations",
+                    text: "Your account has been created successfully!",
+                  });
+                
+                  navigate(location?.state ? location.state : "/");
+                }else{
+                  Swal.fire({
+                    icon:"success",
+                    title:"Congratulations",
+                    text:"You have logged in to your existing account",
+                  });
+                  navigate(location?.state ? location.state : "/");
+                } 
+              })
+              .catch((err) => {
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: err.message || "Failed to create user account!",
+                });
+              });
           })
           .catch((err) => {
             Swal.fire({
@@ -35,6 +69,7 @@ const Login = () => {
             });
           });
       };
+      
       const onSubmit = async (data) => {
         try {
             const resultAction = await dispatch(signInWithEmail(data));
