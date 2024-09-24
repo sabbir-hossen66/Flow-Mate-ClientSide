@@ -5,18 +5,21 @@ import Dropdown from "@/components/dropdown/Dropdown";
 import { Button } from "@/components/ui/button";
 import ProjectCreate from "@/components/projectCreate/ProjectCreate";
 import CommonButton from "@/components/commonButton/CommonButton";
+import { useSelector } from "react-redux";
 
 const Hero = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-
+  const user = useSelector((state) => state.auth.user);
+  const loading = useSelector((state) => state.auth.loading);
+  console.log(user,loading);
+  
   const [toggleOpen, setToggleOpen] = useState(false); // toggleOpen and close
 
   const toggleHandler = () => {
     setToggleOpen(!toggleOpen);
   };
 
-  const user = null; // Get user from context
   return (
     <div>
       <nav className="relative shadow rounded-3xl">
@@ -131,7 +134,7 @@ const Hero = () => {
                   </button>
                   <div className="flex items-center  lg:mt-0 justify-center gap-1">
                     {user ? (
-                      <Dropdown />
+                      <Dropdown  />
                     ) : (
                       <Link to={"/login"}>
                         <Button

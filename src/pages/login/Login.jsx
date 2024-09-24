@@ -1,16 +1,67 @@
-import React from 'react';
+import { signInWithEmail, signInWithGoogle } from '@/redux/slices/authSlice';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const [error, setError] = useState("");
+  const  navigate  = useNavigate();
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
       } = useForm();
-      const onSubmit = (data) => {
-      }
+      
+      const handleGoogleSignIn = () => {
+        dispatch(signInWithGoogle())
+          .unwrap()
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Welcome!",
+              text: "Signed in successfully with Google!",
+            });
+            navigate("/"); // Navigate to home or another route after successful sign-in
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: err.message || "Google Sign-In failed!",
+            });
+          });
+      };
+      const onSubmit = async (data) => {
+        try {
+            const resultAction = await dispatch(signInWithEmail(data));
+            if (signInWithEmail.fulfilled.match(resultAction)) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Welcome!',
+                    text: 'Signed in successfully with email!',
+                });
+                navigate('/'); // Change to your desired path
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: resultAction.payload || 'Sign-In failed!',
+              });  
+            }
+        } catch (error) {
+           Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error.message || 'Sign-In failed!',
+            });
+            console.error('Login error:', error);
+        }
+    };
+
     return (
         <div>
             <div className="flex justify-center items-center h-screen text-[#07101b]">
@@ -31,7 +82,7 @@ const Login = () => {
     <p className="mt-3 text-xl text-center text-[#132f50] font-bold">Welcome back!</p>
 
     <button
-      
+     onClick={handleGoogleSignIn} 
       className="flex items-center justify-center mt-4  transition-colors duration-300 transform border rounded-lg dark:border-gray-700  hover:bg-gray-50 dark:hover:bg-gray-600 w-full "
     >
       <div className="px-4 py-2">

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 
 import { Link } from 'react-router-dom';
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  const user = null;
+  const user = useSelector((state) => state.auth.user);
+const { displayName, email, photoURL } = user;
   return (
     <div className="relative inline-block">
 
@@ -20,7 +23,7 @@ const Dropdown = () => {
         <span className="">
           <img
             className="object-cover w-8 h-8 rounded-full"
-            src={user?.photoURL || 'https://i.ibb.co/M7Zxxsm/770fb75f5e81e4c2dbe8934f246aeeab.jpg'}
+            src={photoURL || 'https://i.ibb.co/M7Zxxsm/770fb75f5e81e4c2dbe8934f246aeeab.jpg'}
             alt="jane doe"
           />
         </span>
@@ -37,15 +40,15 @@ const Dropdown = () => {
           <li className="flex items-center p-2 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
             <img
               className="flex-shrink-0 object-cover mx-1 rounded-full w-4 h-4"
-              src={user?.photoURL || 'https://randomuser.me/api/portraits'}
+              src={photoURL || 'https://randomuser.me/api/portraits'}
               alt="jane avatar"
             />
             <div className=" text-center">
               <h1 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                {user?.displayName || 'No Name'}
+                {displayName || 'No Name'}
               </h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                {user?.email || 'No Email'}
+                {email || 'No Email'}
               </p>
             </div>
           </li>

@@ -1,20 +1,124 @@
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { createUser,updateUserProfile , signInWithGoogle } from "../../redux/slices/authSlice";
 
 
 const SignUp = () => {
    
-      const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-      } = useForm()
-  
-    const onSubmit = (data) => {
+  const dispatch = useDispatch();
+  const [error, setError] = useState("");
+  const  navigate  = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm();
 
+ 
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
+
+
+  const onSubmit = (data) => {
+    // Clear previous errors
+    setError("");
+  
+    // Regular expression for password validation
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{7,}$/;
+  
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Password and Confirm Password must be the same!",
+      });
+      reset();
+      return;
     }
+  
+    // Validate password against regex
+    if (!regex.test(password)) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 special character, and be at least 7 characters long!",
+      });
+      reset();
+      return;
+    }
+  
+    // Create user data object
+    const userData = {
+      email: data.email,
+      password: data.password,
+    };
+  
+    // Dispatch registration action
+    dispatch(createUser(userData))
+      .unwrap()
+      .then(() => {
+        // Dispatch updateUserProfile action with name and photo
+        dispatch(updateUserProfile({ name: data.name, photo: data.photo }))
+          .unwrap()
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Congratulations",
+              text: "Your account has been created successfully!",
+            });
+            reset();
+            navigate("/");
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: err.message || "Profile update failed!",
+            });
+            reset();
+          });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.message || "Registration failed!",
+        });
+        reset();
+      });
+  };
+ 
+
+const handleGoogleSignIn = () => {
+  dispatch(signInWithGoogle())
+    .unwrap()
+    .then(() => {
+      Swal.fire({
+        icon: "success",
+        title: "Welcome!",
+        text: "Signed in successfully with Google!",
+      });
+      navigate("/"); // Navigate to home or another route after successful sign-in
+    })
+    .catch((err) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: err.message || "Google Sign-In failed!",
+      });
+    });
+};
+
+  
+
+
    
 
     return (
@@ -43,7 +147,7 @@ const SignUp = () => {
         </p>
 
         <button
-    
+     onClick={handleGoogleSignIn}
       className="flex items-center justify-center mt-4  transition-colors duration-300 transform border rounded-lg dark:border-gray-700  hover:bg-gray-50 dark:hover:bg-gray-600 w-full "
     >
       <div className="px-4 py-2">
