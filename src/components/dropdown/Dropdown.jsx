@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import {logout} from '../../redux/slices/authSlice';
 
 import { Link } from 'react-router-dom';
 const Dropdown = () => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
   const user = useSelector((state) => state.auth.user);
 const { displayName, email, photoURL } = user;
+const handleLogout = () => {
+  dispatch(logout());
+};
   return (
     <div className="relative inline-block">
 
@@ -37,9 +42,9 @@ const { displayName, email, photoURL } = user;
         <div
           className="absolute right-0 z-20 lg:w-64 md:w-56 w-48 py-2 mt-2 overflow-hidden origin-top-right bg-white rounded-md shadow-xl dark:bg-gray-800"
         >
-          <li className="flex items-center p-2 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+          <li className="flex justify-center items-center p-2 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
             <img
-              className="flex-shrink-0 object-cover mx-1 rounded-full w-4 h-4"
+              className="flex-shrink-0 object-cover mx-1 rounded-full w-6 h-6"
               src={photoURL || 'https://randomuser.me/api/portraits'}
               alt="jane avatar"
             />
@@ -65,7 +70,7 @@ const { displayName, email, photoURL } = user;
 
           <hr className="border-gray-200 dark:border-gray-700" />
 
-          <button className="block px-2 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white text-center w-full">
+          <button onClick={handleLogout}  className="block px-2 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white text-center w-full">
             log out
           </button>
         </div>
