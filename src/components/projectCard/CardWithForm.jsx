@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import {
  Card,
@@ -53,6 +52,7 @@ export function CardWithForm({closeForm}) {
                 <SelectContent position="popper">
                   <SelectItem value="next">Private</SelectItem>
                   <SelectItem value="public">Public</SelectItem>
+                  <SelectItem value="workspace">Workspace</SelectItem>
                   <SelectItem value="workspace">Workspace</SelectItem>
               
                 </SelectContent>
