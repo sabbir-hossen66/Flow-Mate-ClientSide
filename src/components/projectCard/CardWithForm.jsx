@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import {
  Card,
@@ -30,7 +29,7 @@ export function CardWithForm({closeForm}) {
           <CommonButton text='x'/>
         </div>
         </div>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
+        <CardDescription>Deploy your own project in one-click.</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
