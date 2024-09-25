@@ -3,20 +3,20 @@ import { Link, useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
 import { createUser,updateUserProfile , signInWithGoogle } from "../../redux/slices/authSlice";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import { Button } from "@/components/ui/button";
 
 
 const SignUp = () => {
    const axiosCommon=UseAxiosCommon();
   const dispatch = useDispatch();
-  const [error, setError] = useState("");
+
   const  navigate  = useNavigate();
   const {
     register,
     handleSubmit,
-    watch,
+   
     formState: { errors },
     reset,
   } = useForm();
@@ -25,9 +25,7 @@ const SignUp = () => {
 
 
   const onSubmit = async (data) => {
-    // Clear previous errors
-    setError("");
-  
+   
     const { password, confirmPassword, email, name, photo } = data;
   
     // Regular expression for password validation
@@ -63,7 +61,7 @@ const SignUp = () => {
   
     try {
       // Dispatch registration action
-      const createdUser = await dispatch(createUser(userData)).unwrap();
+       await dispatch(createUser(userData)).unwrap();
   
       const userInfo = {
         name,
@@ -141,7 +139,8 @@ const SignUp = () => {
         // Send user info to the backend
         axiosCommon.post('/api/user/register', userInfo)
           .then((res) => {
-            if (res.data.insertedId) {
+            console.log(res)
+            if (res.data) {
               Swal.fire({
                 icon: "success",
                 title: "Congratulations",
@@ -317,7 +316,7 @@ const SignUp = () => {
             }
           </div>
 
-          <button type="submit" className="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+          <Button type="submit" className="col-span-2 w-full  px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
             <span>Sign Up</span>
 
             <svg
@@ -332,7 +331,7 @@ const SignUp = () => {
                 clipRule="evenodd"
               />
             </svg>
-          </button>
+          </Button>
         </form>
         <div className="text-amber-600 text-center my-3">
         Already have an account?
