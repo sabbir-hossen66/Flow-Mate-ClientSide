@@ -22,8 +22,6 @@ const SignUp = () => {
   } = useForm();
 
  
-  const password = watch("password");
-  const confirmPassword = watch("confirmPassword");
 
 
   const onSubmit = async (data) => {
@@ -69,17 +67,22 @@ const SignUp = () => {
   
       const userInfo = {
         name,
-        photo,
         email,
+        password,
+        isAdmin: false,
         role: "member",
+        
+         imageUrl:photo,
+     
       };
   
       await dispatch(updateUserProfile({ name, photo })).unwrap();
   
       // Send user info to the backend
-      const response = await axiosCommon.post('/users', userInfo);
+      const response = await axiosCommon.post('/api/user/register', userInfo);
+      console.log(response);
       
-      if (response.data.insertedId) {
+      if (response.data) {
         Swal.fire({
           icon: "success",
           title: "Congratulations",
@@ -93,6 +96,7 @@ const SignUp = () => {
           title: "Oops...",
           text: "User creation failed on the server.",
         });
+        
         reset();
       }
     } catch (err) {
@@ -135,7 +139,7 @@ const SignUp = () => {
         };
   
         // Send user info to the backend
-        axiosCommon.post('/users', userInfo)
+        axiosCommon.post('/api/user/register', userInfo)
           .then((res) => {
             if (res.data.insertedId) {
               Swal.fire({

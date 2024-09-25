@@ -9,6 +9,10 @@ import SignUp from "@/pages/signup/SignUp";
 import AboutPage from "@/pages/aboutPage/AboutPage";
 
 import PrivateRoutes from "./privateRoutes/PrivateRoutes";
+import DashBoardHome from "@/components/dashBoardRoutes/dashBoardHome/DashBoardHome";
+import { User } from "lucide-react";
+import UserProfile from "@/components/profile/UserProfile";
+import Payment from "@/components/payment/Payment";
 
 
 
@@ -22,16 +26,25 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />
       }
-      ,{
-        path:'/about',
+      , {
+        path: '/about',
 
+        element: <PrivateRoutes>
+          <AboutPage />
+        </PrivateRoutes>
+      },
+      {
+        path:'/payment',
         element:<PrivateRoutes>
-          <AboutPage/>
+          <Payment/>
         </PrivateRoutes>
       }
     ]
   },
- // here set dashboard
+
+
+
+  // here set dashboard
   {
     path: 'dashboard',
     element: <DashBoard />,
@@ -39,20 +52,24 @@ export const router = createBrowserRouter([
       {
 
         index: true,
-        element: <div>hello dashboard</div>,
+        element: <DashBoardHome />,
 
 
-      },
+
+      },{
+          path:'profilePage',
+          element:<UserProfile/>
+
+      }
 
     ]
-  },
-  {
+  }, {
     path: "/login",
-    element:<Login/>
+    element: <Login />
 
-  },{
+  }, {
     path: "/signUp",
-    element:<SignUp/>
+    element: <SignUp />
   }
 
 ]);

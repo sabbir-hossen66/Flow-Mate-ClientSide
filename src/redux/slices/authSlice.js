@@ -60,6 +60,8 @@ export const signInWithGoogle = createAsyncThunk(
         email: result.user.email,
         displayName: result.user.displayName,
         photoURL: result.user.photoURL,
+        creationTime: result.user.metadata.creationTime,
+        lastSignInTime: result.user.metadata.lastSignInTime,
       };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -77,6 +79,9 @@ export const signInWithEmail = createAsyncThunk(
         email: result.user.email,
         displayName: result.user.displayName,
         photoURL: result.user.photoURL,
+        creationTime: result.user.metadata.creationTime,
+        lastSignInTime: result.user.metadata.lastSignInTime,
+
       };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -103,6 +108,7 @@ export const updateUserProfile = createAsyncThunk(
         await updateProfile(auth.currentUser, {
           displayName: name,
           photoURL: photo,
+        
         });
         return { displayName: name, photoURL: photo };
       }
@@ -126,6 +132,9 @@ export const fetchCurrentUser = createAsyncThunk(
             email: user.email,
             displayName: user.displayName,
             photoURL: user.photoURL,
+            creationTime: user.metadata.creationTime,
+            lastSignInTime: user.metadata.lastSignInTime,
+            
           }));
         } else {
           dispatch(setUser(null));

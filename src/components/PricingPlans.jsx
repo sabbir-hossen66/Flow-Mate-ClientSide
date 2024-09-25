@@ -2,8 +2,11 @@ import { pricingPlans } from "@/constants";
 import PropTypes from "prop-types";
 import Container from "./Container";
 import { Button } from "./ui/button";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const PricingPlanCard = ({ name, price, features, paymentType }) => {
+ 
   return (
     <div className="flex flex-col  border-2 rounded-lg p-5 hover:shadow-lg transform  delay-150">
       <div className="flex flex-col text-center pb-10">
