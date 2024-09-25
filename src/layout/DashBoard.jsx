@@ -1,9 +1,12 @@
+import DashBoardNav from "@/components/dashBoardShared/dashBoardNav/DashBoardNav";
+import { Outlet } from "react-router-dom";
 
 
 const DashBoard = () => {
   return (
-    <div>
-      <h2>This is dashboard content</h2>
+    <div className="min-h-screen flex lg:flex-row flex-col bg-white">
+      <DashBoardNav />
+      <Outlet />
     </div>
   );
 };
