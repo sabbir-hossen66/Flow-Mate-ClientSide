@@ -7,6 +7,13 @@ import DashBoard from "../layout/DashBoard";
 import Login from "@/pages/login/Login";
 import SignUp from "@/pages/signup/SignUp";
 import AboutPage from "@/pages/aboutPage/AboutPage";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCurrentUser } from "@/redux/slices/authSlice";
+import PrivateRoutes from "./privateRoutes/PrivateRoutes";
+import DashBoardHome from "@/components/dashBoardRoutes/dashBoardHome/DashBoardHome";
+import Team from "@/components/dashBoardRoutes/team/Team";
+
 
 
 export const router = createBrowserRouter([
@@ -19,13 +26,16 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />
       }
-      ,{
-        path:'/about',
-        element:<AboutPage/>
+      , {
+        path: '/about',
+
+        element: <PrivateRoutes>
+          <AboutPage />
+        </PrivateRoutes>
       }
     ]
   },
- 
+
 
 
   // here set dashboard
@@ -36,19 +46,21 @@ export const router = createBrowserRouter([
       {
 
         index: true,
-        element: <div>hello dashboard</div>,
-
-
+        element: <DashBoardHome />,
       },
+      {
+        path: 'team',
+        element: <Team />
+      }
 
     ]
-  },{
+  }, {
     path: "/login",
-    element:<Login/>
+    element: <Login />
 
-  },{
+  }, {
     path: "/signUp",
-    element:<SignUp/>
+    element: <SignUp />
   }
 
 ]);
