@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCurrentUser } from "@/redux/slices/authSlice";
 import PrivateRoutes from "./privateRoutes/PrivateRoutes";
+import DashBoardHome from "@/components/dashBoardRoutes/dashBoardHome/DashBoardHome";
 
 
 
@@ -24,16 +25,16 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />
       }
-      ,{
-        path:'/about',
+      , {
+        path: '/about',
 
-        element:<PrivateRoutes>
-          <AboutPage/>
+        element: <PrivateRoutes>
+          <AboutPage />
         </PrivateRoutes>
       }
     ]
   },
- 
+
 
 
   // here set dashboard
@@ -44,19 +45,19 @@ export const router = createBrowserRouter([
       {
 
         index: true,
-        element: <div>hello dashboard</div>,
+        element: <DashBoardHome />,
 
 
       },
 
     ]
-  },{
+  }, {
     path: "/login",
-    element:<Login/>
+    element: <Login />
 
-  },{
+  }, {
     path: "/signUp",
-    element:<SignUp/>
+    element: <SignUp />
   }
 
 ]);
