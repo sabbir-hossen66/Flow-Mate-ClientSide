@@ -1,6 +1,5 @@
 import UseAxiosCommon from '@/hooks/UseAxiosCommon';
 import { signInWithEmail, signInWithGoogle } from '@/redux/slices/authSlice';
-import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,95 +7,97 @@ import Swal from 'sweetalert2';
 
 const Login = () => {
   const dispatch = useDispatch();
-  console.log(dispatch)
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-  const axiosCommon = UseAxiosCommon();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-
-  const handleGoogleSignIn = () => {
-    dispatch(signInWithGoogle())
-      .unwrap()
-      .then((userCredential) => {
-        // Get the user from the userCredential
-        console.log(userCredential);
-        const user = userCredential; // Extract the user object from the credential
-
-        // Prepare user info to send to the backend
-        const userInfo = {
-          name: user.displayName,
-          email: user.email,
-          role: 'member',
-        };
-
-        // Send user info to the backend
-        axiosCommon.post('/users', userInfo)
-          .then((res) => {
-            if (res.data.insertedId) {
-              Swal.fire({
-                icon: "success",
-                title: "Congratulations",
-                text: "Your account has been created successfully!",
+  const  navigate  = useNavigate();
+  const axiosCommon=UseAxiosCommon();
+    const {
+        register,
+        handleSubmit,
+      
+        formState: { errors },
+      } = useForm();
+      
+      const handleGoogleSignIn = () => {
+        dispatch(signInWithGoogle())
+          .unwrap()
+          .then((userCredential) => {
+            // Get the user from the userCredential
+           console.log(userCredential);
+           const user = userCredential; // Extract the user object from the credential
+      
+            // Prepare user info to send to the backend
+            const userInfo = {
+              name: user.displayName,
+              email: user.email,
+              role: 'user',
+              photo: user.photoURL,
+              
+            };
+      
+            // Send user info to the backend
+            axiosCommon.post('/api/user/register', userInfo)
+              .then((res) => {
+                console.log(res);
+                
+                if (res.data) {
+                  Swal.fire({
+                    icon: "success",
+                    title: "Congratulations",
+                    text: "Your account has been created successfully!",
+                  });
+                
+                  navigate(location?.state ? location.state : "/");
+                }else{
+                  Swal.fire({
+                    icon:"success",
+                    title:"Congratulations",
+                    text:"You have logged in to your existing account",
+                  });
+                  navigate(location?.state ? location.state : "/");
+                } 
+              })
+              .catch((err) => {
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: err.message || "Failed to create user account!",
+                });
               });
-
-              navigate(location?.state ? location.state : "/");
-            } else {
-              Swal.fire({
-                icon: "success",
-                title: "Congratulations",
-                text: "You have logged in to your existing account",
-              });
-              navigate(location?.state ? location.state : "/");
-            }
           })
           .catch((err) => {
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: err.message || "Failed to create user account!",
+              text: err.message || "Google Sign-In failed!",
             });
           });
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: err.message || "Google Sign-In failed!",
-        });
-      });
-  };
-
-  const onSubmit = async (data) => {
-    try {
-      const resultAction = await dispatch(signInWithEmail(data));
-      if (signInWithEmail.fulfilled.match(resultAction)) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Welcome!',
-          text: 'Signed in successfully with email!',
-        });
-        navigate('/'); // Change to your desired path
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: resultAction.payload || 'Sign-In failed!',
-        });
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error.message || 'Sign-In failed!',
-      });
-      console.error('Login error:', error);
-    }
-  };
+      };
+      
+      const onSubmit = async (data) => {
+        try {
+            const resultAction = await dispatch(signInWithEmail(data));
+            if (signInWithEmail.fulfilled.match(resultAction)) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Welcome!',
+                    text: 'Signed in successfully with email!',
+                });
+                navigate('/'); // Change to your desired path
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: resultAction.payload || 'Sign-In failed!',
+              });  
+            }
+        } catch (error) {
+           Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error.message || 'Sign-In failed!',
+            });
+            console.error('Login error:', error);
+        }
+    };
 
   return (
     <div>
@@ -206,7 +207,7 @@ const Login = () => {
               </div>
 
               <div className="mt-6">
-                <button type="submit" className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#112A46] rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
+                <button type="submit" className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400  focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
                   Sign In
                 </button>
               </div>
