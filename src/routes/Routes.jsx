@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { fetchCurrentUser } from "@/redux/slices/authSlice";
 import PrivateRoutes from "./privateRoutes/PrivateRoutes";
 import DashBoardHome from "@/components/dashBoardRoutes/dashBoardHome/DashBoardHome";
+import Team from "@/components/dashBoardRoutes/team/Team";
 
 
 
@@ -46,9 +47,11 @@ export const router = createBrowserRouter([
 
         index: true,
         element: <DashBoardHome />,
-
-
       },
+      {
+        path: 'team',
+        element: <Team />
+      }
 
     ]
   }, {
