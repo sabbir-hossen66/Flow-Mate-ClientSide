@@ -53,7 +53,7 @@ export function CardWithForm({closeForm}) {
                   <SelectItem value="next">Private</SelectItem>
                   <SelectItem value="public">Public</SelectItem>
                   <SelectItem value="workspace">Workspace</SelectItem>
-                  <SelectItem value="workspace">Workspace</SelectItem>
+                  
               
                 </SelectContent>
               </Select>

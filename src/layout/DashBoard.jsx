@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const DashBoard = () => {
   return (
-    <div className="min-h-screen flex lg:flex-row flex-col bg-white">
+    <div className="min-h-screen flex lg:flex-row flex-col bg-gray-100">
       <DashBoardNav />
       <Outlet />
     </div>

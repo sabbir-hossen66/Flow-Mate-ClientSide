@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import Root from "../layout/Root";
 import ErrorPage from "../pages/errorPage/ErrorPage";
@@ -7,14 +6,10 @@ import DashBoard from "../layout/DashBoard";
 import Login from "@/pages/login/Login";
 import SignUp from "@/pages/signup/SignUp";
 import AboutPage from "@/pages/aboutPage/AboutPage";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchCurrentUser } from "@/redux/slices/authSlice";
 import PrivateRoutes from "./privateRoutes/PrivateRoutes";
 import DashBoardHome from "@/components/dashBoardRoutes/dashBoardHome/DashBoardHome";
 import Team from "@/components/dashBoardRoutes/team/Team";
-
-
+import Tasks from "@/components/dashBoardRoutes/tasks/Tasks";
 
 export const router = createBrowserRouter([
   {
@@ -24,43 +19,46 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
-      }
-      , {
-        path: '/about',
+        element: <Home />,
+      },
+      {
+        path: "/about",
 
-        element: <PrivateRoutes>
-          <AboutPage />
-        </PrivateRoutes>
-      }
-    ]
+        element: (
+          <PrivateRoutes>
+            <AboutPage />
+          </PrivateRoutes>
+        ),
+      },
+    ],
   },
-
-
 
   // here set dashboard
   {
-    path: 'dashboard',
+    path: "dashboard",
     element: <DashBoard />,
     children: [
       {
-
         index: true,
         element: <DashBoardHome />,
       },
       {
-        path: 'team',
-        element: <Team />
-      }
-
-    ]
-  }, {
+        path: "team",
+        element: <Team />,
+      },
+      
+      {
+        path: "tasks",
+        element: <Tasks/>
+      },
+    ],
+  },
+  {
     path: "/login",
-    element: <Login />
-
-  }, {
+    element: <Login />,
+  },
+  {
     path: "/signUp",
-    element: <SignUp />
-  }
-
+    element: <SignUp />,
+  },
 ]);
