@@ -3,7 +3,7 @@ import { signInWithEmail, signInWithGoogle } from '@/redux/slices/authSlice';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const Login = () => {
@@ -11,6 +11,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const  navigate  = useNavigate();
   const axiosCommon=UseAxiosCommon();
+  const location = useLocation();
     const {
         register,
         handleSubmit,
@@ -42,7 +43,7 @@ const Login = () => {
                     title: "Congratulations",
                     text: "Your account has been created successfully!",
                   });
-                
+                  
                   navigate(location?.state ? location.state : "/");
                 }else{
                   Swal.fire({

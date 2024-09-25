@@ -7,9 +7,7 @@ import DashBoard from "../layout/DashBoard";
 import Login from "@/pages/login/Login";
 import SignUp from "@/pages/signup/SignUp";
 import AboutPage from "@/pages/aboutPage/AboutPage";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchCurrentUser } from "@/redux/slices/authSlice";
+
 import PrivateRoutes from "./privateRoutes/PrivateRoutes";
 
 
@@ -33,10 +31,7 @@ export const router = createBrowserRouter([
       }
     ]
   },
- 
-
-
-  // here set dashboard
+ // here set dashboard
   {
     path: 'dashboard',
     element: <DashBoard />,
@@ -50,7 +45,8 @@ export const router = createBrowserRouter([
       },
 
     ]
-  },{
+  },
+  {
     path: "/login",
     element:<Login/>
 

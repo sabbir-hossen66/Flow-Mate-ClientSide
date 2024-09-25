@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth';
 import auth from '../../../Firebase/Firebase.config';
 
+
 // Initialize Google Auth Provider
 const googleProvider = new GoogleAuthProvider();
 
