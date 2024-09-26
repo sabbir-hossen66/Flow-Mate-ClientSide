@@ -10,6 +10,7 @@ import PrivateRoutes from "./privateRoutes/PrivateRoutes";
 import DashBoardHome from "@/components/dashBoardRoutes/dashBoardHome/DashBoardHome";
 import Team from "@/components/dashBoardRoutes/team/Team";
 import Tasks from "@/components/dashBoardRoutes/tasks/Tasks";
+import TaskDetails from "@/components/dashBoardRoutes/tasks/TaskDetails";
 
 export const router = createBrowserRouter([
   {
@@ -23,13 +24,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "/about",
-
         element: (
           <PrivateRoutes>
             <AboutPage />
           </PrivateRoutes>
         ),
       },
+      
     ],
   },
 
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
         path: "tasks",
         element: <Tasks/>
       },
+      {
+        path:'tasks/taskDetails',
+        element:<TaskDetails/>
+      }
     ],
   },
   {
