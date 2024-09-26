@@ -3,10 +3,55 @@ import PropTypes from "prop-types";
 import Container from "./Container";
 import { Button } from "./ui/button";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 const PricingPlanCard = ({ name, price, features, paymentType }) => {
- 
+  const user = useSelector((state) => state.auth.user);
+
+  const [open, setOpen] = useState(false);
+
+
+  const handleGetStarted = () => {
+    if (!user) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Required",
+        confirmButtonColor: "#2563EB",
+        confirmButtonText: "Login",
+        text: "You need to be logged in to subscribe to a plan",
+      })
+      
+      
+    }else{
+      setOpen(true); 
+    }
+  };
+
+  const handlePayment = () => {
+    // Handle payment logic here
+    Swal.fire({
+      icon: "success",
+      title: "Payment Successful",
+      confirmButtonColor: "#2563EB",
+      confirmButtonText: "OK",
+
+      text: `You have successfully subscribed to the ${name} plan`,
+    })
+    setOpen(false); // Close modal after payment
+
+  };
   return (
     <div className="flex flex-col  border-2 rounded-lg p-5 hover:shadow-lg transform  delay-150">
       <div className="flex flex-col text-center pb-10">
@@ -38,10 +83,50 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
             </li>
           ))}
         </ul>
-        <Button className="w-full font-bold gap-2 shadow uppercase p-2 text-white">
+        <Button
+          className="w-full font-bold gap-2 shadow uppercase p-2 text-white"
+          onClick={handleGetStarted}
+        >
           Get Started
         </Button>
       </div>
+       {/* Modal triggered on button click */}
+       <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Subscribe to {name}</DialogTitle>
+            <DialogDescription>
+              You are subscribing to the {name} plan.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4 text-start justify-start">
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="package-name" className="text-start">
+                Package name
+              </Label>
+              <Input id="package-name" value={name} readOnly className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="price" className="text-start">
+                Price
+              </Label>
+              <Input id="price" value={price} readOnly className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="email" className="text-start">
+                Email Address
+              </Label>
+              <Input id="email" value={user?.email || ""} readOnly className="col-span-3" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit" onClick={handlePayment}>
+              Confirm Payment
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    
     </div>
   );
 };
