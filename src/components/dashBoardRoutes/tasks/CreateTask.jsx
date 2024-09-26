@@ -13,19 +13,19 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import "react-datepicker/dist/react-datepicker.css";
 
 export function CreateTask() {
   const [startDate, setStartDate] = useState(new Date());
-  const [position, setPosition] = useState("bottom");
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -54,8 +54,19 @@ export function CreateTask() {
 
           <div className="flex flex-col lg:flex-row justify-between gap-6">
             <div className="grid gap-2 w-full">
-              <Label htmlFor="stage">Task Stage</Label>
-              <Input id="stage" placeholder="In Progress" />
+              <Label htmlFor="assign">Select</Label>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a Stage" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Todo</SelectLabel>
+                    <SelectItem value="progress">In Progress</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="grid gap-2 w-full">
@@ -72,31 +83,33 @@ export function CreateTask() {
               </div>
             </div>
           </div>
-
-          <div className="grid text-start gap-2">
-            <Label htmlFor="priority">Priority Level</Label>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="text-start justify-start" variant="outline">Higher</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuRadioGroup
-                  value={position}
-                  onValueChange={setPosition}
-                >
-                  <DropdownMenuRadioItem value="top">Higher</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="bottom">
-                  Midum
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="right">
-                   Low
-                  </DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className="flex flex-col lg:flex-row justify-between gap-6">
+            <div className="grid text-start gap-2">
+              <div className="grid gap-2 w-full">
+                <Label htmlFor="priority">Priority Level</Label>
+                <Select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a Stage" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>High</SelectLabel>
+                      <SelectItem value="higher">Higher</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="lower">Lower</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="grid text-start gap-2">
+              <div className="grid gap-2 w-full">
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label htmlFor="picture">Picture</Label>
+                  <Input id="picture" type="file" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <DialogFooter>
