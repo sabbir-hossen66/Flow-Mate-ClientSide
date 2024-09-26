@@ -1,165 +1,82 @@
-import team from "../../assets/teamImg.jpg";
-import collab from "../../assets/teamCollaboration.jpg";
-import task from "../../assets/task management.jpg";
-import secure from "../../assets/secure.jpg";
-import time from "../../assets/timeline.jpg";
-import sucess from "../../assets/sucess.jpg";
+import team from "../../assets/teamImg.jpg"; // Replace with the real image paths
+import collab from "../../assets/teamCollaboration.jpg"; // Replace with the real image paths
+import task from "../../assets/task management.jpg"; // Replace with the real image paths
+import secure from "../../assets/secure.jpg"; // Replace with the real image paths
+import CommonButton from "../commonButton/CommonButton";
+// import success from "../../assets/sucess.jpg"; // Replace with the real image paths
+
 const Features = () => {
   return (
-    <div>
-      <section className="my-10 pb-20  bg-gray-100">
-        <div className="max-w-6xl mx-auto space-y-12">
-          <div className="pt-20 pb-10">
-            <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
-              Discover the <span className="text-blue-500">power</span>of
-              teamwork
-            </h1>
-
-            <p className="max-w-2xl mx-auto mt-3 text-center text-gray-500">
-              FlowMate offers essential tools that empower your team to
-              collaborate effortlessly, manage tasks, and stay organized, no
-              matter where you are.
-            </p>
-          </div>
-
-          {/* Feature 1 */}
-          <div className="flex flex-col  bg-white overflow-hidden rounded-md shadow-md lg:flex-row hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-            <img
-              src={collab}
-              alt="Team Collaboration"
-              className="h-80 aspect-video"
-            />
-            <div className="flex flex-col justify-center flex-1 p-6">
-              <span className="text-xs uppercase text-blue-500">
-                Seamless Collaboration
-              </span>
-              <h3 className="text-3xl font-bold">Work Together in Real-Time</h3>
-              <p className="my-6">
-                Collaborate with your team instantly with real-time updates,
-                file sharing, and project management tools designed to keep
-                everyone in sync.
-              </p>
-              <a href="#" className="mt-2 text-blue-500 hover:underline">
-                Explore Collaboration Features →
-              </a>
-            </div>
-          </div>
-
-          {/* section 2 */}
-          <div className="flex flex-col overflow-hidden bg-white rounded-md shadow-md lg:flex-row-reverse hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-            <img src={team} alt="Remote Work" className="h-80 aspect-video" />
-            <div className="flex flex-col justify-center flex-1 p-6">
-              <span className="text-xs uppercase text-green-500">
-                Remote Teams
-              </span>
-              <h3 className="text-3xl font-bold">
-                Stay Connected from Anywhere
-              </h3>
-              <p className="my-6">
-                Whether your team is in the office or remote, FlowMate keeps
-                everyone connected with integrated video conferencing and chat
-                features.
-              </p>
-              <a href="#" className="mt-2 text-green-500 hover:underline">
-                Learn More About Remote Work →
-              </a>
-            </div>
-          </div>
-
-          {/* Feature 3 */}
-          <div className="flex flex-col overflow-hidden bg-white rounded-md shadow-md lg:flex-row hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-            <img
-              src={task}
-              alt="Project Management"
-              className="h-80 aspect-video"
-            />
-            <div className="flex flex-col justify-center flex-1 p-6">
-              <span className="text-xs uppercase text-yellow-500">
-                Task Management
-              </span>
-              <h3 className="text-3xl font-bold">Keep Projects on Track</h3>
-              <p className="my-6">
-                Manage your tasks efficiently with FlowMate’s intuitive task
-                management features, helping you assign, track, and complete
-                projects with ease.
-              </p>
-              <a href="#" className="mt-2 text-yellow-500 hover:underline">
-                Discover Task Management Tools →
-              </a>
-            </div>
-          </div>
-
-          {/* Feature 4 */}
-          <div className="flex flex-col overflow-hidden bg-white rounded-md shadow-md lg:flex-row-reverse hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-            <img
-              src={secure}
-              alt="File Sharing"
-              className="h-80 aspect-video"
-            />
-            <div className="flex flex-col justify-center flex-1 p-6">
-              <span className="text-xs uppercase text-red-500">
-                Secure File Sharing
-              </span>
-              <h3 className="text-3xl font-bold">
-                Share Files with Confidence
-              </h3>
-              <p className="my-6">
-                Share important documents and files securely with your team
-                using FlowMate's encrypted file sharing feature.
-              </p>
-              <a href="#" className="mt-2 text-red-500 hover:underline">
-                Start Sharing Files →
-              </a>
-            </div>
-          </div>
-
-          {/* Feature 5 */}
-          <div className="flex flex-col overflow-hidden bg-white rounded-md shadow-md lg:flex-row hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-            <img
-              src={time}
-              alt="Project Timelines"
-              className="h-80 aspect-video"
-            />
-            <div className="flex flex-col justify-center flex-1 p-6">
-              <span className="text-xs uppercase text-purple-500">
-                Project Timelines
-              </span>
-              <h3 className="text-3xl font-bold">Visualize Your Workflow</h3>
-              <p className="my-6">
-                Keep track of project progress visually with Gantt charts and
-                timelines, ensuring every team member stays on schedule and
-                meets deadlines.
-              </p>
-              <a href="#" className="mt-2 text-purple-500 hover:underline">
-                Explore Project Timelines →
-              </a>
-            </div>
-          </div>
-
-          {/* Feature 6 */}
-          <div className="flex flex-col overflow-hidden bg-white  rounded-md shadow-md lg:flex-row-reverse hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-            <img
-              src={sucess}
-              alt="Team Motivation"
-              className="h-80 aspect-video"
-            />
-            <div className="flex flex-col justify-center flex-1 p-6">
-              <span className="text-xs uppercase text-teal-500">
-                Team Motivation
-              </span>
-              <h3 className="text-3xl font-bold">Boost Team Morale</h3>
-              <p className="my-6">
-                Keep your team motivated and engaged with collaborative tools,
-                feedback systems, and performance tracking integrated into
-                FlowMate.
-              </p>
-              <a href="#" className="mt-2 text-teal-500 hover:underline">
-                Learn More About Team Motivation →
-              </a>
-            </div>
+    <div className="bg-gray-100">
+      <div className="flex flex-col md:flex-row justify-between items-center min-h-screen  py-10 px-20 max-w-7xl mx-auto">
+        {/* Left Section */}
+        <div className="flex flex-col md:w-1/2 text-center md:text-left md:mr-10">
+          <h2 className="text-5xl font-bold text-gray-900 mb-4">
+            Discover power of team work
+          </h2>
+          <p className="text-gray-500 mb-2">
+            Manage your tasks efficiently with FlowMate’s intuitive task
+            management features, helping you assign, track, and complete
+            projects with ease.
+          </p>
+          <p className="text-gray-500 mb-2">
+            Whether your team is in the office or remote, FlowMate keeps
+            everyone connected with integrated video conferencing and chat
+            features.
+          </p>{" "}
+          <p className="text-gray-500 mb-6">
+            Keep track of project progress visually with Gantt charts and
+            timelines, ensuring every team member stays on schedule and meets
+            deadlines.
+          </p>
+          <div className="w-60">
+            <CommonButton text=" Register an Account" />
           </div>
         </div>
-      </section>
+        {/* Right Section */}
+        <div className="relative flex m-10 border-gray-950 border-2 py-32 rounded-full flex-col md:flex-row justify-center items-center md:w-1/2">
+          {/* Top Middle Image (Half inside, half outside border) */}
+          <img
+            src={task}
+            alt="Top Middle"
+            className="absolute top-0 left-1/2 w-28 h-28 rounded-full border-2 border-gray-300"
+            style={{ transform: "translate(-50%, -50%)" }}
+          />
+
+          {/* Bottom Middle Image (Half inside, half outside border) */}
+          <img
+            src={collab}
+            alt="Bottom Middle"
+            className="absolute bottom-0 left-1/2 w-28 h-28 rounded-full border-2 border-gray-300"
+            style={{ transform: "translate(-50%, 50%)" }}
+          />
+
+          {/* Left Middle Image (Half inside, half outside border) */}
+          <img
+            src={secure}
+            alt="Left Middle"
+            className="absolute left-0 top-1/2 w-28 h-28 rounded-full border-2 border-gray-300"
+            style={{ transform: "translate(-50%, -50%)" }}
+          />
+
+          {/* Right Middle Image (Half inside, half outside border) */}
+          <img
+            src={team}
+            alt="Right Middle"
+            className="absolute right-0 top-1/2 w-28 h-28 rounded-full border-2 border-gray-300"
+            style={{ transform: "translate(50%, -50%)" }}
+          />
+
+          {/* Card in the Center */}
+          <div className="bg-white w-60 items-center rounded-xl shadow-lg p-6 flex flex-col m-4 z-10">
+            <h3 className=" text-center text-light text-md mb-2">
+              {" "}
+              Share important documents and files securely with your team using
+              FlowMate's encrypted file sharing feature.
+            </h3>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

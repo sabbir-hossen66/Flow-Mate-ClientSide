@@ -9,7 +9,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const  navigate  = useNavigate();
   const axiosCommon=UseAxiosCommon();
-    const {
+  const {
         register,
         handleSubmit,
       
@@ -26,15 +26,15 @@ const Login = () => {
       
             // Prepare user info to send to the backend
             const userInfo = {
-              name: user.displayName,
+             
               email: user.email,
-              role: 'user',
-              photo: user.photoURL,
+              
+              password: user.uid
               
             };
       
             // Send user info to the backend
-            axiosCommon.post('/api/user/register', userInfo)
+            axiosCommon.post('/api/user/login', userInfo)
               .then((res) => {
                 console.log(res);
                 
@@ -73,29 +73,33 @@ const Login = () => {
       };
       
       const onSubmit = async (data) => {
+      console.log(data)
         try {
-            const resultAction = await dispatch(signInWithEmail(data));
-            if (signInWithEmail.fulfilled.match(resultAction)) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Welcome!',
-                    text: 'Signed in successfully with email!',
-                });
-                navigate('/'); // Change to your desired path
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: resultAction.payload || 'Sign-In failed!',
-              });  
-            }
-        } catch (error) {
-           Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: error.message || 'Sign-In failed!',
+          const response = await axiosCommon.post(
+            "http://localhost:5000/api/user/login",
+            data
+          );
+          if (response.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Welcome!",
+              text: "Signed in successfully with email!",
             });
-            console.error('Login error:', error);
+            navigate("/dashboard"); // Change to your desired path
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: response.data.message || "Sign-In failed!",
+            });
+          }
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.message || "Sign-In failed!",
+          });
+          console.error("Login error:", error);
         }
     };
 
