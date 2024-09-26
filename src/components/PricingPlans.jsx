@@ -16,12 +16,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "./checkout/CheckoutForm";
+
+
+// Stripe setup (replace with your Stripe public key)
+const stripePromise = loadStripe("your-publishable-key-from-stripe");
 
 const PricingPlanCard = ({ name, price, features, paymentType }) => {
   const user = useSelector((state) => state.auth.user);
-
   const [open, setOpen] = useState(false);
-
+  const [openPaymentModal, setOpenPaymentModal] = useState(false);
 
   const handleGetStarted = () => {
     if (!user) {
@@ -31,32 +37,22 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
         confirmButtonColor: "#2563EB",
         confirmButtonText: "Login",
         text: "You need to be logged in to subscribe to a plan",
-      })
-      
-      
-    }else{
-      setOpen(true); 
+      });
+    } else {
+      setOpen(true);
     }
   };
 
-  const handlePayment = () => {
-    // Handle payment logic here
-    Swal.fire({
-      icon: "success",
-      title: "Payment Successful",
-      confirmButtonColor: "#2563EB",
-      confirmButtonText: "OK",
-
-      text: `You have successfully subscribed to the ${name} plan`,
-    })
-    setOpen(false); // Close modal after payment
-
+  const handleProceedToPayment = () => {
+    setOpen(false); // Close the first modal
+    setOpenPaymentModal(true); // Open payment modal
   };
+
   return (
-    <div className="flex flex-col  border-2 rounded-lg p-5 hover:shadow-lg transform  delay-150">
+    <div className="flex flex-col border-2 rounded-lg p-5 hover:shadow-lg transform delay-150">
       <div className="flex flex-col text-center pb-10">
         <h3 className="text-base font-semibold">{name}</h3>
-        <p className=" text-3xl font-bold">
+        <p className="text-3xl font-bold">
           {price}{" "}
           <span className="text-sm font-semibold text-zinc-500">
             ({paymentType})
@@ -90,8 +86,8 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
           Get Started
         </Button>
       </div>
-       {/* Modal triggered on button click */}
-       <Dialog open={open} onOpenChange={setOpen}>
+      {/* Modal for Subscription Details */}
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Subscribe to {name}</DialogTitle>
@@ -120,13 +116,29 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={handlePayment}>
-              Confirm Payment
+            <Button type="submit" onClick={handleProceedToPayment}>
+              Proceed to Payment
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    
+
+      {/* Modal for Stripe Payment */}
+      <Dialog open={openPaymentModal} onOpenChange={setOpenPaymentModal}>
+        <DialogContent className="max-h-fit ">
+          <DialogHeader>
+            <DialogTitle>Complete Your Payment</DialogTitle>
+            <DialogDescription>
+              Enter your payment details to subscribe to the {name} plan.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="">
+            <Elements stripe={stripePromise}>
+              <CheckoutForm bookingData={{ name, price, user }} />
+            </Elements>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
@@ -137,8 +149,8 @@ const PricingPlans = () => (
       <div className="py-8 max-w-screen-xl lg:py-16">
         <div className="mx-auto max-w-3xl text-center pb-12 md:pb-20">
           <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
-          Pricing  <span className="text-blue-500"> Plans</span>
-            </h1>
+            Pricing <span className="text-blue-500">Plans</span>
+          </h1>
           <p className="text-center text-gray-500">
             Choose a plan that best suits your data needs.
           </p>
