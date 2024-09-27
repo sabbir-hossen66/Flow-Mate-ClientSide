@@ -1,3 +1,4 @@
+
 import UseAxiosCommon from '@/hooks/UseAxiosCommon';
 import { signInWithGoogle } from '@/redux/slices/authSlice';
 import { useForm } from 'react-hook-form';
@@ -61,15 +62,71 @@ const Login = () => {
                   title: "Oops...",
                   text: err.message || "Failed to create user account!",
                 });
+
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import { signInWithEmail, signInWithGoogle } from "@/redux/slices/authSlice";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
+const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const axiosCommon = UseAxiosCommon();
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
+
+  const handleGoogleSignIn = () => {
+    dispatch(signInWithGoogle())
+      .unwrap()
+      .then((userCredential) => {
+        // Get the user from the userCredential
+        console.log(userCredential);
+        const user = userCredential; // Extract the user object from the credential
+
+        // Prepare user info to send to the backend
+        const userInfo = {
+          email: user.email,
+          password: user.uid,
+        };
+
+        // Send user info to the backend
+        axiosCommon
+          .post("/api/user/login", userInfo)
+          .then((res) => {
+            console.log(res);
+
+            if (res.data) {
+              Swal.fire({
+                icon: "success",
+                title: "Congratulations",
+                text: "Your account has been created successfully!",
               });
+
+              navigate(location?.state ? location.state : "/");
+            } else {
+              Swal.fire({
+                icon: "success",
+                title: "Congratulations",
+                text: "You have logged in to your existing account",
+
+              });
+              navigate(location?.state ? location.state : "/");
+            }
           })
           .catch((err) => {
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: err.message || "Google Sign-In failed!",
+              text: err.message || "Failed to create user account!",
             });
           });
+
       };
       
       const onSubmit = async (data) => {
@@ -103,6 +160,44 @@ const Login = () => {
         }
     };
 
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.message || "Google Sign-In failed!",
+        });
+      });
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      const resultAction = await dispatch(signInWithEmail(data));
+      if (signInWithEmail.fulfilled.match(resultAction)) {
+        Swal.fire({
+          icon: "success",
+          title: "Welcome!",
+          text: "Signed in successfully with email!",
+        });
+        navigate("/"); // Change to your desired path
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: resultAction.payload || "Sign-In failed!",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Sign-In failed!",
+      });
+      console.error("Login error:", error);
+    }
+  };
+
+
   return (
     <div>
       <div className="flex justify-center items-center h-screen text-[#07101b]">
@@ -111,16 +206,22 @@ const Login = () => {
             className="hidden bg-cover lg:block lg:w-1/2"
             style={{
               backgroundImage:
-                "url('https://i.ibb.co/DkPMcKn/2304-i203-047-S-m004-c13-keys-locks-realistic.jpg')"
+                "url('https://i.ibb.co/DkPMcKn/2304-i203-047-S-m004-c13-keys-locks-realistic.jpg')",
             }}
           ></div>
 
           <div className="w-full px-6 lg:py-8 py-3 md:px-8 lg:w-1/2">
             <div className="flex justify-center mx-auto">
-              <img className="w-auto h-20" src="https://i.ibb.co.com/WgPKBVY/Screenshot-2024-09-18-161854-removebg-preview.png" alt="" />
+              <img
+                className="w-auto h-20"
+                src="https://i.ibb.co.com/WgPKBVY/Screenshot-2024-09-18-161854-removebg-preview.png"
+                alt=""
+              />
             </div>
 
-            <p className="mt-3 text-xl text-center text-[#132f50] font-bold">Welcome back!</p>
+            <p className="mt-3 text-xl text-center text-[#132f50] font-bold">
+              Welcome back!
+            </p>
 
             <button
               onClick={handleGoogleSignIn}
@@ -147,7 +248,9 @@ const Login = () => {
                 </svg>
               </div>
 
-              <span className="w-5/6 px-4 py-3 font-bold text-center">Sign in with Google</span>
+              <span className="w-5/6 px-4 py-3 font-bold text-center">
+                Sign in with Google
+              </span>
             </button>
 
             <div className="flex items-center justify-between mt-4">
@@ -172,16 +275,14 @@ const Login = () => {
                   Email Address
                 </label>
                 <input
-                  {
-                  ...register("email", { required: true })
-                  }
+                  {...register("email", { required: true })}
                   id="LoggingEmailAddress"
                   className="block w-full px-4 py-2  border rounded-lg  dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
                   type="email"
                 />
-                {
-                  errors.email && <span className='text-red-500'>This field is required </span>
-                }
+                {errors.email && (
+                  <span className="text-red-500">This field is required </span>
+                )}
               </div>
 
               <div className="mt-4">
@@ -192,26 +293,30 @@ const Login = () => {
                   >
                     Password
                   </label>
-                  <a href="#" className="text-xs text-gray-500 dark:text-gray-300 hover:underline">
+                  <a
+                    href="#"
+                    className="text-xs text-gray-500 dark:text-gray-300 hover:underline"
+                  >
                     Forget Password?
                   </a>
                 </div>
 
                 <input
                   id="loggingPassword"
-                  {
-                  ...register("password", { required: true })
-                  }
+                  {...register("password", { required: true })}
                   className="block w-full px-4 py-2   border rounded-lg dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
                   type="password"
                 />
-                {
-                  errors.password && <span className='text-red-500'>This field is required</span>
-                }
+                {errors.password && (
+                  <span className="text-red-500">This field is required</span>
+                )}
               </div>
 
               <div className="mt-6">
-                <button type="submit" className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400  focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
+                <button
+                  type="submit"
+                  className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400  focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+                >
                   Sign In
                 </button>
               </div>
@@ -220,7 +325,10 @@ const Login = () => {
             <div className="flex items-center justify-between mt-4">
               <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
 
-              <Link to={'/signup'} className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline">
+              <Link
+                to={"/signup"}
+                className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
+              >
                 or sign up
               </Link>
 
@@ -228,8 +336,6 @@ const Login = () => {
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   );
