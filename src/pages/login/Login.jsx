@@ -1,70 +1,5 @@
-
-import UseAxiosCommon from '@/hooks/UseAxiosCommon';
-import { signInWithGoogle } from '@/redux/slices/authSlice';
-import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-
-const Login = () => {
-  const dispatch = useDispatch();
-  const  navigate  = useNavigate();
-  const axiosCommon=UseAxiosCommon();
-  const {
-        register,
-        handleSubmit,
-      
-        formState: { errors },
-      } = useForm();
-      
-      const handleGoogleSignIn = () => {
-        dispatch(signInWithGoogle())
-          .unwrap()
-          .then((userCredential) => {
-            // Get the user from the userCredential
-           console.log(userCredential);
-           const user = userCredential; // Extract the user object from the credential
-      
-            // Prepare user info to send to the backend
-            const userInfo = {
-             
-              email: user.email,
-              
-              password: user.uid
-              
-            };
-      
-            // Send user info to the backend
-            axiosCommon.post('/api/user/login', userInfo)
-              .then((res) => {
-                console.log(res);
-                
-                if (res.data) {
-                  Swal.fire({
-                    icon: "success",
-                    title: "Congratulations",
-                    text: "Your account has been created successfully!",
-                  });
-                
-                  navigate(location?.state ? location.state : "/");
-                }else{
-                  Swal.fire({
-                    icon:"success",
-                    title:"Congratulations",
-                    text:"You have logged in to your existing account",
-                  });
-                  navigate(location?.state ? location.state : "/");
-                } 
-              })
-              .catch((err) => {
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: err.message || "Failed to create user account!",
-                });
-
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
-import { signInWithEmail, signInWithGoogle } from "@/redux/slices/authSlice";
+import { logout, signInWithEmail, signInWithGoogle } from "@/redux/slices/authSlice";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -84,82 +19,13 @@ const Login = () => {
   const handleGoogleSignIn = () => {
     dispatch(signInWithGoogle())
       .unwrap()
-      .then((userCredential) => {
-        // Get the user from the userCredential
-        console.log(userCredential);
-        const user = userCredential; // Extract the user object from the credential
-
-        // Prepare user info to send to the backend
-        const userInfo = {
-          email: user.email,
-          password: user.uid,
-        };
-
-        // Send user info to the backend
-        axiosCommon
-          .post("/api/user/login", userInfo)
-          .then((res) => {
-            console.log(res);
-
-            if (res.data) {
-              Swal.fire({
-                icon: "success",
-                title: "Congratulations",
-                text: "Your account has been created successfully!",
-              });
-
-              navigate(location?.state ? location.state : "/");
-            } else {
-              Swal.fire({
-                icon: "success",
-                title: "Congratulations",
-                text: "You have logged in to your existing account",
-
-              });
-              navigate(location?.state ? location.state : "/");
-            }
-          })
-          .catch((err) => {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: err.message || "Failed to create user account!",
-            });
-          });
-
-      };
-      
-      const onSubmit = async (data) => {
-      console.log(data)
-        try {
-          const response = await axiosCommon.post(
-            "http://localhost:5000/api/user/login",
-            data
-          );
-          if (response.status === 200) {
-            Swal.fire({
-              icon: "success",
-              title: "Welcome!",
-              text: "Signed in successfully with email!",
-            });
-            navigate("/dashboard"); // Change to your desired path
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: response.data.message || "Sign-In failed!",
-            });
-          }
-        } catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: error.message || "Sign-In failed!",
-          });
-          console.error("Login error:", error);
-        }
-    };
-
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Welcome!",
+          text: "Signed in successfully with Google!",
+        });
+        navigate("/"); // Navigate to home or another route after successful sign-in
       })
       .catch((err) => {
         Swal.fire({
@@ -196,7 +62,6 @@ const Login = () => {
       console.error("Login error:", error);
     }
   };
-
 
   return (
     <div>
