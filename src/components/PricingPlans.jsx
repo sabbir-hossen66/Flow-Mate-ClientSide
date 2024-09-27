@@ -21,8 +21,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkout/CheckoutForm";
 
 
-// Stripe setup (replace with your Stripe public key)
-const stripePromise = loadStripe("your-publishable-key-from-stripe");
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+console.log(stripePromise);
+
 
 const PricingPlanCard = ({ name, price, features, paymentType }) => {
   const user = useSelector((state) => state.auth.user);
@@ -45,7 +47,7 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
 
   const handleProceedToPayment = () => {
     setOpen(false); // Close the first modal
-    setOpenPaymentModal(true); // Open payment modal
+    setOpenPaymentModal(true); 
   };
 
   return (
@@ -125,20 +127,26 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
 
       {/* Modal for Stripe Payment */}
       <Dialog open={openPaymentModal} onOpenChange={setOpenPaymentModal}>
-        <DialogContent className="max-h-fit ">
-          <DialogHeader>
-            <DialogTitle>Complete Your Payment</DialogTitle>
-            <DialogDescription>
-              Enter your payment details to subscribe to the {name} plan.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="">
-            <Elements stripe={stripePromise}>
-              <CheckoutForm bookingData={{ name, price, user }} />
-            </Elements>
-          </div>
-        </DialogContent>
-      </Dialog>
+  <DialogContent className="max-h-fit">
+    <DialogHeader>
+      <DialogTitle>Complete Your Payment</DialogTitle>
+      <DialogDescription>
+        Enter your payment details to subscribe to the {name} plan.
+      </DialogDescription>
+    </DialogHeader>
+    <div className="">
+      <Elements stripe={stripePromise}>
+        <CheckoutForm bookingData={{ name, price, user }} setOpenPaymentModal={setOpenPaymentModal} setOpen={setOpen} />
+      </Elements>
+    </div>
+    <DialogFooter>
+      <Button type="submit" onClick={handleProceedToPayment}>
+        Proceed to Payment
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
     </div>
   );
 };

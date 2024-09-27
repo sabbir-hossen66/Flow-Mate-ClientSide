@@ -14,23 +14,26 @@ import { Button } from "@/components/ui/button";
 const SignUp = () => {
   const axiosCommon = UseAxiosCommon();
   const dispatch = useDispatch();
+ 
+
+
 
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-
+    watch,
     formState: { errors },
     reset,
   } = useForm();
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
+  const onSubmit = (data) => {
 
-  const onSubmit = async (data) => {
-    const { password, confirmPassword, email, name, photo } = data;
-
+  
     // Regular expression for password validation
-    const regex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{7,}$/;
-
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{7,}$/;
+  
     // Check if passwords match
     if (password !== confirmPassword) {
       Swal.fire({
@@ -41,7 +44,7 @@ const SignUp = () => {
       reset();
       return;
     }
-
+  
     // Validate password against regex
     if (!regex.test(password)) {
       Swal.fire({
@@ -52,117 +55,59 @@ const SignUp = () => {
       reset();
       return;
     }
-
+  
     // Create user data object
     const userData = {
-      email,
-      password,
+      email: data.email,
+      password: data.password,
     };
-
-    try {
-      // Dispatch registration action
-      await dispatch(createUser(userData)).unwrap();
-
-      const userInfo = {
-        name,
-        email,
-        password,
-        isAdmin: false,
-        role: "member",
-
-        imageUrl: photo,
-      };
-
-      await dispatch(updateUserProfile({ name, photo })).unwrap();
-
-      // Send user info to the backend
-      const response = await axiosCommon.post("/api/user/register", userInfo);
-      console.log(response);
-
-      if (response.data) {
-        Swal.fire({
-          icon: "success",
-          title: "Congratulations",
-          text: "Your account has been created successfully!",
-        });
-        reset();
-        navigate("/");
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "User creation failed on the server.",
-        });
-
-        reset();
-      }
-    } catch (err) {
-      console.log(err);
-
-      // Check if the error message is related to Firebase
-      if (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: err,
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: err.message || "An error occurred during the process!",
-        });
-      }
-      reset();
-    }
-  };
-
-  const handleGoogleSignIn = () => {
-    dispatch(signInWithGoogle())
+  
+    // Dispatch registration action
+    dispatch(createUser(userData))
       .unwrap()
-      .then((userCredential) => {
-        // Get the user from the userCredential
-        console.log(userCredential);
-        const user = userCredential; // Extract the user object from the credential
-
-        // Prepare user info to send to the backend
-        const userInfo = {
-          name: user.displayName,
-          email: user.email,
-          role: "member",
-          password: user.uid,
-          imageUrl: user.photoURL,
-        };
-
-        // Send user info to the backend
-        axiosCommon
-          .post("/api/user/register", userInfo)
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              Swal.fire({
-                icon: "success",
-                title: "Congratulations",
-                text: "Your account has been created successfully!",
-              });
-              reset();
-              navigate(location?.state ? location.state : "/");
-            } else {
-              Swal.fire({
-                icon: "success",
-                title: "Congratulations",
-                text: "You have logged in to your existing account",
-              });
-              navigate(location?.state ? location.state : "/");
-            }
+      .then(() => {
+        // Dispatch updateUserProfile action with name and photo
+        dispatch(updateUserProfile({ name: data.name, photo: data.photo }))
+          .unwrap()
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Congratulations",
+              text: "Your account has been created successfully!",
+            });
+            reset();
+            navigate("/");
           })
           .catch((err) => {
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: err.message || "Failed to create user account!",
+              text: err.message || "Profile update failed!",
             });
+            reset();
           });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.message || "Registration failed!",
+        });
+        reset();
+      });
+  };
+
+ 
+  const handleGoogleSignIn = () => {
+    dispatch(signInWithGoogle())
+      .unwrap()
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Welcome!",
+          text: "Signed in successfully with Google!",
+        });
+        navigate("/"); // Navigate to home or another route after successful sign-in
       })
       .catch((err) => {
         Swal.fire({
