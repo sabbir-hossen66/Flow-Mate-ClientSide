@@ -1,5 +1,5 @@
 import UseAxiosCommon from '@/hooks/UseAxiosCommon';
-import { signInWithEmail, signInWithGoogle } from '@/redux/slices/authSlice';
+import { signInWithGoogle } from '@/redux/slices/authSlice';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
