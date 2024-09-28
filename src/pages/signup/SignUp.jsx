@@ -25,7 +25,7 @@ const SignUp = () => {
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
   const onSubmit = (data) => {
-
+    const { password, confirmPassword, email, name, photo } = data;
   
     // Regular expression for password validation
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{7,}$/;
@@ -54,8 +54,8 @@ const SignUp = () => {
   
     // Create user data object
     const userData = {
-      email: data.email,
-      password: data.password,
+      email,
+      password,
     };
   
     // Dispatch registration action
@@ -63,16 +63,39 @@ const SignUp = () => {
       .unwrap()
       .then(() => {
         // Dispatch updateUserProfile action with name and photo
-        dispatch(updateUserProfile({ name: data.name, photo: data.photo }))
+        dispatch(updateUserProfile({ name, photo }))
           .unwrap()
           .then(() => {
-            Swal.fire({
-              icon: "success",
-              title: "Congratulations",
-              text: "Your account has been created successfully!",
-            });
-            reset();
-            navigate("/");
+            // Save user information to the database
+            const userInfo = {
+              email,
+              name,
+              role: 'member',
+              photo,
+              status: 'active',
+            };
+  
+            axiosCommon.post('/users', userInfo)
+              .then((res) => {
+                if (res.data.insertedId) {
+                  Swal.fire({
+                    icon: "success",
+                    title: "Congratulations",
+                    text: "Your account has been created successfully!",
+                  });
+                  reset();
+                  navigate("/"); // Navigate to home after successful registration and user data save
+                }
+              })
+              .catch((error) => {
+                console.error('Error saving user information:', error);
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Failed to save user information in the database!",
+                });
+                reset();
+              });
           })
           .catch((err) => {
             Swal.fire({
@@ -92,27 +115,70 @@ const SignUp = () => {
         reset();
       });
   };
+  
 
  
   const handleGoogleSignIn = () => {
     dispatch(signInWithGoogle())
       .unwrap()
-      .then(() => {
+      .then((userCredential) => {
+        const user = userCredential;
+        console.log();
+        
+        const userInfo = {
+          name: user.displayName,
+          email: user.email,
+          role: 'member',
+          photo: user.photoURL,
+          status: 'active',
+        };
+  
+        // Save user information to the database
+        axiosCommon.post('/users', userInfo)
+        
+        
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.insertedId) {
+              Swal.fire({
+                icon: "success",
+                title: "Congratulations",
+                text: "Your account has been created successfully!",
+              });
+              // Navigate to home or another route after successful sign-in and user save
+              navigate(location?.state ? location.state : "/");
+            }
+          })
+          .catch((error) => {
+            console.error('Error saving user information:', error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Failed to save user information!",
+            });
+          });
+  
+        // Show success message for sign-in
         Swal.fire({
-          icon: "success",
-          title: "Welcome!",
-          text: "Signed in successfully with Google!",
+          icon: 'success',
+          title: 'Login Success',
+          text: `Welcome back ${user.displayName}!`,
         });
-        navigate("/"); 
+        navigate('/');
       })
       .catch((err) => {
+        console.log(err);
+        
+        const errorMessage = err.message || "Google Sign-In failed!";
+        console.error('Error signing in with Google:', errorMessage);
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: err.message || "Google Sign-In failed!",
+          text: errorMessage,
         });
       });
   };
+  
 
   return (
     <div>

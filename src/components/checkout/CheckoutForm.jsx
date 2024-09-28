@@ -19,10 +19,12 @@ const CheckoutForm = ({ bookingData,  setOpen,setOpenPaymentModal }) => {
     const createPaymentIntent = async () => {
       try {
         if (formattedPrice > 0) {
-          const response = await axiosCommon.post("/create-payment-intent", {
+          const response = await axiosCommon.post("/payments/create-payment-intent", {
             price: formattedPrice,
           });
           setClientSecret(response.data.clientSecret);
+          
+          
         }
       } catch (err) {
         console.error("Error creating payment intent:", err);
@@ -83,7 +85,7 @@ const CheckoutForm = ({ bookingData,  setOpen,setOpenPaymentModal }) => {
             paymentMethod: paymentMethod.card.brand,
           };
 
-          const res = await axiosCommon.post("/payment", payment);
+          const res = await axiosCommon.post("payments/payment", payment);
           if (res.status === 200) {
             Swal.fire({
               icon: "success",

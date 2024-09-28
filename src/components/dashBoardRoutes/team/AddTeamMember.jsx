@@ -25,7 +25,7 @@ export function AddTeamMember() {
   const onSubmit = (data) => {
     console.log(data);
     axiosCommon
-      .post("/create-member", data)
+      .post("/team/create-member", data)
       .then((res) => {
         console.log(res);
         if (res.status === 200) {

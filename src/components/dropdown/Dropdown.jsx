@@ -66,8 +66,9 @@ const handleLogout = () => {
             view profile
           </Link>
 
-          <Link to={'dashboard/profilePage'} className="block px-2 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white text-center">
-            Update Profile
+          <Link to={'dashboard/settings'} className="block px-2 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white text-center">
+
+            settings
           </Link>
 
           <hr className="border-gray-200 dark:border-gray-700" />

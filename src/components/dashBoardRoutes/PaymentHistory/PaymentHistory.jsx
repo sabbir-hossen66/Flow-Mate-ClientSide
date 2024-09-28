@@ -1,6 +1,6 @@
 import UseAxiosCommon from '@/hooks/UseAxiosCommon';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+
 
 const PaymentHistory = () => {
   const axiosCommon = UseAxiosCommon();
@@ -12,7 +12,7 @@ const PaymentHistory = () => {
   } = useQuery({
     queryKey: ["payment"],
     queryFn: async () => {
-      const { data } = await axiosCommon.get("/payment");
+      const { data } = await axiosCommon.get("/payments/payment");
       return data;
     },
   });

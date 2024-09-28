@@ -14,7 +14,7 @@ const Team = () => {
   } = useQuery({
     queryKey: ["teamMember"],
     queryFn: async () => {
-      const { data } = await axiosCommon.get("/create-member");
+      const { data } = await axiosCommon.get("/team/members");
       return data;
     },
   });
