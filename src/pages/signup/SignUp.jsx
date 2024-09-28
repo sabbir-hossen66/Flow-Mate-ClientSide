@@ -14,10 +14,6 @@ import { Button } from "@/components/ui/button";
 const SignUp = () => {
   const axiosCommon = UseAxiosCommon();
   const dispatch = useDispatch();
- 
-
-
-
   const navigate = useNavigate();
   const {
     register,
@@ -107,7 +103,7 @@ const SignUp = () => {
           title: "Welcome!",
           text: "Signed in successfully with Google!",
         });
-        navigate("/"); // Navigate to home or another route after successful sign-in
+        navigate("/"); 
       })
       .catch((err) => {
         Swal.fire({
