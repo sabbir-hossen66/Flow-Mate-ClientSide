@@ -19,22 +19,64 @@ const Login = () => {
   const handleGoogleSignIn = () => {
     dispatch(signInWithGoogle())
       .unwrap()
-      .then(() => {
+      .then((userCredential) => {
+        const user = userCredential;
+        console.log();
+        
+        const userInfo = {
+          name: user.displayName,
+          email: user.email,
+          role: 'member',
+          photo: user.photoURL,
+          status: 'active',
+        };
+  
+        // Save user information to the database
+        axiosCommon.post('/users', userInfo)
+        
+        
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.insertedId) {
+              Swal.fire({
+                icon: "success",
+                title: "Congratulations",
+                text: "Your account has been created successfully!",
+              });
+              // Navigate to home or another route after successful sign-in and user save
+              navigate(location?.state ? location.state : "/");
+            }
+          })
+          .catch((error) => {
+            console.error('Error saving user information:', error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Failed to save user information!",
+            });
+          });
+  
+        // Show success message for sign-in
         Swal.fire({
-          icon: "success",
-          title: "Welcome!",
-          text: "Signed in successfully with Google!",
+          icon: 'success',
+          title: 'Login Success',
+          text: `Welcome back ${user.displayName}!`,
         });
-        navigate("/"); // Navigate to home or another route after successful sign-in
+        navigate('/');
       })
       .catch((err) => {
+        console.log(err);
+        
+        const errorMessage = err.message || "Google Sign-In failed!";
+        console.error('Error signing in with Google:', errorMessage);
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: err.message || "Google Sign-In failed!",
+          text: errorMessage,
         });
       });
   };
+  
 
   const onSubmit = async (data) => {
     try {

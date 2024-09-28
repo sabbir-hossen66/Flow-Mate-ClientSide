@@ -11,6 +11,7 @@ import DashBoardHome from "@/components/dashBoardRoutes/dashBoardHome/DashBoardH
 import Team from "@/components/dashBoardRoutes/team/Team";
 import Tasks from "@/components/dashBoardRoutes/tasks/Tasks";
 import TaskDetails from "@/components/dashBoardRoutes/tasks/TaskDetails";
+import PaymentHistory from "@/components/dashBoardRoutes/PaymentHistory/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,9 @@ export const router = createBrowserRouter([
       {
         path:'tasks/taskDetails',
         element:<TaskDetails/>
+      },{
+        path:'payment_history',
+        element:<PaymentHistory/>
       }
     ],
   },
