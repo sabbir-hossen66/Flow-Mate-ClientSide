@@ -2,6 +2,7 @@ import CommonButton from "@/components/commonButton/CommonButton";
 import { AddTeamMember } from "./AddTeamMember";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import Loader from "@/utlities/Loader";
 
 const Team = () => {
   const axiosCommon = UseAxiosCommon();
@@ -22,7 +23,7 @@ const Team = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (isError) {
