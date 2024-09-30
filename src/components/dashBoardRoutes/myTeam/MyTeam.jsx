@@ -1,3 +1,4 @@
+import Loader from "@/utlities/Loader";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -64,7 +65,7 @@ const MyTeam = () => {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader/>;
   if (error) return <div>Error: {error.message}</div>;
 
   // Only show edit/delete buttons if user role is "team-admin"
