@@ -2,13 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const MyTeam = () => {
   const user = useSelector((state) => state.auth.user);
   const [role, setRole] = useState(null);
 
   // Fetch teams using react-query
-  const { data = [], isLoading, error,refetch } = useQuery({
+  const { data = [], isLoading, error, refetch } = useQuery({
     queryKey: ['teams', user?.email],
     queryFn: async () => {
       if (!user?.email) {
@@ -33,21 +34,41 @@ const MyTeam = () => {
   // Handle team deletion
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/create-team/${id}`);
-      alert('Team deleted successfully');
-      refetch()
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      });
+
+      if (result.isConfirmed) {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/create-team/${id}`);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your team has been deleted.",
+          icon: "success",
+        });
+
+        refetch();
+      }
     } catch (error) {
-      console.error('Error deleting team:', error);
+      console.error("Error deleting team:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "There was an error deleting the team.",
+        icon: "error",
+      });
     }
   };
-
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   // Only show edit/delete buttons if user role is "team-admin"
   const isAdmin = role === 'team-admin';
-
 
   return (
     <div className="container mx-auto p-4">
@@ -74,10 +95,10 @@ const MyTeam = () => {
                 <td className="border border-gray-300 px-4 py-2">{team.uid}</td>
                 {isAdmin && (
                   <td className="border border-gray-300 px-4 py-2 flex gap-2">
-                    <button className="btn btn-xs btn-primary" /*onClick={() => handleEdit(team._id)}*/>
+                    <button className="btn bg-green-500 text-white p-2 rounded-lg" /*onClick={() => handleEdit(team._id)}*/>
                       Edit
                     </button>
-                    <button className="btn btn-xs btn-danger" onClick={() => handleDelete(team._id)}>
+                    <button className="btn bg-red-500 text-white p-2 rounded-lg" onClick={() => handleDelete(team._id)}>
                       Delete
                     </button>
                   </td>
