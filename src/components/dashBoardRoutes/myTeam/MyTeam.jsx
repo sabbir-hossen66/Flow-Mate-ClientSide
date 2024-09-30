@@ -92,7 +92,7 @@ const MyTeam = () => {
               <tr key={team._id}>
                 <td className="border border-gray-300 px-4 py-2">{team.displayName}</td>
                 <td className="border border-gray-300 px-4 py-2">{team.email}</td>
-                <td className="border border-gray-300 px-4 py-2"><Link className="underline text-blue-500">{team.teamName}</Link></td>
+                <td className="border border-gray-300 px-4 py-2"><Link to='/dashboard/team' className="underline text-blue-500">{team.teamName}</Link></td>
                 <td className="border border-gray-300 px-4 py-2">{team.teamDescription}</td>
                 <td className="border border-gray-300 px-4 py-2">{team.uid}</td>
                 {isAdmin && (
