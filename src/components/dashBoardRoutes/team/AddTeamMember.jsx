@@ -48,6 +48,7 @@ export function AddTeamMember() {
         Swal.fire({
           icon: "error",
           title: "Failed to Add Team Member",
+          text: err.response.data.message,
           showConfirmButton: false,
           timer: 1500,
         });
