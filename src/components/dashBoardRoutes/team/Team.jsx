@@ -11,6 +11,8 @@ const Team = () => {
     isLoading,
     isError,
     error,
+    refetch,
+    reset
   } = useQuery({
     queryKey: ["teamMember"],
     queryFn: async () => {
@@ -26,7 +28,7 @@ const Team = () => {
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
-  console.log(teamMember);
+
   
 
   return (
@@ -42,7 +44,7 @@ const Team = () => {
             </span>
           </div>
           <div className="py-5 lg:py-0">
-            <AddTeamMember />
+            <AddTeamMember refetch={refetch} reset={reset}/>
           </div>
         </div>
 

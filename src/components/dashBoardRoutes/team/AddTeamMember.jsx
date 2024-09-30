@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Swal from "sweetalert2";
 
-export function AddTeamMember() {
+export function AddTeamMember({refetch,reset}) {
   const {
     register,
     handleSubmit,
@@ -35,6 +35,8 @@ export function AddTeamMember() {
             showConfirmButton: false,
             timer: 1500,
           });
+          refetch()
+          // reset();
         } else {
           Swal.fire({
             icon: "error",
