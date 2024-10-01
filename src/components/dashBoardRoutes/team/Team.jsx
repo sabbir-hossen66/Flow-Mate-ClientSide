@@ -2,15 +2,20 @@ import CommonButton from "@/components/commonButton/CommonButton";
 import { AddTeamMember } from "./AddTeamMember";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import Loader from "@/utlities/Loader";
+import { useLoaderData } from "react-router-dom";
 
 const Team = () => {
   const axiosCommon = UseAxiosCommon();
-  
+  const team = useLoaderData()
+ 
   const {
     data: teamMember = [],
     isLoading,
     isError,
     error,
+    refetch,
+    reset
   } = useQuery({
     queryKey: ["teamMember"],
     queryFn: async () => {
@@ -20,13 +25,13 @@ const Team = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
-  console.log(teamMember);
+
   
 
   return (
@@ -35,14 +40,14 @@ const Team = () => {
         <div className="flex flex-col lg:flex-row justify-between gap-x-3">
           <div className="flex items-center">
             <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-              Team members
+          Team {team?.teamName} members
             </h2>
             <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
               {teamMember.length} users
             </span>
           </div>
           <div className="py-5 lg:py-0">
-            <AddTeamMember />
+            <AddTeamMember refetch={refetch} reset={reset} team={team}/>
           </div>
         </div>
 
@@ -55,10 +60,7 @@ const Team = () => {
                     <tr>
                       <th className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <div className="flex items-center gap-x-3">
-                          <input
-                            type="checkbox"
-                            className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"
-                          />
+                      
                           <span>Name</span>
                         </div>
                       </th>
