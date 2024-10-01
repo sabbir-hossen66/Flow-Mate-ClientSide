@@ -34,6 +34,7 @@ const Contact = () => {
             name: form.user_name.value,
             email: form.user_email.value,
             message: form.message.value,
+            
           });
 
           console.log(response.data);

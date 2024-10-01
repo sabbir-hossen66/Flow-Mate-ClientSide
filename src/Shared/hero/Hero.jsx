@@ -14,7 +14,7 @@ const Hero = () => {
   const loading = useSelector((state) => state.auth.loading);
   console.log(user, loading);
 
-  const [toggleOpen, setToggleOpen] = useState(false); // toggleOpen and close
+  const [toggleOpen, setToggleOpen] = useState(false);
 
   const toggleHandler = () => {
     setToggleOpen(!toggleOpen);
