@@ -8,7 +8,7 @@ import { useLoaderData } from "react-router-dom";
 const Team = () => {
   const axiosCommon = UseAxiosCommon();
   const team = useLoaderData()
-  console.log(team)
+ 
   const {
     data: teamMember = [],
     isLoading,
