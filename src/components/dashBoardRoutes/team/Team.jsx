@@ -3,10 +3,12 @@ import { AddTeamMember } from "./AddTeamMember";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Loader from "@/utlities/Loader";
+import { useLoaderData } from "react-router-dom";
 
 const Team = () => {
   const axiosCommon = UseAxiosCommon();
-  
+  const team = useLoaderData()
+  console.log(team)
   const {
     data: teamMember = [],
     isLoading,
