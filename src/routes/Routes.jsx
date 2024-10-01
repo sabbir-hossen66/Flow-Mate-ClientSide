@@ -31,7 +31,6 @@ export const router = createBrowserRouter([
           </PrivateRoutes>
         ),
       },
-      
     ],
   },
 
@@ -48,18 +47,19 @@ export const router = createBrowserRouter([
         path: "team",
         element: <Team />,
       },
-      
+
       {
         path: "tasks",
-        element: <Tasks/>
+        element: <Tasks />,
       },
       {
-        path:'tasks/taskDetails',
-        element:<TaskDetails/>
-      },{
-        path:'payment_history',
-        element:<PaymentHistory/>
-      }
+        path: "tasks/taskDetails",
+        element: <TaskDetails />,
+      },
+      {
+        path: "payment_history",
+        element: <PaymentHistory />,
+      },
     ],
   },
   {
