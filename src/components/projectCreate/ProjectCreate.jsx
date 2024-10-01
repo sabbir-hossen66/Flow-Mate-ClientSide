@@ -14,7 +14,7 @@ const ProjectCreate = () => {
   };
   return (
     <div>
-      <div className="absolute top-16 text-left left-32 m-1 bg-white shadow-lg rounded-md  w-80 z-10">
+      <div className="absolute top-16 text-left left-4 lg:left-2/3 m-1 bg-white shadow-lg rounded-md  w-80 z-10">
         {/* Conditionally render the Create board section */}
         {!create && (
           <div onClick={toggleCreateProject} className="p-4 hover:bg-gray-100 cursor-pointer">

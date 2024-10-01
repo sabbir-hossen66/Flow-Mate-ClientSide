@@ -12,6 +12,8 @@ import Team from "@/components/dashBoardRoutes/team/Team";
 import Tasks from "@/components/dashBoardRoutes/tasks/Tasks";
 import TaskDetails from "@/components/dashBoardRoutes/tasks/TaskDetails";
 import PaymentHistory from "@/components/dashBoardRoutes/PaymentHistory/PaymentHistory";
+import TeamCreate from "@/components/dashBoardRoutes/teamCreate/teamCreate";
+import MyTeam from "@/components/dashBoardRoutes/myTeam/MyTeam";
 
 export const router = createBrowserRouter([
   {
@@ -45,9 +47,10 @@ export const router = createBrowserRouter([
         element: <DashBoardHome />,
       },
       {
-        path: "team",
+        path: "team/:teamName",
         element: <Team />,
-      },
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`)
+      },      
       
       {
         path: "tasks",
@@ -59,6 +62,14 @@ export const router = createBrowserRouter([
       },{
         path:'payment_history',
         element:<PaymentHistory/>
+      }
+      ,{
+        path:'create-team',
+        element:<TeamCreate/>
+      }
+      ,{
+        path:'my-team',
+        element:<MyTeam/>
       }
     ],
   },
