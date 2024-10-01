@@ -23,7 +23,7 @@ export function AddTeamMember({refetch,reset,team}) {
   const axiosCommon = UseAxiosCommon();
 
   const onSubmit = (data) => {
-    console.log(data);
+
     axiosCommon
       .post("/team/create-member", data)
       .then((res) => {
