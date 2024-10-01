@@ -1,5 +1,5 @@
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
-import { logout, signInWithEmail, signInWithGoogle } from "@/redux/slices/authSlice";
+import { signInWithEmail, signInWithGoogle } from "@/redux/slices/authSlice";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -22,19 +22,19 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential;
         console.log();
-        
+
         const userInfo = {
           name: user.displayName,
           email: user.email,
-          role: 'member',
+          role: "member",
           photo: user.photoURL,
-          status: 'active',
+          status: "active",
         };
-  
+
         // Save user information to the database
-        axiosCommon.post('/users', userInfo)
-        
-        
+        axiosCommon
+          .post("/users", userInfo)
+
           .then((res) => {
             console.log(res.data);
             if (res.data.insertedId) {
@@ -48,27 +48,27 @@ const Login = () => {
             }
           })
           .catch((error) => {
-            console.error('Error saving user information:', error);
+            console.error("Error saving user information:", error);
             Swal.fire({
               icon: "error",
               title: "Oops...",
               text: "Failed to save user information!",
             });
           });
-  
+
         // Show success message for sign-in
         Swal.fire({
-          icon: 'success',
-          title: 'Login Success',
+          icon: "success",
+          title: "Login Success",
           text: `Welcome back ${user.displayName}!`,
         });
-        navigate('/');
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
-        
+
         const errorMessage = err.message || "Google Sign-In failed!";
-        console.error('Error signing in with Google:', errorMessage);
+        console.error("Error signing in with Google:", errorMessage);
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -76,23 +76,25 @@ const Login = () => {
         });
       });
   };
-  
 
   const onSubmit = async (data) => {
     try {
-      const resultAction = await dispatch(signInWithEmail(data));
-      if (signInWithEmail.fulfilled.match(resultAction)) {
+      const response = await axiosCommon.post(
+        "http://localhost:5000/api/user/login",
+        data
+      );
+      if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "Welcome!",
           text: "Signed in successfully with email!",
         });
-        navigate("/"); // Change to your desired path
+        navigate("/dashboard"); // Change to your desired path
       } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: resultAction.payload || "Sign-In failed!",
+          text: response.data.message || "Sign-In failed!",
         });
       }
     } catch (error) {
