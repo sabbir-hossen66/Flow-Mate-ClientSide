@@ -47,7 +47,7 @@ const Team = () => {
             </span>
           </div>
           <div className="py-5 lg:py-0">
-            <AddTeamMember refetch={refetch} reset={reset}/>
+            <AddTeamMember refetch={refetch} reset={reset} team={team}/>
           </div>
         </div>
 
