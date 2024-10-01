@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Swal from "sweetalert2";
 
-export function AddTeamMember({refetch,reset}) {
+export function AddTeamMember({refetch,reset,team}) {
   const {
     register,
     handleSubmit,
