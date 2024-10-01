@@ -9,6 +9,7 @@ import Contact from "@/components/contact/Contact";
 import OurTeams from "@/components/ourTeams/OurTeams";
 
 import MarketingComponent from "@/components/marketing/MarketingComponent";
+import ModalPage from "@/components/modalPage/ModalPage";
 
 
 
@@ -19,9 +20,10 @@ const Home = () => {
     <div>
 
       <Banner />
-      <MarketingComponent/>
+      <ModalPage />
+      <MarketingComponent />
       <Features />
-      <OurTeams/>
+      <OurTeams />
       <Newsletters />
       <PricingPlans />
       <Testmonial />
