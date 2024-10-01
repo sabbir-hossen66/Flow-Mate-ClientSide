@@ -17,7 +17,7 @@ const Features = () => {
         {/* Left Section */}
         <div className="flex flex-col w-auto lg:w-[440px] text-center lg:text-left md:text-left md:mr-10">
           <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-7">
-            Discover <span className="text-[#3b82f6]"> power of</span> team work
+            Discover <span className="text-[#3b82f6]"> power of</span> <br /> team work
           </h2>
           <p className="text-gray-500 mb-2 text-sm lg:text-sm">
             Manage your tasks efficiently with FlowMate’s intuitive task
