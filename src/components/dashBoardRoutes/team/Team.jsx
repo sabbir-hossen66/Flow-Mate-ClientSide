@@ -40,7 +40,7 @@ const Team = () => {
         <div className="flex flex-col lg:flex-row justify-between gap-x-3">
           <div className="flex items-center">
             <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-              Team members
+          Team {team?.teamName} members
             </h2>
             <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
               {teamMember.length} users
