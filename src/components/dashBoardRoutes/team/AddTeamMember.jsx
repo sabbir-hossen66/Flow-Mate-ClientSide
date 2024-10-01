@@ -13,17 +13,25 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
 
-export function AddTeamMember({refetch,reset}) {
+export function AddTeamMember({refetch,reset,team}) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const axiosCommon = UseAxiosCommon();
-
+  const {data =[]} = useQuery({
+    queryKey: ['data'],
+    queryFn: async () => {
+     const res= await axiosCommon.get('/Users')
+     return res.data
+    }
+  })
+  console.log(data)
   const onSubmit = (data) => {
-    console.log(data);
+
     axiosCommon
       .post("/team/create-member", data)
       .then((res) => {

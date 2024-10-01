@@ -47,9 +47,10 @@ export const router = createBrowserRouter([
         element: <DashBoardHome />,
       },
       {
-        path: "team",
+        path: "team/:teamName",
         element: <Team />,
-      },
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`)
+      },      
       
       {
         path: "tasks",
