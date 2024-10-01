@@ -8,18 +8,19 @@ import { MdRoomPreferences } from "react-icons/md";
 import { RiSecurePaymentLine } from "react-icons/ri";
 
 import { useSelector } from "react-redux";
+import { Feedback } from "@/components/feedback/Feedback";
 
 const DashBoardNav = () => {
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  if(loading) return <p>Loading........</p>
+  if (loading) return <p>Loading........</p>;
   return (
     <>
       {" "}
       {/* Sidebar */}
       <div
-        className={`bg-[#01204ed8] text-white w-[250px] lg:w-1/5 fixed lg:static inset-y-0 left-0 transform lg:transform-none transition-transform duration-300 ease-in-out ${
+        className={`  bg-[#01204ed8] text-white w-[250px] lg:w-1/5 fixed lg:static inset-y-0 left-0 transform lg:transform-none transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } p-4 shadow-lg z-50`}
       >
@@ -110,7 +111,7 @@ const DashBoardNav = () => {
               <RiSecurePaymentLine />
               Create tasks
             </NavLink>
-            
+
             <NavLink
               to="/dashboard/my-team"
               className={({ isActive, isPending }) =>
@@ -137,7 +138,6 @@ const DashBoardNav = () => {
               <RiSecurePaymentLine />
               Team Create
             </NavLink>
-           
 
             <NavLink
               to="/dashboard/payment_history"
@@ -169,6 +169,9 @@ const DashBoardNav = () => {
               Home
             </NavLink>
           </nav>
+        </div>
+        <div className=" ">
+          <Feedback className="" />
         </div>
       </div>
       {/* Mobile Menu Button */}
