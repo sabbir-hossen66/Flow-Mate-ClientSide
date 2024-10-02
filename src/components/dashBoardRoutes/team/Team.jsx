@@ -19,11 +19,11 @@ const Team = () => {
   } = useQuery({
     queryKey: ["teamMember"],
     queryFn: async () => {
-      const { data } = await axiosCommon.get("/team/members");
+      const { data } = await axiosCommon.get("/teams");
       return data;
     },
   });
-
+console.log(teamMember)
   if (isLoading) {
     return <Loader/>;
   }

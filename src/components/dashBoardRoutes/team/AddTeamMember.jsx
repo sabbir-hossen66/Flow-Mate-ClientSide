@@ -48,7 +48,7 @@ export function AddTeamMember({ refetch, reset, team }) {
       email: email,
       role: role,
       photo: photo,
-      date: new Date.now(),
+      date: new Date(),
     };
   
     try {
