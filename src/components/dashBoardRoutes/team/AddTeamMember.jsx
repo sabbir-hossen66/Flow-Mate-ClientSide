@@ -18,11 +18,6 @@ import { useState } from "react";
 
 export function AddTeamMember({ refetch, reset, team }) {
   const [search, setSearch] = useState("");
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
 
   const axiosCommon = UseAxiosCommon();
