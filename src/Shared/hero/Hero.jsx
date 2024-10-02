@@ -13,6 +13,13 @@ const Hero = () => {
   const loading = useSelector((state) => state.auth.loading);
   console.log(user, loading);
 
+  const [toggleOpen, setToggleOpen] = useState(false);
+
+  const toggleHandler = () => {
+    setToggleOpen(!toggleOpen);
+  };
+
+
   return (
     <div>
       <nav className="relative shadow rounded-3xl">
