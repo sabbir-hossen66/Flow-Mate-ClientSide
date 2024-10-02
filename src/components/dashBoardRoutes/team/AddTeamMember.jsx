@@ -125,14 +125,14 @@ console.log(data.name)
               <Label htmlFor="email" className="text-start">
                 Email Address
               </Label>
-              <Input id="email" className="col-span-3" defaultValue={data?.email}/>
+              <Input name='email' id="email" className="col-span-3" defaultValue={data?.email}/>
             </div>
 
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="role" className="text-start">
                 Role
               </Label>
-              <Input id="role" className="col-span-3" defaultValue={data?.role}/>
+              <Input name='role' id="role" className="col-span-3" defaultValue={data?.role}/>
             </div>
 
             {/* New Image URL Field */}
