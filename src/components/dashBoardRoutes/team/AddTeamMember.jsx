@@ -18,8 +18,7 @@ import { useState } from "react";
 
 export function AddTeamMember({ refetch, reset, team }) {
   const [search, setSearch] = useState("");
-
-
+  const _id = team?._id
   const axiosCommon = UseAxiosCommon();
   const { data = [], isLoading } = useQuery({
     queryKey: ["data", search],
@@ -34,52 +33,48 @@ export function AddTeamMember({ refetch, reset, team }) {
     },
     enabled: !!search,
   });
-  const handleAddMember = e => {
+  const handleAddMember = async (e) => {
     e.preventDefault();
-    const form = e.target
-    const name = form.name.value
-    const email = form.email.value
-    const role = form.role.value
-    const photo = form.photo.value
-    const id = form.id.value
-    console.log(name)
-  }
-  console.log("Data:", data); // Log the fetched data
-  console.log("Search term:", search); // Log the search term
+  
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const role = form.role.value;
+    const photo = form.photo.value;
+    const id = form.id.value; 
+    const newMember = {
+      teamId: id,
+      displayName: name,
+      email: email,
+      role: role,
+      photo: photo,
+      date: new Date.now(),
+    };
+  
+    try {
+      // POST request to the correct team endpoint
+      const res = await axiosCommon.post(`/team/${_id}/add-member`, newMember);
+  
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Team Member Added",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        refetch();
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed to Add Team Member",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
+  
 
-  // const onSubmit = (data) => {
-  //   axiosCommon
-  //     .post("/team/create-member", data)
-  //     .then((res) => {
-  //       console.log(res);
-  //       if (res.status === 200) {
-  //         Swal.fire({
-  //           icon: "success",
-  //           title: "Team Member Added",
-  //           showConfirmButton: false,
-  //           timer: 1500,
-  //         });
-  //         refetch();
-  //         // reset();
-  //       } else {
-  //         Swal.fire({
-  //           icon: "error",
-  //           title: "Failed to Add Team Member already exist",
-  //           showConfirmButton: false,
-  //           timer: 1500,
-  //         });
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: "Failed to Add Team Member",
-  //         showConfirmButton: false,
-  //         timer: 1500,
-  //       });
-  //     });
-  // };
-console.log(data.name)
   return (
     <Dialog>
       <DialogTrigger asChild>
