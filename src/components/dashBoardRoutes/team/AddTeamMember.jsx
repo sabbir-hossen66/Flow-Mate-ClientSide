@@ -144,13 +144,13 @@ console.log(data.name)
             </div>
           </div>
           {/* _id */}
-            <div className="grid grid-cols-4 items-start gap-4">
+            <div className="grid grid-cols-4 items-start gap-4 hidden">
               <Label htmlFor="id" className="text-start">
-                Image URL
+                Id
               </Label>
               <Input name='id' id="id" className="col-span-3" defaultValue={data?._id}/>
             </div>
-          </div>
+      
 
           <DialogFooter>
             <Button type="submit">Add Member</Button>
