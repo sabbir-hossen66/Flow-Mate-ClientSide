@@ -25,7 +25,7 @@ export function AddTeamMember({ refetch, reset, team }) {
   } = useForm();
 
   const axiosCommon = UseAxiosCommon();
-  const { data = [] } = useQuery({
+  const { data = [], isLoading } = useQuery({
     queryKey: ["data", search],
     queryFn: async () => {
       if (search) {
@@ -40,39 +40,39 @@ export function AddTeamMember({ refetch, reset, team }) {
   console.log("Data:", data); // Log the fetched data
   console.log("Search term:", search); // Log the search term
 
-  const onSubmit = (data) => {
-    axiosCommon
-      .post("/team/create-member", data)
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          Swal.fire({
-            icon: "success",
-            title: "Team Member Added",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          refetch();
-          // reset();
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Failed to Add Team Member already exist",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Failed to Add Team Member",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
-  };
-
+  // const onSubmit = (data) => {
+  //   axiosCommon
+  //     .post("/team/create-member", data)
+  //     .then((res) => {
+  //       console.log(res);
+  //       if (res.status === 200) {
+  //         Swal.fire({
+  //           icon: "success",
+  //           title: "Team Member Added",
+  //           showConfirmButton: false,
+  //           timer: 1500,
+  //         });
+  //         refetch();
+  //         // reset();
+  //       } else {
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Failed to Add Team Member already exist",
+  //           showConfirmButton: false,
+  //           timer: 1500,
+  //         });
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Failed to Add Team Member",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     });
+  // };
+console.log(data.name)
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -87,39 +87,40 @@ export function AddTeamMember({ refetch, reset, team }) {
             Here you are adding your team Member
           </DialogDescription>
         </DialogHeader>
+        
         <form>
           <div className="grid gap-4 py-4 text-start justify-start">
             <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="name" className="text-start">
-                Name
+              <Label htmlFor="search" className="text-start">
+                Search
               </Label>
               <Input
-                id="name"
-                name="name"
+                id="search"
+                name="search"
                 className="col-span-3"
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-
+          
             <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="title" className="text-start">
-                Title
+              <Label htmlFor="name" className="text-start">
+                Name
               </Label>
-              <Input id="title" className="col-span-3" />
+              <Input id="name" className="col-span-3" defaultValue={data?.name}/>
             </div>
 
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="email" className="text-start">
                 Email Address
               </Label>
-              <Input id="email" className="col-span-3" />
+              <Input id="email" className="col-span-3" defaultValue={data?.email}/>
             </div>
 
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="role" className="text-start">
                 Role
               </Label>
-              <Input id="role" className="col-span-3" />
+              <Input id="role" className="col-span-3" defaultValue={data?.role}/>
             </div>
 
             {/* New Image URL Field */}
@@ -127,7 +128,7 @@ export function AddTeamMember({ refetch, reset, team }) {
               <Label htmlFor="imageUrl" className="text-start">
                 Image URL
               </Label>
-              <Input id="imageUrl" className="col-span-3" />
+              <Input id="imageUrl" className="col-span-3" defaultValue={data?.photo}/>
             </div>
           </div>
 
