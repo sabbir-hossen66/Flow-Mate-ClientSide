@@ -24,6 +24,7 @@ export function AddTeamMember({ refetch, reset, team }) {
     formState: { errors },
   } = useForm();
 
+
   const axiosCommon = UseAxiosCommon();
   const { data = [], isLoading } = useQuery({
     queryKey: ["data", search],
@@ -36,7 +37,11 @@ export function AddTeamMember({ refetch, reset, team }) {
     },
     enabled: !!search,
   });
-
+  const handleAddMember = e => {
+    e.preventDefault();
+    const form = e.target
+    const name = form.name.value
+  }
   console.log("Data:", data); // Log the fetched data
   console.log("Search term:", search); // Log the search term
 
