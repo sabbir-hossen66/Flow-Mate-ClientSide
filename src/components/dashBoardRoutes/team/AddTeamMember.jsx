@@ -45,6 +45,8 @@ export function AddTeamMember({ refetch, reset, team }) {
     const name = form.name.value
     const email = form.email.value
     const role = form.role.value
+    const photo = form.photo.value
+    const id = form.id.value
     console.log(name)
   }
   console.log("Data:", data); // Log the fetched data
@@ -138,7 +140,15 @@ console.log(data.name)
               <Label htmlFor="imageUrl" className="text-start">
                 Image URL
               </Label>
-              <Input id="imageUrl" className="col-span-3" defaultValue={data?.photo}/>
+              <Input name='photo' id="imageUrl" className="col-span-3" defaultValue={data?.photo}/>
+            </div>
+          </div>
+          {/* _id */}
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="id" className="text-start">
+                Image URL
+              </Label>
+              <Input name='id' id="id" className="col-span-3" defaultValue={data?._id}/>
             </div>
           </div>
 
