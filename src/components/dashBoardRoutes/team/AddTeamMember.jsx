@@ -33,7 +33,9 @@ export function AddTeamMember({ refetch, reset, team }) {
         const res = await axiosCommon.get(`/search?name=${search}`);
         return res.data;
       }
+      
       return [];
+     
     },
     enabled: !!search,
   });
@@ -41,6 +43,9 @@ export function AddTeamMember({ refetch, reset, team }) {
     e.preventDefault();
     const form = e.target
     const name = form.name.value
+    const email = form.email.value
+    const role = form.role.value
+    console.log(name)
   }
   console.log("Data:", data); // Log the fetched data
   console.log("Search term:", search); // Log the search term
@@ -93,7 +98,7 @@ console.log(data.name)
           </DialogDescription>
         </DialogHeader>
         
-        <form>
+        <form onSubmit={handleAddMember}>
           <div className="grid gap-4 py-4 text-start justify-start">
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="search" className="text-start">
