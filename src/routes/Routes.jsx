@@ -15,6 +15,7 @@ import PaymentHistory from "@/components/dashBoardRoutes/PaymentHistory/PaymentH
 
 import MyTeam from "@/components/dashBoardRoutes/myTeam/MyTeam";
 import TeamCreate from "@/components/dashBoardRoutes/teamCreate/TeamCreate";
+import TaskCard from "@/components/dashBoardRoutes/tasks/TaskCard";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,11 @@ export const router = createBrowserRouter([
       {
         path: "tasks",
         element: <Tasks />,
+      },
+      {
+        path:'taskCard/:id',
+        element:<TaskCard/>,
+        loader:({params})=> fetch (`http://localhost:5000/createTask/${params.id}`)
       },
       {
         path: "tasks/taskDetails",
