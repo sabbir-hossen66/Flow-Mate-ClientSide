@@ -4,11 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Loader from "@/utlities/Loader";
 import { useLoaderData } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Team = () => {
   const axiosCommon = UseAxiosCommon();
   const team = useLoaderData();
-
+  const user = useSelector((state) => state.auth.user);
+  const email = user?.email;
   const {
     data: teamMember = [],
     isLoading,
@@ -19,8 +21,8 @@ const Team = () => {
   } = useQuery({
     queryKey: ["teamMember"],
     queryFn: async () => {
-      const { data } = await axiosCommon.get("/teams");
-      return data[0]?.members;
+      const { data } = await axiosCommon.get(`members?teamName=${team?.teamName}`);
+      return data[0].members;
     },
   });
   if (isLoading) {
