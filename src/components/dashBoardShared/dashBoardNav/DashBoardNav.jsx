@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { FaHome } from "react-icons/fa";
-
+import { BsMicrosoftTeams } from "react-icons/bs";
 import { MdRoomPreferences } from "react-icons/md";
 
 import { RiSecurePaymentLine } from "react-icons/ri";
@@ -12,9 +12,8 @@ import { useSelector } from "react-redux";
 const DashBoardNav = () => {
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
-  console.log(user, loading);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  if(loading) return <p>Loading........</p>
   return (
     <>
       {" "}
@@ -111,8 +110,22 @@ const DashBoardNav = () => {
               <RiSecurePaymentLine />
               Create tasks
             </NavLink>
+            
             <NavLink
-              to="/dashboard/team"
+              to="/dashboard/my-team"
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? "pending"
+                  : isActive
+                  ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                  : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+              }
+            >
+              <BsMicrosoftTeams />
+              My Team
+            </NavLink>
+            <NavLink
+              to="/dashboard/create-team"
               className={({ isActive, isPending }) =>
                 isPending
                   ? "pending"
@@ -122,8 +135,9 @@ const DashBoardNav = () => {
               }
             >
               <RiSecurePaymentLine />
-              Teams Create
+              Team Create
             </NavLink>
+           
 
             <NavLink
               to="/dashboard/payment_history"

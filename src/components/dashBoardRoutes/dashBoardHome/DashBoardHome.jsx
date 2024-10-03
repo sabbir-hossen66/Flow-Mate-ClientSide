@@ -8,7 +8,8 @@ import ProjectCreate from "@/components/projectCreate/ProjectCreate";
 const DashBoardHome = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-
+  const loading = useSelector((state) => state.auth.loading);
+  
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
