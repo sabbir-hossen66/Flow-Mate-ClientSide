@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import { Star } from "lucide-react";
 
 const Testmonial = () => {
   const axiosCommon = UseAxiosCommon();
@@ -31,13 +32,13 @@ const Testmonial = () => {
 
           <section className="grid grid-cols-1 gap-8 mt-8 xl:mt-12 md:grid-cols-2 lg:grid-cols-3">
             {feedbacks
-              .slice(Math.max(feedbacks.length - 9, 0))
+              .slice(Math.max(feedbacks.length - 6, 0))
               .map((feedback) => (
                 <div
                   key={feedback._id}
                   className="p-8 border rounded-lg hover:bg-blue-500 bg-white hover:text-white transition-all duration-300 ease-in-out animate-fadeIn"
                 >
-                  <p className="leading-loose">{feedback.review}</p>
+                  <p className="leading-loose">{feedback.feedback}</p>
 
                   <div className="flex items-center mt-8 -mx-2">
                     <img
@@ -47,6 +48,11 @@ const Testmonial = () => {
                     />
                     <div className="mx-2">
                       <h1 className="font-semibold">{feedback.name}</h1>
+                      <div className="flex">
+                        {Array.from({ length: feedback.rating }).map((_, i) => (
+                          <Star key={i} className="text-yellow-500"></Star>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
