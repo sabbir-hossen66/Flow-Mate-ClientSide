@@ -43,7 +43,7 @@ useEffect(() => {
     });
 }, [email]);
 const handleRemoveMember = id => {
-    console.log(id)
+    
 }
   if (isLoading) {
     return <Loader />;
