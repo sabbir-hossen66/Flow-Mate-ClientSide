@@ -16,10 +16,39 @@ import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
+import { useForm } from "react-hook-form";
 
 // TaskCard Component
 const TaskCard = () => {
   const axiosCommon = UseAxiosCommon();
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [sortOption, setSortOption] = useState(""); // State for sort option
+  // Handlers for dropdown visibility
+  const handleMouseEnter = () => {
+    setDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownVisible(false);
+  };
+
+  const handleSortSelection = (option) => {
+    setSortOption(option); // Update sort option state
+    setDropdownVisible(false); // Close dropdown after selection
+  };
+
+  // Handler for form submission
+  const onSubmit = (data) => {
+    setSearchQuery(data.search); // Update search query state
+  };
+  const handleReset = () => {
+    setSearchQuery("");  // Clear search query
+    setSortOption("");    // Clear sort option
+    reset();              // Reset form fields
+  };
+
   const [stage, setStage] = useState(""); // Track the stage change
   const {
     isLoading,
@@ -27,9 +56,9 @@ const TaskCard = () => {
     data: createTask,
     refetch,
   } = useQuery({
-    queryKey: ["createTask"],
+    queryKey: ["createTask", searchQuery, sortOption], // Include search and sort in the query key
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/createTask");
+      const res = await fetch(`http://localhost:5000/createTask?search=${searchQuery}&sort=${sortOption}`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -95,6 +124,97 @@ const TaskCard = () => {
   }
 
   return (
+    <div> <div className="flex justify-center items-center">
+    <div>
+      <h2 className="text-lg font-medium text-gray-800 dark:text-white text-center">
+        Get Your Required Task
+      </h2>
+
+      <div className="flex justify-center items-center mt-4">
+        {/* Search Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="mr-4">
+          <div className="flex flex-col p-1.5 overflow-hidden border rounded-lg dark:border-gray-600 lg:flex-row dark:focus-within:border-blue-300 focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300">
+            <input
+              className="px-6 py-2 text-gray-700 placeholder-gray-500 bg-white outline-none dark:bg-gray-800 dark:placeholder-gray-400 focus:placeholder-transparent dark:focus:placeholder-transparent"
+              type="text"
+              {...register("search", { required: true })}
+              placeholder="Enter the task name"
+              aria-label="Search tasks"
+            />
+            <button
+              type="submit"
+              className="px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
+            >
+              Search
+            </button>
+          </div>
+     
+        </form>
+
+        <div 
+          onMouseEnter={handleMouseEnter} 
+          onMouseLeave={handleMouseLeave} 
+          className="relative"
+        >
+          <button
+            id="dropdownDelayButton"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            type="button"
+          >
+            Sort by Date
+            <svg
+              className="w-2.5 h-2.5 ms-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
+
+          {/* Dropdown Menu */}
+          <div
+            id="dropdownDelay"
+            className={`absolute left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 ${isDropdownVisible ? '' : 'hidden'}`}
+          >
+            <ul
+              className="py-2 text-sm text-gray-700 dark:text-gray-200"
+              aria-labelledby="dropdownDelayButton"
+            >
+              <li onClick={() => handleSortSelection('newest')}>
+                <a
+                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Newest First
+                </a>
+              </li>
+              <li onClick={() => handleSortSelection('oldest')}>
+                <a
+                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Oldest First
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+         {/* Reset Button */}
+         <button
+              onClick={handleReset}
+              className="ml-4 px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-red-500 rounded-md hover:bg-red-400 focus:bg-red-400 focus:outline-none"
+            >
+              Reset
+            </button>
+      </div>
+    </div>
+  </div>
     <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-1 items-center bg-gray-100 gap-6 p-4">
       {/* Iterate over each task */}
       {createTask?.map((task, index) => (
@@ -170,6 +290,7 @@ const TaskCard = () => {
           </div>
         </div>
       ))}
+    </div>
     </div>
   );
 };
