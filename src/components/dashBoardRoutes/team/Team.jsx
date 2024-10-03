@@ -23,7 +23,7 @@ const Team = () => {
       return data;
     },
   });
-console.log(teamMember)
+console.log(teamMember[0].members)
   if (isLoading) {
     return <Loader/>;
   }
@@ -82,7 +82,7 @@ console.log(teamMember)
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    {teamMember.map((member) => (
+                    {teamMember[0]?.members?.map((member) => (
                       <tr key={member.id}>
                         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                           <div className="inline-flex items-center gap-x-3">
