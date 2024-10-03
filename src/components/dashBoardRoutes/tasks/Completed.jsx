@@ -2,8 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 
 
 const Completed = () => {
-  // const [newTodo, setNewTodo] = useState(""); // Input field value
-
   // Fetch todos from the server
   const {
     isLoading,
@@ -21,29 +19,6 @@ const Completed = () => {
     },
   });
 
-  // Mutation for adding a new todo
-  // const mutation = useMutation(
-  //   async (newTodo) => {
-  //     const res = await fetch("http://localhost:5000/createTask", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         text: newTodo,
-  //         stage: "todo", // Or any default stage you want
-  //         completed: false,
-  //       }),
-  //     });
-  //     return res.json();
-  //   },
-  //   {
-  //     onSuccess: () => {
-  //       refetch(); // Refetch todos after successful mutation
-  //     },
-  //   }
-  // );
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -52,13 +27,6 @@ const Completed = () => {
     return <div>Error loading todos</div>;
   }
 
-  // Function to handle adding a new todo
-  // const addTodo = () => {
-  //   if (newTodo.trim() !== "") {
-  //     mutation.mutate(newTodo); // Use mutation to add the new todo
-  //     setNewTodo(""); // Reset input field after adding
-  //   }
-  // };
 
   return (
     <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
@@ -77,22 +45,7 @@ const Completed = () => {
       ))}
 
 
-      {/* Input field for adding new todo */}
-      <div className="flex items-center mt-4">
-        <input
-          type="text"
-          className="w-56 p-2 border rounded-md mr-2"
-          // value={newTodo}
-          // onChange={(e) => setNewTodo(e.target.value)}
-          placeholder="Add a new card..."
-        />
-        <button
-          className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          // onClick={addTodo}
-        >
-          Add
-        </button>
-      </div>
+    
     </div>
   );
 };
