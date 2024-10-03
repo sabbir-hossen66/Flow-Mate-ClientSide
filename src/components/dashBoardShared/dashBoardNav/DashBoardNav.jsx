@@ -13,7 +13,7 @@ const DashBoardNav = () => {
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  if(loading) return <p>Loading........</p>
+  if (loading) return <p>Loading........</p>;
   return (
     <>
       {" "}
@@ -110,7 +110,7 @@ const DashBoardNav = () => {
               <RiSecurePaymentLine />
               Create tasks
             </NavLink>
-            
+
             <NavLink
               to="/dashboard/my-team"
               className={({ isActive, isPending }) =>
@@ -137,7 +137,6 @@ const DashBoardNav = () => {
               <RiSecurePaymentLine />
               Team Create
             </NavLink>
-           
 
             <NavLink
               to="/dashboard/payment_history"

@@ -33,6 +33,7 @@ export const router = createBrowserRouter([
           </PrivateRoutes>
         ),
       },
+      
     ],
   },
 
@@ -48,27 +49,14 @@ export const router = createBrowserRouter([
       {
         path: "team/:teamName",
         element: <Team />,
-
-      },
-
-
         loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`)
       },      
-
+      
       {
         path: "tasks",
-        element: <Tasks />,
+        element: <Tasks/>
       },
       {
-        path: "tasks/taskDetails",
-        element: <TaskDetails />,
-      },
-      {
-
-        path: "payment_history",
-        element: <PaymentHistory />,
-      },
-
         path:'tasks/taskDetails',
         element:<TaskDetails/>
       },{
@@ -83,7 +71,6 @@ export const router = createBrowserRouter([
         path:'my-team',
         element:<MyTeam/>
       }
-
     ],
   },
   {
@@ -94,4 +81,4 @@ export const router = createBrowserRouter([
     path: "/signUp",
     element: <SignUp />,
   },
-]);
+])
