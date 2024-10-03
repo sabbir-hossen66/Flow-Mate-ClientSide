@@ -5,6 +5,7 @@ import Dropdown from "@/components/dropdown/Dropdown";
 import { Button } from "@/components/ui/button";
 
 import { useSelector } from "react-redux";
+import UseAdmin from "@/hooks/UseAdmin";
 
 const Hero = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +13,8 @@ const Hero = () => {
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
   console.log(user, loading);
+const isAdmin=UseAdmin();
+console.log(isAdmin);
 
   const [toggleOpen, setToggleOpen] = useState(false);
 

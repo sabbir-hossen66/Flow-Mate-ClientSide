@@ -73,10 +73,13 @@ const SignUp = () => {
               role: 'member',
               photo,
               status: 'active',
+              password:password,
             };
   
-            axiosCommon.post('/users', userInfo)
+            axiosCommon.post('/users/create', userInfo)
               .then((res) => {
+                console.log('Response from saving user:', res);
+                
                 if (res.data.insertedId) {
                   Swal.fire({
                     icon: "success",
