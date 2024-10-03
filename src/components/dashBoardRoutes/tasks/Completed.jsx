@@ -27,25 +27,32 @@ const Completed = () => {
     return <div>Error loading todos</div>;
   }
 
+  const filteredTodos = todos.filter((todo) => todo.stage === "done");
 
   return (
     <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold text-gray-700 mb-4">Completed</h2>
-      
-      {/* Existing todos filtered by 'done' stage */}
-      {todos.filter((todo) => todo.stage === "done").map((todo) => (
-        <div
-          key={todo._id} // Assuming _id is unique in the fetched data
-          className="p-2 mb-2 bg-gray-100 rounded-md flex justify-between items-center"
-        >
-          <span className={`text-gray-800 ${todo?.done ? 'line-through' : ''}`}>
-          {todo.taskTitle.slice(0,35)}
-          </span>
-        </div>
-      ))}
+      <h2 className="text-lg font-semibold text-gray-700 mb-4">Todos</h2>
 
-
-    
+      {/* Show message if there are no todos */}
+      {filteredTodos.length === 0 ? (
+        <div className="text-gray-500">No tasks added recently</div>
+      ) : (
+        // Existing todos
+        filteredTodos.map((todo) => (
+          <div
+            key={todo.id}
+            className="p-2 mb-2 bg-gray-100 rounded-md flex justify-between items-center"
+          >
+            <span
+              className={`text-gray-800 ${
+                todo?.completed ? "line-through" : ""
+              }`}
+            >
+              {todo.taskTitle.slice(0, 35)}
+            </span>
+          </div>
+        ))
+      )}
     </div>
   );
 };

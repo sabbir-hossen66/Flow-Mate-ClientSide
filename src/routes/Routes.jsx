@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
       },
 
 
-      },
+  
       {
         path: "tasks",
         element: <Tasks />,
@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
         path: "tasks/taskDetails",
         element: <TaskDetails />,
       },
-      },
+
       {
         path:'taskCard/:id',
         element:<TaskCard/>,

@@ -24,14 +24,18 @@ const InProgress = () => {
     return <div>Error loading products</div>;
   }
 
+  const filteredTodos = todos.filter((todo) => todo.stage === "in progress");
+
   return (
     <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold text-gray-700 mb-4">InProgress</h2>
+      <h2 className="text-lg font-semibold text-gray-700 mb-4">Todos</h2>
 
-      {/* Existing todos */}
-      {todos
-        .filter((todo) => todo.stage == "in progress")
-        .map((todo) => (
+      {/* Show message if there are no todos */}
+      {filteredTodos.length === 0 ? (
+        <div className="text-gray-500">No tasks inprogress recently</div>
+      ) : (
+        // Existing todos
+        filteredTodos.map((todo) => (
           <div
             key={todo.id}
             className="p-2 mb-2 bg-gray-100 rounded-md flex justify-between items-center"
@@ -44,7 +48,8 @@ const InProgress = () => {
               {todo.taskTitle.slice(0, 35)}
             </span>
           </div>
-        ))}
+        ))
+      )}
     </div>
   );
 };
