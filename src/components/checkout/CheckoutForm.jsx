@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-const CheckoutForm = ({ bookingData,  setOpen,setOpenPaymentModal }) => {
+const CheckoutForm = ({ bookingData }) => {
   const { name, price, user } = bookingData;
   const stripe = useStripe();
   const elements = useElements();
@@ -11,20 +12,14 @@ const CheckoutForm = ({ bookingData,  setOpen,setOpenPaymentModal }) => {
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
   const axiosCommon = UseAxiosCommon();
-
-  // Format the price to ensure it's a valid number
-  const formattedPrice = parseFloat(price.replace(/[^0-9.-]+/g, ""));
-  
   useEffect(() => {
     const createPaymentIntent = async () => {
       try {
-        if (formattedPrice > 0) {
-          const response = await axiosCommon.post("/payments/create-payment-intent", {
-            price: formattedPrice,
+        if (price > 0) {
+          const response = await axiosCommon.post("/create_payment_intent", {
+            price: price,
           });
           setClientSecret(response.data.clientSecret);
-          
-          
         }
       } catch (err) {
         console.error("Error creating payment intent:", err);
@@ -33,11 +28,11 @@ const CheckoutForm = ({ bookingData,  setOpen,setOpenPaymentModal }) => {
     };
 
     createPaymentIntent();
-  }, [axiosCommon, formattedPrice]); 
+  }, [axiosCommon, price]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!stripe || !elements || !clientSecret) {
+    if (!stripe || !elements) {
       return;
     }
 
@@ -46,20 +41,20 @@ const CheckoutForm = ({ bookingData,  setOpen,setOpenPaymentModal }) => {
       return;
     }
 
-    const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card,
-    });
+    const { error: stripeError, paymentMethod } =
+      await stripe.createPaymentMethod({
+        type: "card",
+        card,
+      });
 
     if (stripeError) {
       setError(stripeError.message);
-      return;
     } else {
       setError("");
     }
 
-    try {
-      const { paymentIntent, error: paymentError } = await stripe.confirmCardPayment(clientSecret, {
+    const { paymentIntent, error: paymentError } =
+      await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: card,
           billing_details: {
@@ -69,42 +64,42 @@ const CheckoutForm = ({ bookingData,  setOpen,setOpenPaymentModal }) => {
         },
       });
 
-      if (paymentError) {
-        setError(paymentError.message);
-      } else {
-        setError("");
-        if (paymentIntent.status === "succeeded") {
-          setTransactionId(paymentIntent.id);
+    if (paymentError) {
+      setError(paymentError.message);
+    } else {
+      setError("");
+      if (paymentIntent.status === "succeeded") {
+        setTransactionId(paymentIntent.id);
 
-          const payment = {
-            transactionId: paymentIntent.id,
-            amount: formattedPrice,
-            package_name: name,
-            user_email: user.email,
-            user_name: user.displayName,
-            paymentMethod: paymentMethod.card.brand,
-          };
+        const payment = {
+          transactionId: paymentIntent.id,
+          amount: price,
+          package_name: name,
+          user_email: user.email,
+          user_name: user.displayName,
+          paymentMethod: paymentMethod.card.brand,
+        };
 
-          const res = await axiosCommon.post("payments/payment", payment);
-          if (res.status === 200) {
-            Swal.fire({
-              icon: "success",
-              title: "Payment Successful",
-              text: "Your payment was successful. Thank you for your purchase.",
-            });
-            setOpen(false);
-            setOpenPaymentModal(false);
-          } else {
-            setError("Payment successful but failed to save transaction. Please contact support.");
-          }
+        const res = await axiosCommon.post("/api/user/payments", payment);
 
+        if (res.data) {
+          Swal.fire({
+            icon: "success",
+            title: "Payment Successful",
+            text: "Your payment has been successfully processed!",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Payment Failed",
+            text: "Your payment has failed. Please try again later.",
+          });
         }
       }
-    } catch (error) {
-      setError("Something went wrong during payment processing. Please try again.");
-      console.error("Payment processing error:", error);
     }
   };
+
+  console.log("bookingData", bookingData);
 
   return (
     <div className="border-2 border-[#0047ab] rounded-xl my-4 px-2 py-8">
@@ -127,12 +122,14 @@ const CheckoutForm = ({ bookingData,  setOpen,setOpenPaymentModal }) => {
             },
           }}
         />
+        {}
         <button
-  className="btn btn-lg bg-[#0047ab] text-center p-2 mt-4 w-full mx-auto text-white rounded-md cursor-pointer"
->
-  Pay
-</button>
-
+          type="submit"
+          className="btn btn-lg bg-[#0047ab] text-center p-2 mt-4 w-full mx-auto text-white rounded-md"
+          disabled={!stripe || !clientSecret}
+        >
+          Pay
+        </button>
         <p className="text-red-600 text-xl my-4">{error}</p>
         {transactionId && (
           <p className="text-green-400 text-xl my-4">
