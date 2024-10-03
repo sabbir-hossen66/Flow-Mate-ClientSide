@@ -33,6 +33,13 @@ const MyTeam = () => {
       });
   }, [user?.email]);
 
+  // If user is not an admin, filter teams by membership
+  const userTeams = role === 'team-admin' 
+  ? data 
+  : data.filter((team) => 
+      team?.members && team.members.some((member) => member.email === user?.email)
+    ); 
+
   // Handle team deletion
   const handleDelete = async (id) => {
     try {
@@ -66,7 +73,7 @@ const MyTeam = () => {
     }
   };
 
-  if (isLoading) return <Loader/>;
+  if (isLoading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
 
   // Only show edit/delete buttons if user role is "team-admin"
@@ -75,7 +82,7 @@ const MyTeam = () => {
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">My Teams</h2>
-      {data.length > 0 ? (
+      {userTeams.length > 0 ? (
         <table className="table-auto w-full border-collapse border border-gray-200">
           <thead>
             <tr>
@@ -86,14 +93,18 @@ const MyTeam = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((team) => (
+            {userTeams.map((team) => (
               <tr key={team._id}>
-                <td className="border border-gray-300 px-4 py-2 text-center"><Link to={`/dashboard/team/${team?.teamName}`} className="underline text-blue-500">{team?.teamName}</Link></td>
+                <td className="border border-gray-300 px-4 py-2 text-center">
+                  <Link to={`/dashboard/team/${team?.teamName}`} className="underline text-blue-500">
+                    {team?.teamName}
+                  </Link>
+                </td>
                 <td className="border border-gray-300 px-4 py-2 text-center">{team.teamDescription}</td>
                 <td className="border border-gray-300 px-4 py-2 text-center">{team.uid}</td>
                 {isAdmin && (
                   <td className="border border-gray-300 px-4 py-2 flex gap-2 justify-center items-center">
-                    <button className="btn bg-green-500 text-white p-2 rounded-lg" /*onClick={() => handleEdit(team._id)}*/>
+                    <button className="btn bg-green-500 text-white p-2 rounded-lg">
                       Edit
                     </button>
                     <button className="btn bg-red-500 text-white p-2 rounded-lg" onClick={() => handleDelete(team._id)}>
@@ -107,10 +118,10 @@ const MyTeam = () => {
         </table>
       ) : (
         <div className="flex justify-center items-center min-h-screen">
-        <div className="text-4xl font-bold text-center ms-5 text-red-600">
-          No Team Found {user?.displayName}!
+          <div className="text-4xl font-bold text-center ms-5 text-red-600">
+            No Team Found for {user?.displayName}!
+          </div>
         </div>
-      </div>
       )}
     </div>
   );
