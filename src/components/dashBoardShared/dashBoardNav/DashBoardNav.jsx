@@ -8,13 +8,12 @@ import { MdRoomPreferences } from "react-icons/md";
 import { RiSecurePaymentLine } from "react-icons/ri";
 
 import { useSelector } from "react-redux";
-import Loader from "@/utlities/Loader";
 
 const DashBoardNav = () => {
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  if (loading) return <Loader/>;
+  if (loading) return <p>Loading........</p>;
   return (
     <>
       {" "}
