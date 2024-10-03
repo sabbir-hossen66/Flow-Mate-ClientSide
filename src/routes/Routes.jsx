@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
       },
 
 
-      },
+  
       {
 
         loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`)
@@ -74,7 +74,7 @@ export const router = createBrowserRouter([
         path: "tasks/taskDetails",
         element: <TaskDetails />,
       },
-      },
+
       {
         path:'taskCard/:id',
         element:<TaskCard/>,
