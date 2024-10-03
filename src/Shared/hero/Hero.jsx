@@ -12,9 +12,10 @@ const Hero = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
-  console.log(user, loading);
-const isAdmin=UseAdmin();
-console.log(isAdmin);
+ console.log(user);
+ 
+// const isAdmin=UseAdmin();
+// console.log(isAdmin);
 
   const [toggleOpen, setToggleOpen] = useState(false);
 
