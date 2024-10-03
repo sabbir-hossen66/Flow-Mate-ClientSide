@@ -39,13 +39,14 @@ export function AddTeamMember({ refetch, reset, team }) {
     const email = form.email.value;
     const role = form.role.value;
     const photo = form.photo.value;
-
+    const status = 'pending'
     const newMember = {
       teamId: _id,
       displayName: name,
       email: email,
       role: role,
       photo: photo,
+      status: status,
       date: new Date(),
     };
 
