@@ -35,7 +35,7 @@ console.log(teamMember)
   
 
   return (
-    <div>
+    <div className="w-full">
       <section className="container p-10 mx-auto">
         <div className="flex flex-col lg:flex-row justify-between gap-x-3">
           <div className="flex items-center">
