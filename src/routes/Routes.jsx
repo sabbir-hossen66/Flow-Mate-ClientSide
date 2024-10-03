@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // here set dashboard
+  // Dashboard routes
   {
     path: "dashboard",
     element: <DashBoard />,
@@ -48,13 +48,8 @@ export const router = createBrowserRouter([
       {
         path: "team/:teamName",
         element: <Team />,
-
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
       },
-
-
-        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`)
-      },      
-
       {
         path: "tasks",
         element: <Tasks />,
@@ -64,26 +59,17 @@ export const router = createBrowserRouter([
         element: <TaskDetails />,
       },
       {
-
         path: "payment_history",
         element: <PaymentHistory />,
       },
-
-        path:'tasks/taskDetails',
-        element:<TaskDetails/>
-      },{
-        path:'payment_history',
-        element:<PaymentHistory/>
-      }
-      ,{
-        path:'create-team',
-        element:<TeamCreate/>
-      }
-      ,{
-        path:'my-team',
-        element:<MyTeam/>
-      }
-
+      {
+        path: "create-team",
+        element: <TeamCreate />,
+      },
+      {
+        path: "my-team",
+        element: <MyTeam />,
+      },
     ],
   },
   {
