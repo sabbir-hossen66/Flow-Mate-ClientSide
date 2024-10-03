@@ -23,7 +23,7 @@ const Login = () => {
       .unwrap()
       .then((userCredential) => {
         const user = userCredential;
-        const user = userCredential; 
+      
  
         const userInfo = {
           name: user.displayName,
@@ -95,23 +95,9 @@ const Login = () => {
             }
           });
   
-   
+        }
        
   
-       
-        navigate('/');
-      })
-      .catch((err) => {
-  
-        const errorMessage = err.message || 'Google Sign-In failed!';
-
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: errorMessage,
-        });
-      });
-  };
 
   const onSubmit = async (data) => {
     try {
