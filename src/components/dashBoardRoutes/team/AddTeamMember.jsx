@@ -41,6 +41,7 @@ export function AddTeamMember({ refetch, reset, team }) {
     const photo = form.photo.value;
     const status = 'pending'
     const newMember = {
+      _id: Math.random().toString(36).substr(2, 9),
       teamId: _id,
       displayName: name,
       email: email,

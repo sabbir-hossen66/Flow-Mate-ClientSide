@@ -5,8 +5,10 @@ import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Loader from "@/utlities/Loader";
 import { useLoaderData } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 const Team = () => {
+  const [role, setRole] = useState(null);
   const axiosCommon = UseAxiosCommon();
   const team = useLoaderData();
   const user = useSelector((state) => state.auth.user);
@@ -30,7 +32,19 @@ const Team = () => {
       return [];
     },
   });
-
+// Fetch the user role
+useEffect(() => {
+  fetch(`${import.meta.env.VITE_API_URL}/create-team/role/team-admin?email=${email}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data && data[0]) {
+        setRole(data[0].role); 
+      }
+    });
+}, [email]);
+const handleRemoveMember = id => {
+    console.log(id)
+}
   if (isLoading) {
     return <Loader />;
   }
@@ -38,7 +52,8 @@ const Team = () => {
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
-
+  
+  const isAdmin = role === 'team-admin';
   return (
     <div className="w-full">
       <section className="container p-10 mx-auto">
@@ -87,12 +102,13 @@ const Team = () => {
                           <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             Active
                           </th>
+                        {
+                          isAdmin &&
                           <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Actions
-                          </th>
-                          <th className="relative py-3.5 px-4">
-                            <span className="sr-only">Edit</span>
-                          </th>
+                          Actions
+                        </th>
+                        }
+                          
                         </tr>
                       </thead>
                       <tbody className=" divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
@@ -157,13 +173,13 @@ const Team = () => {
                                 </h2>
                               </div>
                             </td>
-                            <td className="px-4 py-4 text-sm whitespace-nowrap">
+                            {
+                              isAdmin &&
+                              <td className="px-4 py-4 text-sm whitespace-nowrap">
                               <div className="flex items-center gap-x-6">
-                                <button className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
-                                  Edit
-                                </button>
-                                <button className="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none">
-                                  Delete
+                                
+                                <button onClick={() => handleRemoveMember(member?._id)} className="text-white p-2 rounded-md btn bg-red-500 hover:bg-red-600 duration-75">
+                                  Remove
                                 </button>
                                 <select
                                   className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
@@ -174,6 +190,7 @@ const Team = () => {
                                 </select>
                               </div>
                             </td>
+                            }
                           </tr>
                         ))}
                       </tbody>
