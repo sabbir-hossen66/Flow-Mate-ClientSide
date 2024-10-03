@@ -16,13 +16,15 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+ 
   const handleGoogleSignIn = () => {
+  
     dispatch(signInWithGoogle())
       .unwrap()
       .then((userCredential) => {
         const user = userCredential;
-        console.log();
-
+        const user = userCredential; 
+ 
         const userInfo = {
           name: user.displayName,
           email: user.email,
@@ -31,24 +33,33 @@ const Login = () => {
           status: "active",
         };
 
-        // Save user information to the database
+
+    
         axiosCommon
-          .post("/users", userInfo)
+          .post('/users/create', userInfo)
 
           .then((res) => {
-            console.log(res.data);
-            if (res.data.insertedId) {
+            console.log('Response from saving user:', res);
+  
+            if (res.data) {
               Swal.fire({
-                icon: "success",
-                title: "Congratulations",
-                text: "Your account has been created successfully!",
+                icon: 'success',
+                title: 'Congratulations',
+                text: `Welcome  ${user.displayName}! You have successfully Logged in!`,
               });
-              // Navigate to home or another route after successful sign-in and user save
-              navigate(location?.state ? location.state : "/");
+             
+              navigate(location?.state?.from || '/');
+            } else {
+             
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to create user account. Please try again!',
+              });
             }
           })
           .catch((error) => {
-            console.error("Error saving user information:", error);
+
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -65,13 +76,38 @@ const Login = () => {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
 
         const errorMessage = err.message || "Google Sign-In failed!";
-        console.error("Error signing in with Google:", errorMessage);
+          
+            if (error.response  && error.response.data.message === 'User already exists') {
+              Swal.fire({
+                icon: 'success',
+                title: 'Welcome back!',
+                text: `You Were already registered ${user.displayName}!`,
+              });
+              navigate('/'); 
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to save user information!',
+              });
+            }
+          });
+  
+   
+       
+  
+       
+        navigate('/');
+      })
+      .catch((err) => {
+  
+        const errorMessage = err.message || 'Google Sign-In failed!';
+
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
+          icon: 'error',
+          title: 'Oops...',
           text: errorMessage,
         });
       });

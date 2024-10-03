@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,77 +21,71 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-
 import "react-datepicker/dist/react-datepicker.css";
-// import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import { toast } from "sonner";
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import { useMutation } from "@tanstack/react-query";
 
 export function CreateTask() {
-  // const axiosCommon = UseAxiosCommon(); // Use axios instance
-
   // State to manage form inputs
   const [startDate, setStartDate] = useState(new Date());
   const [taskTitle, setTaskTitle] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
   const [stage, setStage] = useState("");
   const [priority, setPriority] = useState("");
-  // const [picture, setPicture] = useState(null);
+  const [loading,setLoading] = useState(false)
+  const axiosCommon = UseAxiosCommon()
+
+  // data post
+  const { mutateAsync } = useMutation({
+    mutationFn: async taskData => {
+      const { data } = await axiosCommon.post(`/createTask`, taskData);
+      return data;
+    },
+    onSuccess: () => {
+      console.log('Data Saved Successfully');
+      toast.success('Products Added Successfully!');
+      setLoading(false);
+    },
+  });
 
   // Function to handle form submission
-// Function to handle form submission
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  // Log the form values before submitting
-  console.log("Form Values:");
-  console.log("Task Title:", taskTitle);
-  console.log("Assigned To:", assignedTo);
-  console.log("Stage:", stage);
-  console.log("Priority:", priority);
-  console.log("Start Date:", startDate);
-  // if (picture) {
-  //   console.log("Picture:", picture); // Log the picture if one is selected
-  // }
-
-  // Create a formData object if uploading a file
-  const formData = new FormData();
-  formData.append("taskTitle", taskTitle);
-  formData.append("assignedTo", assignedTo);
-  formData.append("stage", stage);
-  formData.append("priority", priority);
-  formData.append("date", startDate);
-  // if (picture) {
-  //   formData.append("picture", picture);
-  // }
-
-  try {
-    // Log before making the API call
-    console.log("Sending formData to /api/task/create");
-
-    // Send the POST request using fetch
-    const response = await fetch("http://localhost:5000/api/task/create", {
-      method: "POST",
-      body: formData,
-      headers: {
-       },
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    // Log the form values before submitting to verify the data
+    console.log("Form Values:", {
+      taskTitle,
+      assignedTo,
+      stage,
+      priority,
+      startDate,
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    // Prepare the data as a JSON object
+    const taskData = {
+      taskTitle,
+      assignedTo,
+      stage,
+      priority,
+      startDate: startDate.toISOString(), // Convert date to a string in ISO format
+    };
+
+    try {
+      console.log("Sending taskData to /createTask");
+      const response = await mutateAsync(taskData);
+      console.log(response)
+      // Show a success toast notification
+      toast.success("Task created successfully");
+
+      // Optionally reset form fields after successful submission
+    } catch (error) {
+      console.error("Error creating task:", error);
+
+      // Show an error toast notification
+      toast.error("Failed to create task");
     }
-
-    const data = await response.json();
-
-    // Log the response from the server
-    console.log("Task created successfully:", data);
-
-    // Handle success (e.g., show a toast, reset the form, etc.)
-  } catch (error) {
-    // Log any error during the API call
-    console.error("Error creating task:", error);
-  }
-};
-
+  };
 
   return (
     <Dialog>
@@ -181,14 +174,14 @@ const handleSubmit = async (e) => {
                 </Select>
               </div>
 
-              {/* <div className="grid text-start gap-2 w-full">
-                <Label htmlFor="picture">Picture</Label>
+              <div className="grid text-start gap-2 w-full">
+                {/* <Label htmlFor="picture">Picture</Label>
                 <Input
                   id="picture"
-                  type="file"
-                  onChange={(e) => setPicture(e.target.files[0])}
-                />
-              </div> */}
+                
+                
+                /> */}
+              </div>
             </div>
           </div>
           <DialogFooter>
