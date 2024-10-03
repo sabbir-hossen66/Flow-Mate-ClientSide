@@ -58,7 +58,7 @@ const TaskCard = () => {
   } = useQuery({
     queryKey: ["createTask", searchQuery, sortOption], // Include search and sort in the query key
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/createTask?search=${searchQuery}&sort=${sortOption}`);
+      const res = await fetch(`https://flowmate-serverside.vercel.app/createTask?search=${searchQuery}&sort=${sortOption}`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }

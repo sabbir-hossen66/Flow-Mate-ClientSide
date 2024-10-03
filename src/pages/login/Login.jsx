@@ -92,6 +92,7 @@ const Login = () => {
   };
 
   const onSubmit = async (data) => {
+  
     try {
       const response = await axiosCommon.post("/users/login", data);
       if (response.status === 200) {
@@ -100,7 +101,7 @@ const Login = () => {
           title: "Welcome!",
           text: "Signed in successfully with email!",
         });
-        navigate("/dashboard"); // Change to your desired path
+        navigate("/"); 
       } else {
         Swal.fire({
           icon: "error",

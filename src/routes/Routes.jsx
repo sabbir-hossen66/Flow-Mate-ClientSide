@@ -73,12 +73,12 @@ export const router = createBrowserRouter([
       {
         path:'taskCard/:id',
         element:<TaskCard/>,
-        loader:({params})=> fetch (`http://localhost:5000/createTask/${params.id}`)
+        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
       },
       {
         path:'updateTask/:id',
         element:<UpdateTask/>,
-        loader:({params})=> fetch (`http://localhost:5000/createTask/${params.id}`)
+        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
         }
         ,
       {

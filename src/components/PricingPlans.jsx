@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 
 const PricingPlanCard = ({ name, price, features, paymentType }) => {
   const handlePayment = () => {
-    fetch("http://localhost:5000/create-checkout-session", {
+    fetch("https://flowmate-serverside.vercel.app/create-checkout-session", {
       method: "POST",
     })
       .then((res) => res.json())

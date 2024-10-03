@@ -80,6 +80,8 @@ const SignUp = () => {
             axiosCommon
               .post("/users/create", userInfo)
               .then((res) => {
+                console.log('Response from saving user:', res);
+                
                 if (res.data.insertedId) {
                   Swal.fire({
                     icon: "success",
