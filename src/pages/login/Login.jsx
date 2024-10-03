@@ -92,16 +92,20 @@ const Login = () => {
   };
 
   const onSubmit = async (data) => {
-  
     try {
+      // First, dispatch the Redux action for email login
+      const userCredential = await dispatch(signInWithEmail(data)).unwrap();
+  
+      // Then, make the axios request if needed
       const response = await axiosCommon.post("/users/login", data);
+  
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "Welcome!",
           text: "Signed in successfully with email!",
         });
-        navigate("/"); 
+        navigate("/"); // Navigate after successful login
       } else {
         Swal.fire({
           icon: "error",
@@ -118,6 +122,7 @@ const Login = () => {
       console.error("Login error:", error);
     }
   };
+  
 
   return (
     <div>
