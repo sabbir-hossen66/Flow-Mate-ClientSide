@@ -57,6 +57,9 @@ export function AddTeamMember({ refetch, reset, team }) {
         Swal.fire({
           icon: "success",
           title: "Team Member Added",
+          icon: "error",
+          title: "Failed to Add Team Member",
+          text: err.response.data.message,
           showConfirmButton: false,
           timer: 1500,
         });
