@@ -183,13 +183,16 @@ const Team = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-between mt-6">
+            {
+              teamMember.length === 10 &&
+              <div className="flex items-center justify-between mt-6">
               <CommonButton text="Previous" />
               <div className="items-center hidden lg:flex gap-x-3">
                 {/* Pagination buttons */}
               </div>
               <CommonButton text="Next" />
             </div>
+            }
           </>
         )}
       </section>

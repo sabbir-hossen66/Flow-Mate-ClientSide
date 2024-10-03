@@ -79,8 +79,6 @@ const MyTeam = () => {
         <table className="table-auto w-full border-collapse border border-gray-200">
           <thead>
             <tr>
-              <th className="border border-gray-300 px-4 py-2">Display Name</th>
-              <th className="border border-gray-300 px-4 py-2">Email</th>
               <th className="border border-gray-300 px-4 py-2">Team Name</th>
               <th className="border border-gray-300 px-4 py-2">Description</th>
               <th className="border border-gray-300 px-4 py-2">UID</th>
@@ -90,13 +88,11 @@ const MyTeam = () => {
           <tbody>
             {data.map((team) => (
               <tr key={team._id}>
-                <td className="border border-gray-300 px-4 py-2">{team.displayName}</td>
-                <td className="border border-gray-300 px-4 py-2">{team.email}</td>
-                <td className="border border-gray-300 px-4 py-2"><Link to={`/dashboard/team/${team?.teamName}`} className="underline text-blue-500">{team?.teamName}</Link></td>
-                <td className="border border-gray-300 px-4 py-2">{team.teamDescription}</td>
-                <td className="border border-gray-300 px-4 py-2">{team.uid}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center"><Link to={`/dashboard/team/${team?.teamName}`} className="underline text-blue-500">{team?.teamName}</Link></td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{team.teamDescription}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{team.uid}</td>
                 {isAdmin && (
-                  <td className="border border-gray-300 px-4 py-2 flex gap-2">
+                  <td className="border border-gray-300 px-4 py-2 flex gap-2 justify-center items-center">
                     <button className="btn bg-green-500 text-white p-2 rounded-lg" /*onClick={() => handleEdit(team._id)}*/>
                       Edit
                     </button>
@@ -110,7 +106,11 @@ const MyTeam = () => {
           </tbody>
         </table>
       ) : (
-        <p>No teams found for {user?.email}</p>
+        <div className="flex justify-center items-center min-h-screen">
+        <div className="text-4xl font-bold text-center ms-5 text-red-600">
+          No Team Found {user?.displayName}!
+        </div>
+      </div>
       )}
     </div>
   );
