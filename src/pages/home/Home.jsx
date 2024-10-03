@@ -8,11 +8,15 @@ import Contact from "@/components/contact/Contact";
 import OurTeams from "@/components/ourTeams/OurTeams";
 
 import MarketingComponent from "@/components/marketing/MarketingComponent";
+import ModalPage from "@/components/modalPage/ModalPage";
 
 const Home = () => {
   return (
     <div>
       <Banner />
+
+      <ModalPage />
+
       <MarketingComponent />
       <Features />
       <OurTeams />
