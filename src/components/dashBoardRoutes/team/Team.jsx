@@ -6,6 +6,7 @@ import Loader from "@/utlities/Loader";
 import { useLoaderData } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const Team = () => {
   const [role, setRole] = useState(null);
@@ -42,9 +43,25 @@ useEffect(() => {
       }
     });
 }, [email]);
-const handleRemoveMember = id => {
-    
-}
+const handleRemoveMember = async (id) => {
+  try {
+    const teamId = team._id; 
+    const res = await axiosCommon.delete(`/members/${teamId}/${id}`);
+    if (res.status === 200) {
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Remove Successfully",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      refetch(); 
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
   if (isLoading) {
     return <Loader />;
   }
