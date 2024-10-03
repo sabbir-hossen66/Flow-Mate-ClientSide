@@ -64,17 +64,19 @@ console.log(teamMember)
                           <span>Name</span>
                         </div>
                       </th>
-                      <th className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        Title
-                      </th>
+                     
                       <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         Role
                       </th>
                       <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         Email address
                       </th>
+                      
                       <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         Active
+                      </th>
+                      <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        Actions
                       </th>
                       <th className="relative py-3.5 px-4">
                         <span className="sr-only">Edit</span>
@@ -98,23 +100,21 @@ console.log(teamMember)
                               />
                               <div>
                                 <h2 className="font-medium text-gray-800 dark:text-white">
-                                  {member.name}
+                                  {member?.displayName}
                                 </h2>
-                                <p className="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                {/* <p className="text-sm font-normal text-gray-600 dark:text-gray-400">
                                   @{member.username}
-                                </p>
+                                </p> */}
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                          {member.title}
+                      
+                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                          {member?.role}
                         </td>
                         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {member.role}
-                        </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {member.email}
+                          {member?.email}
                         </td>
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                           <div className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${member.isActive ? 'bg-emerald-100/60 dark:bg-gray-800' : 'bg-red-100/60 dark:bg-gray-800'}`}>
