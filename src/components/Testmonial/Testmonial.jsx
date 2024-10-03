@@ -32,7 +32,7 @@ const Testmonial = () => {
 
           <section className="grid grid-cols-1 gap-8 mt-8 xl:mt-12 md:grid-cols-2 lg:grid-cols-3">
             {feedbacks
-              .slice(Math.max(feedbacks.length - 9, 0))
+              .slice(Math.max(feedbacks.length - 6, 0))
               .map((feedback) => (
                 <div
                   key={feedback._id}
@@ -50,9 +50,7 @@ const Testmonial = () => {
                       <h1 className="font-semibold">{feedback.name}</h1>
                       <div className="flex">
                         {Array.from({ length: feedback.rating }).map((_, i) => (
-                          <Star key={i} className="text-yellow-500 ">
-                            {" "}
-                          </Star>
+                          <Star key={i} className="text-yellow-500"></Star>
                         ))}
                       </div>
                     </div>
