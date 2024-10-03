@@ -11,12 +11,14 @@ import DashBoardHome from "@/components/dashBoardRoutes/dashBoardHome/DashBoardH
 import Team from "@/components/dashBoardRoutes/team/Team";
 import Tasks from "@/components/dashBoardRoutes/tasks/Tasks";
 import TaskDetails from "@/components/dashBoardRoutes/tasks/TaskDetails";
+
 import PaymentHistory from "@/components/dashBoardRoutes/PaymentHistory/PaymentHistory";
 
 import MyTeam from "@/components/dashBoardRoutes/myTeam/MyTeam";
 import TeamCreate from "@/components/dashBoardRoutes/teamCreate/TeamCreate";
 import TaskCard from "@/components/dashBoardRoutes/tasks/TaskCard";
 import UpdateTask from "@/components/dashBoardRoutes/tasks/UpdateTask";
+
 
 
 export const router = createBrowserRouter([
@@ -29,6 +31,7 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+
       {
         path: "/about",
         element: (
@@ -54,6 +57,9 @@ export const router = createBrowserRouter([
         element: <Team />,
 
       },
+
+
+      },
       {
 
         loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`)
@@ -62,6 +68,12 @@ export const router = createBrowserRouter([
       {
         path: "tasks",
         element: <Tasks />,
+
+      },
+      {
+        path: "tasks/taskDetails",
+        element: <TaskDetails />,
+      },
       },
       {
         path:'taskCard/:id',
