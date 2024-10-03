@@ -14,8 +14,8 @@ const Home = () => {
   return (
     <div>
       <Banner />
-
-      <ModalPage />
+{/* 
+      <ModalPage /> */}
 
       <MarketingComponent />
       <Features />
