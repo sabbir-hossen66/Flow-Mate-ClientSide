@@ -1,25 +1,53 @@
-
 import CommonButton from "@/components/commonButton/CommonButton";
 import { AddTeamMember } from "./AddTeamMember";
-
+import { useQuery } from "@tanstack/react-query";
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import Loader from "@/utlities/Loader";
+import { useLoaderData } from "react-router-dom";
 
 const Team = () => {
+  const axiosCommon = UseAxiosCommon();
+  const team = useLoaderData()
+ 
+  const {
+    data: teamMember = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+    reset
+  } = useQuery({
+    queryKey: ["teamMember"],
+    queryFn: async () => {
+      const { data } = await axiosCommon.get("/teams");
+      return data;
+    },
+  });
+console.log(teamMember)
+  if (isLoading) {
+    return <Loader/>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  
+
   return (
     <div>
       <section className="container p-10 mx-auto">
-        <div className="flex flex-col lg:flex-row  justify-between gap-x-3">
+        <div className="flex flex-col lg:flex-row justify-between gap-x-3">
           <div className="flex items-center">
-            {" "}
             <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-              Team members
+          Team {team?.teamName} members
             </h2>
             <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-              100 users
+              {teamMember.length} users
             </span>
           </div>
           <div className="py-5 lg:py-0">
-            
-          <AddTeamMember /> 
+            <AddTeamMember refetch={refetch} reset={reset} team={team}/>
           </div>
         </div>
 
@@ -30,118 +58,84 @@ const Team = () => {
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                   <thead className="bg-gray-50 dark:bg-gray-800">
                     <tr>
-                      <th
-                        scope="col"
-                        className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                      >
+                      <th className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <div className="flex items-center gap-x-3">
-                          <input
-                            type="checkbox"
-                            className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"
-                          />
+                      
                           <span>Name</span>
                         </div>
                       </th>
-
-                      <th
-                        scope="col"
-                        className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                      >
-                        <button className="flex items-center gap-x-2">
-                          <span>Title</span>
-                        </button>
+                      <th className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        Title
                       </th>
-
-                      <th
-                        scope="col"
-                        className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                      >
-                        <button className="flex items-center gap-x-2">
-                          <span>Role</span>
-                        </button>
+                      <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        Role
                       </th>
-
-                      <th
-                        scope="col"
-                        className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                      >
+                      <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         Email address
                       </th>
-
-                      <th
-                        scope="col"
-                        className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                      >
+                      <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         Active
                       </th>
-
-                      <th scope="col" className="relative py-3.5 px-4">
+                      <th className="relative py-3.5 px-4">
                         <span className="sr-only">Edit</span>
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    <tr>
-                      <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <div className="inline-flex items-center gap-x-3">
-                          <input
-                            type="checkbox"
-                            className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"
-                          />
-
-                          <div className="flex items-center gap-x-2">
-                            <img
-                              className="object-cover w-10 h-10 rounded-full"
-                              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                              alt=""
+                    {teamMember.map((member) => (
+                      <tr key={member.id}>
+                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                          <div className="inline-flex items-center gap-x-3">
+                            <input
+                              type="checkbox"
+                              className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"
                             />
-                            <div>
-                              <h2 className="font-medium text-gray-800 dark:text-white ">
-                                Arthur Melo
-                              </h2>
-                              <p className="text-sm font-normal text-gray-600 dark:text-gray-400">
-                                @authurmelo
-                              </p>
+                            <div className="flex items-center gap-x-2">
+                              <img
+                                className="object-cover w-10 h-10 rounded-full"
+                                src={member.imageUrl || "https://via.placeholder.com/150"}
+                                alt={member.name}
+                              />
+                              <div>
+                                <h2 className="font-medium text-gray-800 dark:text-white">
+                                  {member.name}
+                                </h2>
+                                <p className="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                  @{member.username}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-
-                          <h2 className="text-sm font-normal text-emerald-500">
-                            Active
-                          </h2>
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        Design Director
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        authurmelo@example.com
-                      </td>
-                      <td className="px-4 py-4 text-sm whitespace-nowrap">
-                        <div className="flex items-center gap-x-2">
-                          <p className="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">
-                            Design
-                          </p>
-                          <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100/60">
-                            Edit
-                          </p>
-                          <p className="px-3 py-1 text-xs text-pink-500 rounded-full dark:bg-gray-800 bg-pink-100/60">
-                            Delete
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 text-sm whitespace-nowrap">
-                        <div className="flex items-center gap-x-6">
-                          <button className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none"></button>
-
-                          <button className="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"></button>
-                        </div>
-                      </td>
-                    </tr>
+                        </td>
+                        <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                          {member.title}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                          {member.role}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                          {member.email}
+                        </td>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <div className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${member.isActive ? 'bg-emerald-100/60 dark:bg-gray-800' : 'bg-red-100/60 dark:bg-gray-800'}`}>
+                            <span className={`h-1.5 w-1.5 rounded-full ${member.isActive ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
+                            <h2 className={`text-sm font-normal ${member.isActive ? 'text-emerald-500' : 'text-red-500'}`}>
+                              {member.isActive ? 'Active' : 'Inactive'}
+                            </h2>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <div className="flex items-center gap-x-6">
+                            <button className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
+                              Edit
+                            </button>
+                            <button className="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none">
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -150,56 +144,11 @@ const Team = () => {
         </div>
 
         <div className="flex items-center justify-between mt-6">
-          
-          <CommonButton text='Previous'/>
-
+          <CommonButton text="Previous" />
           <div className="items-center hidden lg:flex gap-x-3">
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60"
-            >
-              1
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              2
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              3
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              ...
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              12
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              13
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              14
-            </a>
+            {/* Pagination buttons */}
           </div>
-
-              <CommonButton text='Next'/>
-         
+          <CommonButton text="Next" />
         </div>
       </section>
     </div>

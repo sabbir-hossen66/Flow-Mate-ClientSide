@@ -2,25 +2,25 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { FaHome } from "react-icons/fa";
-
+import { BsMicrosoftTeams } from "react-icons/bs";
 import { MdRoomPreferences } from "react-icons/md";
 
 import { RiSecurePaymentLine } from "react-icons/ri";
 
 import { useSelector } from "react-redux";
+import { Feedback } from "@/components/feedback/Feedback";
 
 const DashBoardNav = () => {
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
-  console.log(user, loading);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  if (loading) return <p>Loading........</p>;
   return (
     <>
       {" "}
       {/* Sidebar */}
       <div
-        className={`bg-[#01204ed8] text-white w-[250px] lg:w-1/5 fixed lg:static inset-y-0 left-0 transform lg:transform-none transition-transform duration-300 ease-in-out ${
+        className={`  bg-[#01204ed8] text-white w-[250px] lg:w-1/5 fixed lg:static inset-y-0 left-0 transform lg:transform-none transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } p-4 shadow-lg z-50`}
       >
@@ -111,8 +111,22 @@ const DashBoardNav = () => {
               <RiSecurePaymentLine />
               Create tasks
             </NavLink>
+
             <NavLink
-              to="/dashboard/team"
+              to="/dashboard/my-team"
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? "pending"
+                  : isActive
+                  ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                  : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+              }
+            >
+              <BsMicrosoftTeams />
+              My Team
+            </NavLink>
+            <NavLink
+              to="/dashboard/create-team"
               className={({ isActive, isPending }) =>
                 isPending
                   ? "pending"
@@ -122,7 +136,7 @@ const DashBoardNav = () => {
               }
             >
               <RiSecurePaymentLine />
-              Teams Create
+              Team Create
             </NavLink>
 
             <NavLink
@@ -155,6 +169,9 @@ const DashBoardNav = () => {
               Home
             </NavLink>
           </nav>
+        </div>
+        <div className=" ">
+          <Feedback className="" />
         </div>
       </div>
       {/* Mobile Menu Button */}

@@ -11,11 +11,13 @@ import {
 const queryClient = new QueryClient();
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { Toaster } from "sonner";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <RouterProvider router={router} />
+        <Toaster/>
       </Provider>
     </QueryClientProvider>
   </StrictMode>

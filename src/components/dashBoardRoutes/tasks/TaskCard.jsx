@@ -1,152 +1,175 @@
-import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { VscFolderActive } from "react-icons/vsc";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
+
+import { RiDeleteBin6Line } from "react-icons/ri";
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
 
 // TaskCard Component
 const TaskCard = () => {
-  // Fake data for tasks
-  const fakeTasks = [
-    {
-      priority: "LOW PRIORITY",
-      taskTitle: "Design Landing Page",
-      taskDate: "01-Apr-2024",
-      commentsCount: 25,
-      attachmentsCount: 2,
-      subtaskCompleted: 1,
-      subtaskTotal: 5,
-      members: ["AB", "CD", "EF"],
-      description: "Work on the design for the new landing page.",
-      label: "Design",
+  const axiosCommon = UseAxiosCommon();
+  const [stage, setStage] = useState(""); // Track the stage change
+  const {
+    isLoading,
+    error,
+    data: createTask,
+    refetch,
+  } = useQuery({
+    queryKey: ["createTask"],
+    queryFn: async () => {
+      const res = await fetch("http://localhost:5000/createTask");
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
     },
-    {
-      priority: "HIGH PRIORITY",
-      taskTitle: "Fix Login Issues",
-      taskDate: "05-Apr-2024",
-      commentsCount: 10,
-      attachmentsCount: 3,
-      subtaskCompleted: 2,
-      subtaskTotal: 4,
-      members: ["GH", "IJ"],
-      description: "Users are unable to log in due to a server error.",
-      label: "Bug",
-    },
-    {
-      priority: "MEDIUM PRIORITY",
-      taskTitle: "Create Marketing Plan",
-      taskDate: "10-Apr-2024",
-      commentsCount: 18,
-      attachmentsCount: 5,
-      subtaskCompleted: 0,
-      subtaskTotal: 3,
-      members: ["KL", "MN", "OP"],
-      description: "Draft the marketing plan for the new product launch.",
-      label: "Marketing",
-    },
-    {
-      priority: "LOW PRIORITY",
-      taskTitle: "Update Documentation",
-      taskDate: "15-Apr-2024",
-      commentsCount: 5,
-      attachmentsCount: 1,
-      subtaskCompleted: 3,
-      subtaskTotal: 3,
-      members: ["QR", "ST"],
-      description: "Update the internal project documentation.",
-      label: "Docs",
-    },
-    {
-      priority: "HIGH PRIORITY",
-      taskTitle: "Client Meeting Preparation",
-      taskDate: "20-Apr-2024",
-      commentsCount: 22,
-      attachmentsCount: 2,
-      subtaskCompleted: 0,
-      subtaskTotal: 1,
-      members: ["UV", "WX", "YZ"],
-      description: "Prepare slides and agenda for the client meeting.",
-      label: "Meeting",
-    },
-    {
-      priority: "MEDIUM PRIORITY",
-      taskTitle: "Implement New Features",
-      taskDate: "25-Apr-2024",
-      commentsCount: 30,
-      attachmentsCount: 6,
-      subtaskCompleted: 2,
-      subtaskTotal: 6,
-      members: ["AB", "CD"],
-      description: "Develop the new features requested by the client.",
-      label: "Development",
-    },
-  ];
+  });
+
+  const handleStageChange = async (task, newStage) => {
+    try {
+      const res = await axiosCommon.put(`/createTask/${task._id}`, {
+        stage: newStage, // Send the updated stage to the server
+      });
+      if (res.status === 200) {
+        refetch(); // Refetch the tasks after the stage is updated
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Stage updated successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Failed to update stage!",
+      });
+    }
+  };
+
+  const handleDelete = (task) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosCommon.delete(`/createTask/${task._id}`);
+        if (res.data.deletedCount > 0) {
+          refetch();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Delete task success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    });
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error loading tasks</div>;
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-1 items-center bg-gray-100 gap-6 p-4">
-      {/* Iterate over each task in the fakeTasks array */}
-   
-     {fakeTasks.map((task, index) => (
-         
+      {/* Iterate over each task */}
+      {createTask?.map((task, index) => (
         <div key={index} className="bg-white w-80 p-4 rounded-lg shadow-lg my-2">
           {/* Priority */}
-          <Link to='taskDetails'>
-          <div className="text-blue-500 text-xs font-semibold mb-2">
-            {task.priority}
+          <div className="text-blue-500 text-xs font-semibold mb-2 uppercase">
+            {task?.priority}
           </div>
 
           {/* Task Title */}
-          <div className="text-xl font-semibold mb-1">{task.taskTitle}</div>
+          <div className="text-xl font-semibold mb-5">
+            {task?.taskTitle.slice(0, 50)}..
+          </div>
 
           {/* Task Date */}
-          <div className="text-gray-500 text-sm mb-3">{task.taskDate}</div>
+          <div className="text-gray-500 text-sm mb-3">
+            {" "}
+            Started Date: {new Date(task?.startDate).toLocaleDateString()}
+          </div>
+
+          <div className="flex mb-3 items-center">
+            <span className="text-gray-500 text-sm mr-2">Assigned to:</span>
+            <h1 className="text-sm bg-blue-100 text-blue-400 font-bold flex items-center justify-center rounded-full px-4 py-1 border-2 border-white">
+              {task?.assignedTo}
+            </h1>
+          </div>
 
           {/* Task Details */}
           <div className="flex items-center justify-between mb-3">
-            {/* Comments */}
             <div className="flex items-center text-gray-600 text-sm">
-              <span className="mr-1">💬</span>
-              {task.commentsCount}
-            </div>
-
-            {/* Attachments */}
-            <div className="flex items-center text-gray-600 text-sm">
-              <span className="mr-1">📎</span>
-              {task.attachmentsCount}
-            </div>
-
-            {/* Subtask Progress */}
-            <div className="text-gray-600 text-sm">
-              {task.subtaskCompleted}/{task.subtaskTotal}
-            </div>
-          </div>
-
-          {/* Member Avatars */}
-          <div className="flex mb-3">
-            {task.members.map((member, index) => (
-              <div
-                key={index}
-                className="bg-gray-300 text-xs text-white font-bold w-8 h-8 flex items-center justify-center rounded-full -ml-2 border-2 border-white"
+              <span className="mr-1">
+                <VscFolderActive />
+              </span>
+              <span className="mr-5"> Activity: </span>
+              {/* Stage Selector */}
+              <Select
+                onValueChange={(newStage) => {
+                  setStage(newStage); // Update local state
+                  handleStageChange(task, newStage); // Send the stage update request
+                }}
               >
-                {member}
-              </div>
-            ))}
-          </div>
-
-       
-          {/* Task Label */}
-          <div className="flex items-center">
-            <div className="text-sm text-gray-500">{task.taskDate}</div>
-            <div className="ml-4 bg-blue-100 text-blue-500 text-xs px-3 py-1 rounded-full">
-              {task.label}
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a Stage" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Todo</SelectLabel>
+                    <SelectItem value="in progress">In Progress</SelectItem>
+                    <SelectItem value="done">Completed</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
-          {/* Add Subtask */}
-          <div className="text-gray-400 text-xs mt-3 cursor-pointer">
-            + ADD SUBTASK
+          {/* Delete and Edit Icons */}
+          <div className="flex justify-between gap-1">
+            <div className="text-gray-500 text-xs mt-3 cursor-pointer">
+              + ADD SUBTASK
+            </div>
+            <div className="flex gap-2">
+              <div className="p-2 border bg-blue-200 rounded-sm">
+                <span onClick={() => handleDelete(task)}>
+                  <RiDeleteBin6Line />
+                </span>
+              </div>
+              <div className="p-2 border bg-blue-200 rounded-sm">
+                <Link to={`/dashboard/updateTask/${task._id}`}>
+                  <FaEdit />
+                </Link>
+              </div>
+            </div>
           </div>
-        </Link>
         </div>
       ))}
-   
     </div>
   );
 };

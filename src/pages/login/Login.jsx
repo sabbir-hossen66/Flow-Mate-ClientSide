@@ -16,75 +16,121 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+ 
   const handleGoogleSignIn = () => {
+  
     dispatch(signInWithGoogle())
       .unwrap()
       .then((userCredential) => {
-        // Get the user from the userCredential
-        console.log(userCredential);
-        const user = userCredential; // Extract the user object from the credential
-
-        // Prepare user info to send to the backend
+        const user = userCredential;
+        const user = userCredential; 
+ 
         const userInfo = {
+          name: user.displayName,
           email: user.email,
-          password: user.uid,
+          role: "member",
+          photo: user.photoURL,
+          status: "active",
         };
 
-        // Send user info to the backend
-        axiosCommon
-          .post("/api/user/login", userInfo)
-          .then((res) => {
-            console.log(res);
 
+    
+        axiosCommon
+          .post('/users/create', userInfo)
+
+          .then((res) => {
+            console.log('Response from saving user:', res);
+  
             if (res.data) {
               Swal.fire({
-                icon: "success",
-                title: "Congratulations",
-                text: "Your account has been created successfully!",
+                icon: 'success',
+                title: 'Congratulations',
+                text: `Welcome  ${user.displayName}! You have successfully Logged in!`,
               });
-
-              navigate(location?.state ? location.state : "/");
+             
+              navigate(location?.state?.from || '/');
             } else {
+             
               Swal.fire({
-                icon: "success",
-                title: "Congratulations",
-                text: "You have logged in to your existing account",
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to create user account. Please try again!',
               });
-              navigate(location?.state ? location.state : "/");
             }
           })
-          .catch((err) => {
+          .catch((error) => {
+
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: err.message || "Failed to create user account!",
+              text: "Failed to save user information!",
             });
           });
+
+        // Show success message for sign-in
+        Swal.fire({
+          icon: "success",
+          title: "Login Success",
+          text: `Welcome back ${user.displayName}!`,
+        });
+        navigate("/");
       })
       .catch((err) => {
+
+        const errorMessage = err.message || "Google Sign-In failed!";
+          
+            if (error.response  && error.response.data.message === 'User already exists') {
+              Swal.fire({
+                icon: 'success',
+                title: 'Welcome back!',
+                text: `You Were already registered ${user.displayName}!`,
+              });
+              navigate('/'); 
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to save user information!',
+              });
+            }
+          });
+  
+   
+       
+  
+       
+        navigate('/');
+      })
+      .catch((err) => {
+  
+        const errorMessage = err.message || 'Google Sign-In failed!';
+
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: err.message || "Google Sign-In failed!",
+          icon: 'error',
+          title: 'Oops...',
+          text: errorMessage,
         });
       });
   };
 
   const onSubmit = async (data) => {
     try {
-      const resultAction = await dispatch(signInWithEmail(data));
-      if (signInWithEmail.fulfilled.match(resultAction)) {
+      const response = await axiosCommon.post(
+        "http://localhost:5000/api/user/login",
+        data
+      );
+      if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "Welcome!",
           text: "Signed in successfully with email!",
         });
-        navigate("/"); // Change to your desired path
+        navigate("/dashboard"); // Change to your desired path
       } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: resultAction.payload || "Sign-In failed!",
+          text: response.data.message || "Sign-In failed!",
         });
       }
     } catch (error) {

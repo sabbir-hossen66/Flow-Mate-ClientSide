@@ -2,50 +2,19 @@ import { pricingPlans } from "@/constants";
 import PropTypes from "prop-types";
 import Container from "./Container";
 import { Button } from "./ui/button";
-import { useSelector } from "react-redux";
-import Swal from "sweetalert2";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "./checkout/CheckoutForm";
-
-
-// Stripe setup (replace with your Stripe public key)
-const stripePromise = loadStripe("your-publishable-key-from-stripe");
 
 const PricingPlanCard = ({ name, price, features, paymentType }) => {
-  const user = useSelector((state) => state.auth.user);
-  const [open, setOpen] = useState(false);
-  const [openPaymentModal, setOpenPaymentModal] = useState(false);
-
-  const handleGetStarted = () => {
-    if (!user) {
-      Swal.fire({
-        icon: "error",
-        title: "Login Required",
-        confirmButtonColor: "#2563EB",
-        confirmButtonText: "Login",
-        text: "You need to be logged in to subscribe to a plan",
+  const handlePayment = () => {
+    fetch("http://localhost:5000/create-checkout-session", {
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then(({ url }) => {
+        window.location = url;
+      })
+      .catch((e) => {
+        console.error(e.error);
       });
-    } else {
-      setOpen(true);
-    }
-  };
-
-  const handleProceedToPayment = () => {
-    setOpen(false); // Close the first modal
-    setOpenPaymentModal(true); // Open payment modal
   };
 
   return (
@@ -80,65 +49,12 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
           ))}
         </ul>
         <Button
+          onClick={handlePayment}
           className="w-full font-bold gap-2 shadow uppercase p-2 text-white"
-          onClick={handleGetStarted}
         >
           Get Started
         </Button>
       </div>
-      {/* Modal for Subscription Details */}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Subscribe to {name}</DialogTitle>
-            <DialogDescription>
-              You are subscribing to the {name} plan.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4 text-start justify-start">
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="package-name" className="text-start">
-                Package name
-              </Label>
-              <Input id="package-name" value={name} readOnly className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="price" className="text-start">
-                Price
-              </Label>
-              <Input id="price" value={price} readOnly className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="email" className="text-start">
-                Email Address
-              </Label>
-              <Input id="email" value={user?.email || ""} readOnly className="col-span-3" />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="submit" onClick={handleProceedToPayment}>
-              Proceed to Payment
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Modal for Stripe Payment */}
-      <Dialog open={openPaymentModal} onOpenChange={setOpenPaymentModal}>
-        <DialogContent className="max-h-fit ">
-          <DialogHeader>
-            <DialogTitle>Complete Your Payment</DialogTitle>
-            <DialogDescription>
-              Enter your payment details to subscribe to the {name} plan.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="">
-            <Elements stripe={stripePromise}>
-              <CheckoutForm bookingData={{ name, price, user }} />
-            </Elements>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

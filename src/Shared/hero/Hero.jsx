@@ -3,8 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { FaSearchengin, FaTimes } from "react-icons/fa";
 import Dropdown from "@/components/dropdown/Dropdown";
 import { Button } from "@/components/ui/button";
-import ProjectCreate from "@/components/projectCreate/ProjectCreate";
-import CommonButton from "@/components/commonButton/CommonButton";
+
 import { useSelector } from "react-redux";
 
 const Hero = () => {
@@ -14,11 +13,12 @@ const Hero = () => {
   const loading = useSelector((state) => state.auth.loading);
   console.log(user, loading);
 
-  const [toggleOpen, setToggleOpen] = useState(false); // toggleOpen and close
+  const [toggleOpen, setToggleOpen] = useState(false);
 
   const toggleHandler = () => {
     setToggleOpen(!toggleOpen);
   };
+
 
   return (
     <div>
@@ -79,10 +79,11 @@ const Hero = () => {
 
             {/* Mobile Menu */}
             <div
-              className={`absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white shadow-md lg:bg-transparent lg:dark:bg-transparent lg:shadow-none dark:bg-gray-900 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${isOpen
-                ? "translate-x-0 opacity-100"
-                : "opacity-0 -translate-x-full"
-                }`}
+              className={`absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white shadow-md lg:bg-transparent lg:dark:bg-transparent lg:shadow-none dark:bg-gray-900 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
+                isOpen
+                  ? "translate-x-0 opacity-100"
+                  : "opacity-0 -translate-x-full"
+              }`}
             >
               {/* Conditionally Render Nav Links or Search Input */}
               {!searchOpen ? (
@@ -118,19 +119,6 @@ const Hero = () => {
                   >
                     Dashboard
                   </NavLink>
-
-                  {/* dropdown create */}
-                  <div className="relative" onClick={toggleHandler}>
-                    {toggleOpen ? (
-                      <CommonButton text="Create"></CommonButton>
-                    ) : (
-                      <CommonButton text="Create"></CommonButton>
-
-                    )}
-                  </div>
-                  <div></div>
-                  {/* Dropdown content */}
-                  {toggleOpen && <ProjectCreate />}
 
                   <button
                     className="text-gray-700 transition-colors duration-300 transform lg:mx-8 dark:text-gray-200 dark:hover:text-blue-400 hover:text-blue-500 mx-auto"
