@@ -20,10 +20,10 @@ const Team = () => {
     queryKey: ["teamMember"],
     queryFn: async () => {
       const { data } = await axiosCommon.get("/teams");
-      return data;
+      return data[0]?.members;
     },
   });
-console.log(teamMember[0].members)
+console.log(teamMember)
   if (isLoading) {
     return <Loader/>;
   }
@@ -32,7 +32,7 @@ console.log(teamMember[0].members)
     return <div>Error: {error.message}</div>;
   }
 
-  
+
 
   return (
     <div className="w-full">
@@ -82,7 +82,7 @@ console.log(teamMember[0].members)
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    {teamMember[0]?.members?.map((member) => (
+                    {teamMember?.map((member) => (
                       <tr key={member.id}>
                         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                           <div className="inline-flex items-center gap-x-3">
@@ -93,8 +93,8 @@ console.log(teamMember[0].members)
                             <div className="flex items-center gap-x-2">
                               <img
                                 className="object-cover w-10 h-10 rounded-full"
-                                src={member.imageUrl || "https://via.placeholder.com/150"}
-                                alt={member.name}
+                                src={member?.photo || "https://via.placeholder.com/150"}
+                                alt={member?.displayName}
                               />
                               <div>
                                 <h2 className="font-medium text-gray-800 dark:text-white">
