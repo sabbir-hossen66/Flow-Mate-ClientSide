@@ -59,11 +59,12 @@ export const router = createBrowserRouter([
       },
 
 
-      },
+
       {
 
+
         loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`)
-      },      
+      },
 
       {
         path: "tasks",
@@ -74,18 +75,18 @@ export const router = createBrowserRouter([
         path: "tasks/taskDetails",
         element: <TaskDetails />,
       },
+
+      {
+        path: 'taskCard/:id',
+        element: <TaskCard />,
+        loader: ({ params }) => fetch(`http://localhost:5000/createTask/${params.id}`)
       },
       {
-        path:'taskCard/:id',
-        element:<TaskCard/>,
-        loader:({params})=> fetch (`http://localhost:5000/createTask/${params.id}`)
-      },
-      {
-        path:'updateTask/:id',
-        element:<UpdateTask/>,
-        loader:({params})=> fetch (`http://localhost:5000/createTask/${params.id}`)
-        }
-        ,
+        path: 'updateTask/:id',
+        element: <UpdateTask />,
+        loader: ({ params }) => fetch(`http://localhost:5000/createTask/${params.id}`)
+      }
+      ,
       {
         path: "tasks/taskDetails",
         element: <TaskDetails />,
@@ -96,19 +97,19 @@ export const router = createBrowserRouter([
         element: <PaymentHistory />,
       },
       {
-        path:'tasks/taskDetails',
-        element:<TaskDetails/>
-      },{
-        path:'payment_history',
-        element:<PaymentHistory/>
+        path: 'tasks/taskDetails',
+        element: <TaskDetails />
+      }, {
+        path: 'payment_history',
+        element: <PaymentHistory />
       }
-      ,{
-        path:'create-team',
-        element:<TeamCreate/>
+      , {
+        path: 'create-team',
+        element: <TeamCreate />
       }
-      ,{
-        path:'my-team',
-        element:<MyTeam/>
+      , {
+        path: 'my-team',
+        element: <MyTeam />
       }
 
     ],
