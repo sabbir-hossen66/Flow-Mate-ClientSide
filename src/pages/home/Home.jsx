@@ -15,7 +15,6 @@ const Home = () => {
     <div>
       <Banner />
 
-      {/* <ModalPage /> */}
 
       <MarketingComponent />
       <Features />
