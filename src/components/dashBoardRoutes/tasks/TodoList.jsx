@@ -43,20 +43,6 @@ const TodoList = () => {
         </div>
       ))}
 
-      {/* Input field for adding new todo */}
-      <div className="flex items-center mt-4">
-        <input
-          type="text"
-          className="w-56 p-2 border rounded-md mr-2"
-          placeholder="Add a new card..."
-        />
-        <button
-          className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          // onClick={addTodo}
-        >
-          Add 
-        </button>
-      </div>
     </div>
   );
 };

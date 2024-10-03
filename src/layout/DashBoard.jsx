@@ -13,7 +13,6 @@ const DashBoard = () => {
   const loading = useSelector((state) => state.auth.loading);
   console.log(user,loading);
   
-
   useEffect(() => {
     // Set loading to true initially
     dispatch(setLoading(true));
@@ -44,7 +43,7 @@ const DashBoard = () => {
     );
   }
   return (
-    <div className="min-h-screen flex lg:flex-row flex-col bg-gray-100">
+    <div className="min-h-screen container mx-auto flex lg:flex-row flex-col bg-gray-100">
       <DashBoardNav />
       <Outlet />
     </div>
