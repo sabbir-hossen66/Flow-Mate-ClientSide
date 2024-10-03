@@ -6,7 +6,7 @@ import UseAxiosCommon from "./UseAxiosCommon";
 
 const UseAdmin = () => {
     const user = useSelector((state) => state.auth.user);
-    console.log(user);
+    // console.log(user);
     
     const axiosCommon=UseAxiosCommon();
     const {data:isAdmin,isPending:isAdminLoading}=useQuery({
