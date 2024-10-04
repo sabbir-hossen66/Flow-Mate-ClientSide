@@ -93,10 +93,10 @@ const Hero = () => {
                   )}
 
                   <button
-                    className="text-gray-800 transition-colors duration-300 transform lg:mx-6 dark:text-gray-300 dark:hover:text-blue-400 hover:text-blue-500 mx-auto"
+                    className="text-gray-800 transition-colors duration-300 transform lg:mx-8 dark:text-gray-300 dark:hover:text-blue-400 hover:text-blue-500 mx-auto"
                     onClick={() => setSearchOpen(true)}
                   >
-                    <FaSearchengin className="text-lg" />
+                    <FaSearchengin className="text-xl" />
                   </button>
 
                   <div className="flex items-center lg:mt-0 justify-center gap-1">
