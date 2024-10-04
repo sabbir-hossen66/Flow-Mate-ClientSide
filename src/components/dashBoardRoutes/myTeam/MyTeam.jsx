@@ -24,21 +24,32 @@ const MyTeam = () => {
 
   // Fetch the user role
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/create-team/role/team-admin?email=${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data[0]) {
-          setRole(data[0].role); 
-        }
-      });
+    if (user?.email) {
+      fetch(`${import.meta.env.VITE_API_URL}/create-team/role/team-admin?email=${user?.email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data[0]) {
+            setRole(data[0].role); 
+          }
+        });
+    }
   }, [user?.email]);
 
-  // If user is not an admin, filter teams by membership
+  // Filter teams: Admin sees all teams, Members only see teams where they are 'accepted'
   const userTeams = role === 'team-admin' 
-  ? data 
-  : data.filter((team) => 
-      team?.members && team.members.some((member) => member.email === user?.email)
-    ); 
+    ? data // Admin can see all teams
+    : data.filter((team) =>
+        team?.members && team.members.some((member) =>
+          member.email === user?.email && member.status === 'accepted' // Only accepted members can see
+        )
+      );
+
+  // Check if the user's status is 'pending'
+  const hasPendingRequest = data.some((team) =>
+    team?.members && team.members.some((member) =>
+      member.email === user?.email && member.status === 'pending'
+    )
+  );
 
   // Handle team deletion
   const handleDelete = async (id) => {
@@ -82,6 +93,7 @@ const MyTeam = () => {
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">My Teams</h2>
+      
       {userTeams.length > 0 ? (
         <table className="table-auto w-full border-collapse border border-gray-200">
           <thead>
@@ -116,11 +128,13 @@ const MyTeam = () => {
             ))}
           </tbody>
         </table>
+      ) : hasPendingRequest ? (
+        <div className="text-center text-red-600 text-2xl">
+          Please accept the pending team request to view teams.
+        </div>
       ) : (
-        <div className="flex justify-center items-center min-h-screen">
-          <div className="text-4xl font-bold text-center ms-5 text-red-600">
-            No Team Found for {user?.displayName}!
-          </div>
+        <div className="text-center text-gray-500 text-xl">
+          No Teams Found.
         </div>
       )}
     </div>

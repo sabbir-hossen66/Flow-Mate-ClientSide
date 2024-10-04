@@ -57,7 +57,9 @@ const TeamRequest = () => {
     : data.filter((team) =>
         team?.members && team.members.some((member) => member.email === user?.email && member.status === 'pending')
       );
-
+console.log(data.filter((team) =>
+    team?.members && team.members.some((member) => member.email === user?.email && member.status === 'pending')
+  ))
   if (isLoading) return <p>Loading team requests...</p>;
   if (error) return <p>Error loading team requests: {error.message}</p>;
 
