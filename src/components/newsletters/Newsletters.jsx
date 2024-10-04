@@ -25,7 +25,7 @@ const Newsletters = () => {
     reset();
   };
   return (
-    <div className=" lg:max-w-7xl mx-auto ">
+    <div id="subscribe" className=" lg:max-w-7xl mx-auto ">
       <div className="text-center py-10">
         <h2 className="text-4xl font-bold">Stay Connected with FlowMate</h2>
         <p className="text-lg text-gray-600 ">
