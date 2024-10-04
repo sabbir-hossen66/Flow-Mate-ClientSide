@@ -58,7 +58,7 @@ const handleRemoveMember = async (id) => {
       refetch(); 
     }
   } catch (err) {
-    console.error(err);
+    console.error(err.message);
   }
 };
 
@@ -67,7 +67,7 @@ const handleRemoveMember = async (id) => {
   }
 
   if (isError) {
-    return <div>Error: {error.message}</div>;
+    return <div className="text-red-500">Error: {error.message}</div>;
   }
   
   const isAdmin = role === 'team-admin';
