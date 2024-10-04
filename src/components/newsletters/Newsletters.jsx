@@ -2,6 +2,7 @@
 
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 
 const Newsletters = () => {
 
@@ -12,16 +13,29 @@ const Newsletters = () => {
     formState: { errors },
     reset,
   } = useForm();
+  const axiosCommon=UseAxiosCommon();
 
   const onSubmit = (data) => {
     const { email } = data;
-    Swal.fire({
-      title: "Subscribed!",
-      text: `You have successfully subscribed with email: ${email}`,
-      icon: "success",
-      confirmButtonText: "Cool!",
-    
+    axiosCommon.post("/newsletter", { email }).then((res) => {
+      Swal.fire({
+        icon: "success",
+        title: "Thank you for subscribing",
+        text: "We will keep you updated with our latest news and updates.",
+        showConfirmButton:true,
+        confirmButtonText:"Close"
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
     });
+    
     reset();
   };
   return (
