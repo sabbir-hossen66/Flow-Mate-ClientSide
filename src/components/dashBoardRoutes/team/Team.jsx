@@ -51,7 +51,7 @@ const handleRemoveMember = async (id) => {
       Swal.fire({
         position: "top-center",
         icon: "success",
-        title: "Remove Successfully",
+        title: "Remove Successfully!",
         showConfirmButton: false,
         timer: 1500
       });
