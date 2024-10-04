@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const TeamRequest = () => {
   const user = useSelector((state) => state.auth.user);
@@ -43,11 +44,21 @@ const TeamRequest = () => {
 
       if (res.status === 200) {
         refetch();
-        alert("Team request accepted!");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Request accepted successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     } catch (error) {
       console.error("Failed to accept team request:", error);
-      alert("Failed to accept team request. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error.message}`,
+      });
     }
   };
 
@@ -57,9 +68,7 @@ const TeamRequest = () => {
     : data.filter((team) =>
         team?.members && team.members.some((member) => member.email === user?.email && member.status === 'pending')
       );
-console.log(data.filter((team) =>
-    team?.members && team.members.some((member) => member.email === user?.email && member.status === 'pending')
-  ))
+
   if (isLoading) return <p>Loading team requests...</p>;
   if (error) return <p>Error loading team requests: {error.message}</p>;
 
@@ -82,14 +91,19 @@ console.log(data.filter((team) =>
               {teamRequest.map((request) => (
                 <tr key={request._id} className="border-b hover:bg-gray-50 transition-colors">
                   <td className="py-2 px-4">{request.teamName}</td>
-                  <td className="py-2 px-4">{request.status}</td>
+                  <td className="py-2 px-4">
+                    {/* Display status with color coding */}
+                    <span className={`font-semibold ${request.members?.some(member => member.email === user?.email) ? (request.members.find(member => member.email === user?.email)?.status === 'accepted' ? 'text-green-600' : 'text-red-600') : 'text-gray-600'}`}>
+                      {request.members?.some(member => member.email === user?.email) ? request.members.find(member => member.email === user?.email)?.status : 'No Status'}
+                    </span>
+                  </td>
                   <td className="py-2 px-4">
                     <button
                       onClick={() => handleAcceptRequest(request._id)}
-                      className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition-colors"
-                      disabled={request.status === 'accepted'}
+                      className={`bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition-colors ${request.members?.some(member => member.email === user?.email && member.status === 'accepted') ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      disabled={request.members?.some(member => member.email === user?.email && member.status === 'accepted')}
                     >
-                      {request.status === 'accepted' ? "Accepted" : "Accept"}
+                      {request.members?.some(member => member.email === user?.email && member.status === 'accepted') ? "Accepted" : "Accept"}
                     </button>
                   </td>
                 </tr>
