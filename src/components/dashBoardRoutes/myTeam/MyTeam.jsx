@@ -29,7 +29,7 @@ const MyTeam = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data && data[0]) {
-            setRole(data[0].role); 
+            setRole(data[0].role);
           }
         });
     }
@@ -128,7 +128,7 @@ const MyTeam = () => {
             ))}
           </tbody>
         </table>
-      ) : hasPendingRequest ? (
+      ) : hasPendingRequest ? ( // Show message if there are pending requests
         <div className="text-center text-red-600 text-2xl">
           Please accept the pending team request to view teams.
         </div>
