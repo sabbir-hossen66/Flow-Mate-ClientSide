@@ -35,6 +35,14 @@ const TeamRequest = () => {
         }
       });
   }, [user?.email]);
+  const userTeams =
+    role === "team-admin"
+      ? data
+      : data.filter(
+          (team) =>
+            team?.members &&
+            team.members.some((member) => member.email === user?.email)
+        );
   return <div></div>;
 };
 
