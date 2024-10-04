@@ -58,7 +58,7 @@ const handleRemoveMember = async (id) => {
       refetch(); 
     }
   } catch (err) {
-    console.error(err);
+    console.error(err.message);
   }
 };
 
