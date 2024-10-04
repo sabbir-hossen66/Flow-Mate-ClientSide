@@ -1,210 +1,129 @@
-import { FaGithubSquare, FaLinkedin, FaFacebookSquare } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
+import { useEffect } from "react";
+import { FaGithub, FaTwitter, FaInstagram } from "react-icons/fa";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // Import AOS styles
 
-const OurTeams = () => {
-    return (
+const teamMembers = [
+  {
+    name: "Nabila Ferdous",
+    role: "Project Manager",
+    description:
+      "An expert in managing projects, ensuring timely deliveries, and coordinating the team's efforts for optimal results.",
+    image:
+      "https://images.unsplash.com/photo-1488508872907-592763824245?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+  },
+  {
+    name: "Md Sajib Hossen",
+    role: "Lead Developer",
+    description:
+      "Skilled in multiple technologies, leading the development efforts with innovative solutions and expertise.",
+    image:
+      "https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif",
+  },
+  {
+    name: "Sabbir Hossen",
+    role: "UI/UX Designer",
+    description:
+      "Passionate about creating user-friendly designs and improving user experiences through intuitive interfaces.",
+    image:
+      "https://www.shutterstock.com/image-photo/profile-picture-smiling-successful-young-260nw-2040223583.jpg",
+  },
+  {
+    name: "Ariful Islam Shawon",
+    role: "Backend Developer",
+    description:
+      "Responsible for building and maintaining the server, application, and database, ensuring efficiency and scalability.",
+    image:
+      "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg",
+  },
+  {
+    name: "Nazneen Lipi",
+    role: "QA Engineer",
+    description:
+      "Ensures the product meets the required standards and works seamlessly by identifying and fixing bugs.",
+    image:
+      "https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+  },
+  {
+    name: "Nahidul Islam Siam",
+    role: "DevOps Engineer",
+    description:
+      "Specializes in bridging the gap between development and operations, maintaining infrastructure and automating deployments.",
+    image:
+      "https://images.unsplash.com/photo-1548946526-f69e2424cf45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+  },
+];
+
+const TeamSection = () => {
+  useEffect(() => {
+    AOS.init(); // Initialize AOS
+  }, []);
+
+  return (
+    <div className="mb-16">
+      <div className="flex justify-center mx-auto pt-16">
         <div>
-            <section className="bg-white dark:bg-gray-900">
-                <div className="max-w-6xl px-6 py-10 mx-auto">
-                    <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl dark:text-white">
-                        Our Executive Team
-                    </h1>
-
-                    <p className="max-w-2xl mx-auto my-6 text-center text-gray-500 dark:text-gray-300">
-                        Meet the team that makes it all happen. We are MERNgladesh Innovators, a group of passionate individuals dedicated to creating impactful solutions.
-                    </p>
-
-                    <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-3">
-                        {/* Team Leader: Nabila Ferdous */}
-                        <div className="flex flex-col items-center p-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-blue-600 dark:border-gray-700 dark:hover:border-transparent">
-                            <img className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300" src="https://images.unsplash.com/photo-1488508872907-592763824245?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Nabila Ferdous" />
-
-                            <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
-                                Nabila Ferdous
-                            </h1>
-
-                            <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
-                                Team Leader
-                            </p>
-
-                            <div className="flex mt-3 -mx-2">
-                                <a href="https://facebook.com/profile.php?id=100073439997794" target="_blank" rel="noopener noreferrer" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Facebook">
-                                    <FaFacebookSquare />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="LinkedIn">
-                                <FaLinkedin />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Twitter">
-                                <FaSquareXTwitter />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Github">
-                                <FaGithubSquare />
-                                </a>
-                            </div>
-                            <button className="px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
-                                View Details
-                            </button>
-                        </div>
-
-                        {/* Team Member: Md Sajib Hossen */}
-                        <div className="flex flex-col items-center p-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-blue-600 dark:border-gray-700 dark:hover:border-transparent">
-                            <img className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300" src="https://www.shutterstock.com/image-photo/profile-picture-smiling-successful-young-260nw-2040223583.jpg" alt="Md Sajib Hossen" />
-
-                            <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
-                                Md Sajib Hossen
-                            </h1>
-
-                            <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
-                                Team Member
-                            </p>
-
-                            <div className="flex mt-3 -mx-2">
-                                <a href="https://facebook.com/profile.php?id=100008519531471" target="_blank" rel="noopener noreferrer" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Facebook">
-                                    <FaFacebookSquare />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="LinkedIn">
-                                <FaLinkedin />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Twitter">
-                                <FaSquareXTwitter />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Github">
-                                <FaGithubSquare />
-                                </a>
-                            </div>
-                            <button className="px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
-                                View Details
-                            </button>
-                        </div>
-
-                        {/* Team Member: Nahidul Islam Siam */}
-                        <div className="flex flex-col items-center p-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-blue-600 dark:border-gray-700 dark:hover:border-transparent">
-                            <img className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300" src="https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg" alt="Nahidul Islam Siam" />
-
-                            <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
-                                Nahidul Islam Siam
-                            </h1>
-
-                            <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
-                                Team Member
-                            </p>
-
-                            <div className="flex mt-3 -mx-2">
-                                <a href="https://facebook.com/nahidulislam.siam.39" target="_blank" rel="noopener noreferrer" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Facebook">
-                                    <FaFacebookSquare />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="LinkedIn">
-                                <FaLinkedin />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Twitter">
-                                <FaSquareXTwitter />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Github">
-                                <FaGithubSquare />
-                                </a>
-                            </div>
-                            <button className="px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
-                                View Details
-                            </button>
-                        </div>
-
-                        {/* Team Member: Sabbir Hossen */}
-                        <div className="flex flex-col items-center p-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-blue-600 dark:border-gray-700 dark:hover:border-transparent">
-                            <img className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Sabbir Hossen" />
-
-                            <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
-                                Sabbir Hossen
-                            </h1>
-
-                            <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
-                                Team Member
-                            </p>
-
-                            <div className="flex mt-3 -mx-2">
-                                <a href="https://facebook.com/sabbir.sh66" target="_blank" rel="noopener noreferrer" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Facebook">
-                                    <FaFacebookSquare />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="LinkedIn">
-                                <FaLinkedin />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Twitter">
-                                <FaSquareXTwitter />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Github">
-                                <FaGithubSquare />
-                                </a>
-                            </div>
-                            <button className="px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
-                                View Details
-                            </button>
-                        </div>
-
-                        {/* Team Member: Ariful Islam Shawon */}
-                        <div className="flex flex-col items-center p-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-blue-600 dark:border-gray-700 dark:hover:border-transparent">
-                            <img className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300" src="https://images.unsplash.com/photo-1548946526-f69e2424cf45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Ariful Islam Shawon" />
-
-                            <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
-                                Ariful Islam Shawon
-                            </h1>
-
-                            <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
-                                Team Member
-                            </p>
-
-                            <div className="flex mt-3 -mx-2">
-                                <a href="https://facebook.com/smais07" target="_blank" rel="noopener noreferrer" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Facebook">
-                                    <FaFacebookSquare />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="LinkedIn">
-                                <FaLinkedin />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Twitter">
-                                <FaSquareXTwitter />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Github">
-                                <FaGithubSquare />
-                                </a>
-                            </div>
-                            <button className="px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
-                                View Details
-                            </button>
-                        </div>
-
-                        {/* Team Member: Nazneen Lipi */}
-                        <div className="flex flex-col items-center p-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-blue-600 dark:border-gray-700 dark:hover:border-transparent">
-                            <img className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300" src="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" alt="Nazneen Lipi" />
-
-                            <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize dark:text-white group-hover:text-white">
-                                Nazneen Lipi
-                            </h1>
-
-                            <p className="mt-2 text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
-                                Team Member
-                            </p>
-
-                            <div className="flex mt-3 -mx-2">
-                                <a href="https://facebook.com/nazneen.sultana.39566905" target="_blank" rel="noopener noreferrer" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Facebook">
-                                    <FaFacebookSquare />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="LinkedIn">
-                                <FaLinkedin />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Twitter">
-                                <FaSquareXTwitter />
-                                </a>
-                                <a href="#" className="mx-2 text-gray-600 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 group-hover:text-white" aria-label="Github">
-                                <FaGithubSquare />
-                                </a>
-                            </div>
-                            <button className="px-4 py-2 mt-4 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+          {/* Updated Heading with Color Combination */}
+          <p className="text-gray-500 text-lg text-center font-normal pb-3">
+            BUILDING TEAM
+          </p>
+          <h1 className="xl:text-4xl text-3xl text-center font-extrabold pb-6 sm:w-4/6 w-5/6 mx-auto">
+            The Talented <span className="text-blue-500">People</span> Behind the{" "}
+            <span className="text-blue-500">Scenes</span> of the Organization
+          </h1>
         </div>
-    );
+      </div>
+      <div className="w-full bg-gray-100 px-10 pt-10">
+        {/* Grid layout for cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {teamMembers.map((member, index) => (
+            <div
+              key={index}
+              data-aos="fade-up" // AOS attribute for animation
+              data-aos-duration="600" // Duration of animation
+              className="relative mt-16 mb-32 sm:mb-24 transform transition-transform duration-300 hover:scale-105 "
+            >
+              <div className="rounded overflow-hidden shadow-md bg-white hover:bg-sky-50 transition-all duration-300 lg:h-80 h-96 flex flex-col justify-between">
+                <div className="absolute -mt-20 w-full flex justify-center">
+                  <div className="h-32 w-32">
+                    <img
+                      src={member.image}
+                      alt={`Display Picture of ${member.name}`}
+                      className="rounded-full object-cover h-full w-full shadow-md"
+                    />
+                  </div>
+                </div>
+                <div className="px-6 mt-16 flex-grow flex flex-col justify-between">
+                  <div>
+                    <h1 className="font-bold text-3xl text-center mb-1">
+                      {member.name}
+                    </h1>
+                    <p className="text-gray-800 text-sm text-center">
+                      {member.role}
+                    </p>
+                    <p className="text-center text-gray-600 text-base pt-3 font-normal">
+                      {member.description}
+                    </p>
+                  </div>
+                  <div className="w-full flex justify-center pt-5 pb-5">
+                    <a href="javascript:void(0)" className="mx-5">
+                      <FaGithub size={24} color="#718096" />
+                    </a>
+                    <a href="javascript:void(0)" className="mx-5">
+                      <FaTwitter size={24} color="#718096" />
+                    </a>
+                    <a href="javascript:void(0)" className="mx-5">
+                      <FaInstagram size={24} color="#718096" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default OurTeams;
+export default TeamSection;
