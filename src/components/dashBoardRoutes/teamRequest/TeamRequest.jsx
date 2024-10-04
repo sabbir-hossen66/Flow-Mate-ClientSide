@@ -1,13 +1,19 @@
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-
 const TeamRequest = () => {
-    // Fetch teams using react-query
-    const user = useSelector((state) => state.auth.user);
-  const { data = [], isLoading, error, refetch } = useQuery({
-    queryKey: ['teams', user?.email],
+  // Fetch teams using react-query
+  const user = useSelector((state) => state.auth.user);
+  const [role, setRole] = useState(null);
+  const {
+    data = [],
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["teams", user?.email],
     queryFn: async () => {
       if (!user?.email) {
         return [];
@@ -16,11 +22,20 @@ const TeamRequest = () => {
       return res.data;
     },
   });
-    return (
-        <div>
-            
-        </div>
-    );
+  useEffect(() => {
+    fetch(
+      `${import.meta.env.VITE_API_URL}/create-team/role/team-admin?email=${
+        user?.email
+      }`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data[0]) {
+          setRole(data[0].role);
+        }
+      });
+  }, [user?.email]);
+  return <div></div>;
 };
 
 export default TeamRequest;
