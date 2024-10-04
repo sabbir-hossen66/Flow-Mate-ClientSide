@@ -84,7 +84,11 @@ const handleRemoveMember = async (id) => {
             </span>
           </div>
           <div className="py-5 lg:py-0">
-            <AddTeamMember refetch={refetch} reset={reset} team={team} />
+            {
+              isAdmin && 
+              <AddTeamMember refetch={refetch} reset={reset} team={team} />
+            }
+            
           </div>
         </div>
 
