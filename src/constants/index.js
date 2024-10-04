@@ -79,7 +79,7 @@ export const pricingPlans = [
   },
   {
     name: "6 Months Plan",
-    price: "$15 / Month",
+    price: 15,
     paymentType: "Billed half-yearly",
     features: [
       "10 active projects",
@@ -94,7 +94,7 @@ export const pricingPlans = [
   },
   {
     name: "12 Months Plan",
-    price: "$12 / Month",
+    price: 12,
     paymentType: "Billed annually",
     features: [
       "Unlimited active projects",

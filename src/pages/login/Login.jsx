@@ -1,5 +1,5 @@
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
-import { logout, signInWithEmail, signInWithGoogle } from "@/redux/slices/authSlice";
+import { signInWithEmail, signInWithGoogle } from "@/redux/slices/authSlice";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,105 +16,101 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
- 
   const handleGoogleSignIn = () => {
-  
     dispatch(signInWithGoogle())
       .unwrap()
       .then((userCredential) => {
-        const user = userCredential; 
-        console.log('User credentials:', user);
-  
-        // Prepare user information for the database
+        const user = userCredential;
+
         const userInfo = {
           name: user.displayName,
           email: user.email,
-          role: 'member',
+          role: "member",
           photo: user.photoURL,
-          status: 'active',
+          status: "active",
         };
-  
-        // Log the userInfo object for debugging purposes
-        console.log('User Info:', userInfo);
-  
-        // Save user information to the database
+
         axiosCommon
-          .post('/users/create', userInfo)
+          .post("/users/create", userInfo)
+
           .then((res) => {
-            console.log('Response from saving user:', res);
-  
+            console.log("Response from saving user:", res);
+
             if (res.data) {
               Swal.fire({
-                icon: 'success',
-                title: 'Congratulations',
+                icon: "success",
+                title: "Congratulations",
                 text: `Welcome  ${user.displayName}! You have successfully Logged in!`,
               });
-             
-              navigate(location?.state?.from || '/');
+
+              navigate(location?.state?.from || "/");
             } else {
-             
               Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Failed to create user account. Please try again!',
+                icon: "error",
+                title: "Oops...",
+                text: "Failed to create user account. Please try again!",
               });
             }
           })
           .catch((error) => {
-            console.error('Error saving user information:', error);
-  
-           
-            if (error.response  && error.response.data.message === 'User already exists') {
-              Swal.fire({
-                icon: 'success',
-                title: 'Welcome back!',
-                text: `You Were already registered ${user.displayName}!`,
-              });
-              navigate('/'); 
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Failed to save user information!',
-              });
-            }
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Failed to save user information!",
+            });
           });
-  
-   
-       
-  
-       
-        navigate('/');
+
+        // Show success message for sign-in
+        Swal.fire({
+          icon: "success",
+          title: "Login Success",
+          text: `Welcome back ${user.displayName}!`,
+        });
+        navigate("/");
       })
       .catch((err) => {
-        console.error('Error signing in with Google:', err);
-  
-        const errorMessage = err.message || 'Google Sign-In failed!';
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: errorMessage,
-        });
+        const errorMessage = err.message || "Google Sign-In failed!";
+
+        if (
+          error.response &&
+          error.response.data.message === "User already exists"
+        ) {
+          Swal.fire({
+            icon: "success",
+            title: "Welcome back!",
+            text: `You Were already registered ${user.displayName}!`,
+          });
+          navigate("/");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Failed to save user information!",
+          });
+        }
       });
   };
-  
-  
 
   const onSubmit = async (data) => {
     try {
-      const resultAction = await dispatch(signInWithEmail(data));
-      if (signInWithEmail.fulfilled.match(resultAction)) {
+      // First, dispatch the Redux action for email login
+      const userCredential = await dispatch(signInWithEmail(data)).unwrap();
+  
+      // Then, make the axios request if needed
+      const response = await axiosCommon.post("/users/login", data);
+  
+      if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "Welcome!",
           text: "Signed in successfully with email!",
         });
-        navigate("/"); // Change to your desired path
+        navigate("/"); // Navigate after successful login
       } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: resultAction.payload || "Sign-In failed!",
+          text: response.data.message || "Sign-In failed!",
         });
       }
     } catch (error) {
@@ -126,6 +122,7 @@ const Login = () => {
       console.error("Login error:", error);
     }
   };
+  
 
   return (
     <div>

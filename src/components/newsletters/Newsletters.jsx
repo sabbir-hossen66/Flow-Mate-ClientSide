@@ -1,13 +1,14 @@
-import React from "react";
+
 
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 
 const Newsletters = () => {
+
   const {
     register,
     handleSubmit,
-    watch,
+ 
     formState: { errors },
     reset,
   } = useForm();
@@ -19,10 +20,12 @@ const Newsletters = () => {
       text: `You have successfully subscribed with email: ${email}`,
       icon: "success",
       confirmButtonText: "Cool!",
+    
     });
+    reset();
   };
   return (
-    <div className="max-w-7xl mx-auto ">
+    <div className=" lg:max-w-7xl mx-auto ">
       <div className="text-center py-10">
         <h2 className="text-4xl font-bold">Stay Connected with FlowMate</h2>
         <p className="text-lg text-gray-600 ">
@@ -30,7 +33,7 @@ const Newsletters = () => {
         </p>
       </div>
       <div
-        className="w-full py-3  mt-4 bg-gray-500 transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0"
+        className=" py-3  mt-4 bg-gray-500 transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0"
         style={{
           backgroundImage:
             "url('https://www.dooly.ai/wp-content/uploads/2023/11/Why-Sales-Team-Collaboration-Matters-for-Improving-Deal-Efficiency-1.jpg')",

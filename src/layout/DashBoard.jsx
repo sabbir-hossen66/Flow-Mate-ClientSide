@@ -11,8 +11,6 @@ const DashBoard = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
-  console.log(user,loading);
-  
 
   useEffect(() => {
     // Set loading to true initially
@@ -20,12 +18,14 @@ const DashBoard = () => {
 
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        dispatch(setUser({
-          uid: currentUser.uid,
-          email: currentUser.email,
-          displayName: currentUser.displayName,
-          photoURL: currentUser.photoURL,
-        }));
+        dispatch(
+          setUser({
+            uid: currentUser.uid,
+            email: currentUser.email,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
+          })
+        );
       } else {
         dispatch(clearUser());
       }
@@ -39,12 +39,12 @@ const DashBoard = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-   <PacmanLoader color="#2196F3" size={50} />
+        <PacmanLoader color="#2196F3" size={50} />
       </div>
     );
   }
   return (
-    <div className="min-h-screen flex lg:flex-row flex-col bg-gray-100">
+    <div className="min-h-screen container mx-auto flex lg:flex-row flex-col bg-gray-100">
       <DashBoardNav />
       <Outlet />
     </div>
