@@ -16,6 +16,7 @@ import MyTeam from "@/components/dashBoardRoutes/myTeam/MyTeam";
 import TeamCreate from "@/components/dashBoardRoutes/teamCreate/TeamCreate";
 import TaskCard from "@/components/dashBoardRoutes/tasks/TaskCard";
 import UpdateTask from "@/components/dashBoardRoutes/tasks/UpdateTask";
+import TeamRequest from "@/components/dashBoardRoutes/teamRequest/TeamRequest";
 
 export const router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ export const router = createBrowserRouter([
       {
         path: "my-team",
         element: <MyTeam />,
+      },
+      {
+        path: "team-request",
+        element: <TeamRequest />,
       },
     ],
   },
