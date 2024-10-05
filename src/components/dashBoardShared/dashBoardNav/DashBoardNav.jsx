@@ -18,7 +18,7 @@ const DashBoardNav = () => {
   return (
     <>
       {" "}
-      {/* Sidebar */}
+
       <div
         className={`  bg-[#01204ed8] text-white w-[250px] lg:w-1/5 fixed lg:static inset-y-0 left-0 transform lg:transform-none transition-transform duration-300 ease-in-out ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } p-4 shadow-lg z-50`}
@@ -56,7 +56,7 @@ const DashBoardNav = () => {
                       : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
                 }
               >
-                {/* added component */}
+
               </NavLink>
             ) : (
               ""
