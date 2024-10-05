@@ -83,7 +83,9 @@ const MyTeam = () => {
       });
     }
   };
-
+  const handleEditTeamName = id => {
+    console.log(id);
+  }
   if (isLoading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -116,7 +118,7 @@ const MyTeam = () => {
                 <td className="border border-gray-300 px-4 py-2 text-center">{team.uid}</td>
                 {isAdmin && (
                   <td className="border border-gray-300 px-4 py-2 flex gap-2 justify-center items-center">
-                    <button className="btn bg-green-500 text-white p-2 rounded-lg">
+                    <button onClick={() => handleEditTeamName(team._id)} className="btn bg-green-500 text-white p-2 rounded-lg">
                       Edit
                     </button>
                     <button className="btn bg-red-500 text-white p-2 rounded-lg" onClick={() => handleDelete(team._id)}>
