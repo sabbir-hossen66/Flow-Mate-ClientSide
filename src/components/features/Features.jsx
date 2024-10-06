@@ -12,24 +12,24 @@ import team2 from "../../assets/team2.png";
 import '../features/Animated.css'
 const Features = () => {
   return (
-    <div className="bg-gray-100">
+    <div className="bg-[#0047ab] text-white">
       <div className="flex flex-col md:flex-row lg:justify-between justify-center items-center min-h-screen  py-10 px-10 lg:px-20 max-w-7xl mx-auto">
         {/* Left Section */}
         <div className="flex flex-col w-auto lg:w-[440px] text-center lg:text-left md:text-left md:mr-10">
-          <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-7">
-            Discover <span className="text-[#3b82f6]"> power of</span> <br /> team work
+          <h2 className="text-2xl lg:text-4xl font-bold text-white mb-7">
+            Discover <span className="text-black"> power of</span> <br /> team work
           </h2>
-          <p className="text-gray-500 mb-2 text-sm lg:text-sm">
+          <p className="text-gray-100 mb-2 text-sm lg:text-sm">
             Manage your tasks efficiently with FlowMate’s intuitive task
             management features, helping you assign, track, and complete
             projects with ease.
           </p>
-          <p className="text-gray-500 mb-2 text-sm lg:text-sm">
+          <p className="text-gray-100 mb-2 text-sm lg:text-sm">
             Whether your team is in the office or remote, FlowMate keeps
             everyone connected with integrated video conferencing and chat
             features.
           </p>{" "}
-          <p className="text-gray-500 mb-6 text-sm lg:text-sm">
+          <p className="text-gray-100 mb-6 text-sm lg:text-sm">
             Keep track of project progress visually with Gant charts and
             timelines, ensuring every team member stays on schedule and meets
             deadlines.
