@@ -1,3 +1,6 @@
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -10,7 +13,15 @@ const TeamCreate = () => {
   const email = user?.email;
   const uid = user?.uid;
   const role = "team-admin";
-
+  const { data = [] } = useQuery({
+    queryKey: ['data'],
+    queryFn: async () => {
+      const res = await UseAxiosCommon.get(`/users?email=${email}`)
+      return res.data 
+    }
+  })
+  console.log(data)
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     
