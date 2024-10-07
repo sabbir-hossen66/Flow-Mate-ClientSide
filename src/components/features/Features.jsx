@@ -2,7 +2,6 @@ import team from "../../assets/teamImg.jpg";
 import collab from "../../assets/teamCollaboration.jpg"; 
 import task from "../../assets/task management.jpg"; 
 import secure from "../../assets/secure.jpg"; 
-import CommonButton from "../commonButton/CommonButton";
 import success from "../../assets/sucess.jpg"; 
 import team1 from "../../assets/team.png"; 
 import team4 from "../../assets/team4.png"; 
@@ -10,14 +9,15 @@ import team3 from "../../assets/team3.png";
 import team2 from "../../assets/team2.png"; 
 
 import '../features/Animated.css'
+import Button2COmmon from "../button2Commo.jsx/Button2COmmon";
 const Features = () => {
   return (
-    <div className="bg-[#0047ab] text-white">
-      <div className="flex flex-col md:flex-row lg:justify-between justify-center items-center min-h-screen  py-10 px-10 lg:px-20 max-w-7xl mx-auto">
+    <div className="bg-gradient-to-b from-[#1e3a8a] to-[#299edd] text-white container mx-auto">
+      <div className="flex flex-col md:flex-row lg:justify-between justify-center items-center py-10 px-10 lg:px-20 max-w-7xl mx-auto">
         {/* Left Section */}
         <div className="flex flex-col w-auto lg:w-[440px] text-center lg:text-left md:text-left md:mr-10">
           <h2 className="text-2xl lg:text-4xl font-bold text-white mb-7">
-            Discover <span className="text-black"> power of</span> <br /> team work
+            Discover the <span className="text-black"> Power </span> of <br /> team work
           </h2>
           <p className="text-gray-100 mb-2 text-sm lg:text-sm">
             Manage your tasks efficiently with FlowMate’s intuitive task
@@ -35,13 +35,13 @@ const Features = () => {
             deadlines.
           </p>
           <div className="w-60">
-            <CommonButton text=" Register an Account" />
+            <Button2COmmon text=" Register an Account" />
           </div>
         </div>
         {/* Right Section */}
-        <div className="relative w-[270px] lg:w-[420px] h-[300px] lg:h-[390px] mx-auto my-10 bg-gradient-to-r from-blue-200 via-gray-100 to-blue-100 rounded-full p-4">
+        <div className="relative w-[270px] lg:w-[420px] h-[300px] lg:h-[390px] mx-auto my-10 bg-gradient-to-r from-blue-200 via-gray-100 to-blue-100 rounded-full p-4 shadow-gray-900 shadow-2xl">
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 lg:w-20 lg:h-20 rounded-full bg-white flex items-center justify-center shadow-lg font-bold text-2xl z-10  p-10 border border-blue-400">
-       <div className="p-10 lg:p-24 border border-blue-300 rounded-full">FM</div>
+       <div className="p-10 lg:p-24 border border-blue-600   rounded-full text-black">FM</div>
       </div>
 
       {/* Rotating Container */}

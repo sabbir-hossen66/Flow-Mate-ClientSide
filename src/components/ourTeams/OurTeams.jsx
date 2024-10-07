@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FaGithub, FaTwitter, FaInstagram } from "react-icons/fa";
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // Import AOS styles
+import AOS from "aos";
+import "aos/dist/aos.css"; // Import AOS styles
 
 const teamMembers = [
   {
@@ -17,8 +17,7 @@ const teamMembers = [
     role: "Lead Developer",
     description:
       "Skilled in multiple technologies, leading the development efforts with innovative solutions and expertise.",
-    image:
-      "https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif",
+    image: "https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif",
   },
   {
     name: "Sabbir Hossen",
@@ -60,17 +59,15 @@ const TeamSection = () => {
   }, []);
 
   return (
-    <div className="mb-16">
-      <div className="flex justify-center mx-auto pt-16">
-        <div>
-          {/* Updated Heading with Color Combination */}
-          <p className="text-gray-500 text-lg text-center font-normal pb-3">
-            BUILDING TEAM
-          </p>
-          <h1 className="xl:text-4xl text-3xl text-center font-extrabold pb-6 sm:w-4/6 w-5/6 mx-auto">
-            The Talented <span className="text-blue-500">People</span> Behind the{" "}
-            <span className="text-blue-500">Scenes</span> of the Organization
+    <div className="mb-16 max-w-7xl mx-auto">
+      <div className="flex justify-center mx-auto pt-16 ">
+        <div className="mx-auto max-w-3xl text-center pb-12 md:pb-20">
+          <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
+            Building <span className="text-blue-500">Team</span>
           </h1>
+          <p className="text-center text-gray-500">
+            The Talented People Behind the Scenes of the Organization
+          </p>
         </div>
       </div>
       <div className="w-full bg-gray-100 px-10 pt-10">
