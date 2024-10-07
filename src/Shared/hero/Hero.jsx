@@ -66,9 +66,16 @@ const Hero = () => {
 
             {/* Mobile Menu */}
             <div
+
+              className={`absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white shadow-md lg:bg-transparent lg:dark:bg-transparent lg:shadow-none dark:bg-gray-900 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${isOpen
+                ? "translate-x-0 opacity-100"
+                : "opacity-0 -translate-x-full"
+                }`}
+
               className={`absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white shadow-md lg:bg-transparent lg:shadow-none dark:bg-gray-900 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
                 isOpen ? "translate-x-0 opacity-100" : "opacity-0 -translate-x-full"
               }`}
+
             >
               {/* Conditionally Render Nav Links or Search Input */}
               {!searchOpen ? (
@@ -86,9 +93,19 @@ const Hero = () => {
                     Contact
                   </NavLink>
 
+
+
+                  {user && (
+                    <NavLink
+                      className="text-gray-700 transition-colors duration-300 transform lg:mx-8 dark:text-gray-200 dark:hover:text-blue-400 hover:text-blue-500"
+                      to="/dashboard"
+                    >
+                      Dashboard,
+
                   {user && (
                     <NavLink className={navLinkStyle} to="/dashboard">
                       Dashboard
+
                     </NavLink>
                   )}
 
