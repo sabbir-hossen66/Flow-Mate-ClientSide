@@ -9,7 +9,7 @@ const DashBoardHome = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
-  
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -24,13 +24,11 @@ const DashBoardHome = () => {
 
   return (
     <div>
-      <nav className=" w-full shadow-md z-50 top-0 right-0 mb-8">
-        <div className="bg-white p-4 container  mx-auto ">
+      <nav className=" absolute top-0 right-0 h-16 ">
+        <div className=" p-4 container   ">
           <div className="flex justify-between gap-5 items-center">
             {/* Left side: Logo or branding */}
-            <div>
-              <h1 className="text-black font-bold pl-9 lg:pl-0">Welcome to FlowMate !!!</h1>
-            </div>
+
             {/* Right side: Avatar and Notification */}
             <div className="flex items-center justify-between space-x-4 lg:space-x-9 ml-auto">
               {/* create task */}
@@ -43,7 +41,7 @@ const DashBoardHome = () => {
                   <CommonButton text="Create"></CommonButton>
                 )}
               </div>
-              <div></div>
+
               {/* Dropdown content */}
               {toggleOpen && <ProjectCreate />}
               {/* Notification Icon */}
