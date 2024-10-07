@@ -15,6 +15,8 @@ const DashBoardNav = () => {
   const user = useSelector((state) => state.auth.user);
   const [isAdmin, isAdminLoading] = UseAdmin();
   console.log(isAdmin, isAdminLoading);
+  console.log(isAdmin);
+  
 
   const loading = useSelector((state) => state.auth.loading);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -126,22 +128,11 @@ const DashBoardNav = () => {
               Team Create
             </NavLink>
 
-            <NavLink
-              to="/dashboard/payment_history"
-              className={({ isActive, isPending }) =>
-                isPending
-                  ? "pending"
-                  : isActive
-                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
-              }
-            >
-              <RiSecurePaymentLine />
-              Payment History
-            </NavLink>
+          
 
             {
-              isAdmin && <NavLink
+              isAdmin ? (
+                <NavLink
                 to="/dashboard/payment_history"
                 className={({ isActive, isPending }) =>
                   isPending
@@ -153,7 +144,7 @@ const DashBoardNav = () => {
               >
                 <RiSecurePaymentLine />
                 Payment History
-              </NavLink>
+              </NavLink>) : ""
             }
 
 

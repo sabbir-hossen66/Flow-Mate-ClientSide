@@ -76,9 +76,9 @@ const TeamSection = () => {
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              data-aos="fade-up" // AOS attribute for animation
+              data-aos="fade-up" 
               data-aos-duration="600" // Duration of animation
-              className="relative mt-16 mb-32 sm:mb-24 transform transition-transform duration-300 hover:scale-105 "
+              className="relative mt-16 mb-32 sm:mb-24 transform transition-transform duration-300 hover:scale-105 rounded-md"
             >
               <div className="rounded overflow-hidden shadow-md bg-white hover:bg-sky-50 transition-all duration-300 lg:h-80 h-96 flex flex-col justify-between">
                 <div className="absolute -mt-20 w-full flex justify-center">
