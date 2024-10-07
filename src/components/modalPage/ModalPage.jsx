@@ -10,7 +10,7 @@ const ModalPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowModal(true);
-    }, 3000); // Show modal after 10 seconds
+    }, 5000); // Show modal after 10 seconds
 
     return () => clearTimeout(timer); // Clear the timer when component unmounts
   }, []);
