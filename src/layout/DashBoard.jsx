@@ -7,6 +7,9 @@ import { onAuthStateChanged } from "firebase/auth";
 import auth from "../../Firebase/Firebase.config";
 import { PacmanLoader } from "react-spinners";
 
+
+
+
 const DashBoard = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -46,8 +49,12 @@ const DashBoard = () => {
   return (
     // flex lg:flex-row flex-col
     <div className="min-h-screen flex lg:flex-row flex-col bg-gray-100">
-      <DashBoardNav />
-      <Outlet />
+      <div >
+        <DashBoardNav />
+      </div>
+      <div>
+        <Outlet />
+      </div>
     </div>
   );
 };
