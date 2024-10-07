@@ -4,7 +4,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-const CheckoutForm = ({ bookingData }) => {
+const CheckoutForm = ({ bookingData, setOpenPaymentModal, setOpen }) => {
   const { name, price, user } = bookingData;
   const stripe = useStripe();
   const elements = useElements();
@@ -12,11 +12,12 @@ const CheckoutForm = ({ bookingData }) => {
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
   const axiosCommon = UseAxiosCommon();
+  
   useEffect(() => {
     const createPaymentIntent = async () => {
       try {
         if (price > 0) {
-          const response = await axiosCommon.post("/create_payment_intent", {
+          const response = await axiosCommon.post("/payments/create-payment-intent", {
             price: price,
           });
           setClientSecret(response.data.clientSecret);
@@ -80,13 +81,18 @@ const CheckoutForm = ({ bookingData }) => {
           paymentMethod: paymentMethod.card.brand,
         };
 
-        const res = await axiosCommon.post("/api/user/payments", payment);
-
+        const res = await axiosCommon.post("/payments/payment", payment);
+        setOpenPaymentModal(false);
+            setOpen(false);
         if (res.data) {
+          
           Swal.fire({
             icon: "success",
             title: "Payment Successful",
             text: "Your payment has been successfully processed!",
+          }).then(() => {
+         
+           
           });
         } else {
           Swal.fire({
@@ -98,8 +104,6 @@ const CheckoutForm = ({ bookingData }) => {
       }
     }
   };
-
-  console.log("bookingData", bookingData);
 
   return (
     <div className="border-2 border-[#0047ab] rounded-xl my-4 px-2 py-8">
@@ -122,7 +126,6 @@ const CheckoutForm = ({ bookingData }) => {
             },
           }}
         />
-        {}
         <button
           type="submit"
           className="btn btn-lg bg-[#0047ab] text-center p-2 mt-4 w-full mx-auto text-white rounded-md"

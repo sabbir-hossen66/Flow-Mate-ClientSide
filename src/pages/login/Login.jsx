@@ -20,6 +20,9 @@ const Login = () => {
       .unwrap()
       .then((userCredential) => {
         const user = userCredential;
+
+
+
         const userInfo = {
           name: user.displayName,
           email: user.email,
@@ -30,13 +33,26 @@ const Login = () => {
 
         axiosCommon
           .post("/users/create", userInfo)
+
           .then((res) => {
+
+
+          .then((res) => {
+            console.log("Response from saving user:", res);
+
+
             if (res.data) {
               Swal.fire({
                 icon: "success",
                 title: "Congratulations",
+
                 text: `Welcome ${user.displayName}! You have successfully logged in!`,
               });
+
+                text: `Welcome  ${user.displayName}! You have successfully Logged in!`,
+              });
+
+
               navigate(location?.state?.from || "/");
             } else {
               Swal.fire({
@@ -56,27 +72,54 @@ const Login = () => {
       })
       .catch((err) => {
         const errorMessage = err.message || "Google Sign-In failed!";
+
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: errorMessage,
         });
+
+
+        if (
+          error.response &&
+          error.response.data.message === "User already exists"
+        ) {
+          Swal.fire({
+            icon: "success",
+            title: "Welcome back!",
+            text: `You Were already registered ${user.displayName}!`,
+          });
+          navigate("/");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Failed to save user information!",
+          });
+        }
+
       });
   };
 
   const onSubmit = async (data) => {
     try {
-      const response = await axiosCommon.post(
-        "http://localhost:5000/api/user/login",
-        data
-      );
+      // First, dispatch the Redux action for email login
+      const userCredential = await dispatch(signInWithEmail(data)).unwrap();
+  
+      // Then, make the axios request if needed
+      const response = await axiosCommon.post("/users/login", data);
+  
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "Welcome!",
           text: "Signed in successfully with email!",
         });
+
         navigate("/dashboard"); // Redirect after successful login
+
+        navigate("/"); // Navigate after successful login
+
       } else {
         Swal.fire({
           icon: "error",
@@ -92,6 +135,7 @@ const Login = () => {
       });
     }
   };
+  
 
   return (
     <div>

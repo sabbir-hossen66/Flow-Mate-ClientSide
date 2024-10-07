@@ -1,28 +1,28 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-scroll";
 
-
-
-const ShowModal = ({ onClose, onSubscribe }) => {
+const ShowModal = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Subscribe to our Newsletter</h2>
-        <p className="mb-4">Stay updated with our latest news and offers.</p>
-
-        <button
-          onClick={onSubscribe}
-
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          Subscribe Now
-        </button>
-
-        <button
-          onClick={onClose}
-          className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-        >
-          Close
-        </button>
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg z-60 max-w-md w-full relative">
+        <h2 className="text-xl font-bold mb-4">Subscribe to our newsletter!</h2>
+        <div className="flex justify-between items-center">
+          <Link
+            to="subscribe" // Target ID
+            smooth={true} // Smooth scrolling
+            duration={500} // Duration of the scroll
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-2 cursor-pointer"
+            onClick={onClose} // Close modal on click
+          >
+            Subscribe
+          </Link>
+          <button
+            onClick={onClose}
+            className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );

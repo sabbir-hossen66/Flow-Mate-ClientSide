@@ -9,14 +9,14 @@ import OurTeams from "@/components/ourTeams/OurTeams";
 
 import MarketingComponent from "@/components/marketing/MarketingComponent";
 import ModalPage from "@/components/modalPage/ModalPage";
+// import ModalPage from "@/components/modalPage/ModalPage";
 
 const Home = () => {
   return (
     <div>
       <Banner />
 
-      <ModalPage />
-
+  <ModalPage/>
       <MarketingComponent />
       <Features />
       <OurTeams />
