@@ -14,7 +14,6 @@ import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import Loader from "@/utlities/Loader";
 
 export function AddTeamMember({ refetch, reset, team }) {
   const [search, setSearch] = useState("");
@@ -74,7 +73,7 @@ export function AddTeamMember({ refetch, reset, team }) {
       });
     }
   };
-if(isLoading) return <Loader />
+
   return (
     <Dialog>
       <DialogTrigger asChild>
