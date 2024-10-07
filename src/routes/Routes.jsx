@@ -55,11 +55,24 @@ export const router = createBrowserRouter([
       {
         path: "team/:teamName",
         element: <Team />,
+
+
+      },
+
+
+
+      {
+
+
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`)
+      },
+      {
         loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
       },
 
 
-  
+
+
       {
         path: "tasks",
         element: <Tasks />,
@@ -71,16 +84,29 @@ export const router = createBrowserRouter([
       },
 
       {
-        path:'taskCard/:id',
-        element:<TaskCard/>,
-        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
+
+        path: 'taskCard/:id',
+        element: <TaskCard />,
+        loader: ({ params }) => fetch(`http://localhost:5000/createTask/${params.id}`)
       },
       {
-        path:'updateTask/:id',
-        element:<UpdateTask/>,
-        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
-        }
-        ,
+        path: 'updateTask/:id',
+        element: <UpdateTask />,
+        loader: ({ params }) => fetch(`http://localhost:5000/createTask/${params.id}`)
+      }
+      ,
+      {
+        path: 'taskCard/:id',
+        element: <TaskCard />,
+        loader: ({ params }) => fetch(`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
+      },
+      {
+        path: 'updateTask/:id',
+        element: <UpdateTask />,
+        loader: ({ params }) => fetch(`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
+      }
+      ,
+
       {
         path: "tasks/taskDetails",
         element: <TaskDetails />,
@@ -90,6 +116,23 @@ export const router = createBrowserRouter([
         element: <PaymentHistory />,
       },
       {
+
+        path: 'tasks/taskDetails',
+        element: <TaskDetails />
+      }, {
+        path: 'payment_history',
+        element: <PaymentHistory />
+      }
+      , {
+        path: 'create-team',
+        element: <TeamCreate />
+      }
+      , {
+        path: 'my-team',
+        element: <MyTeam />
+      },
+      {
+
         path: "create-team",
         element: <TeamCreate />,
       },
@@ -97,6 +140,7 @@ export const router = createBrowserRouter([
         path: "my-team",
         element: <MyTeam />,
       },
+
     ],
   },
   {

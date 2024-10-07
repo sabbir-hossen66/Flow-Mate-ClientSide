@@ -13,20 +13,19 @@ import UseAdmin from "@/hooks/UseAdmin";
 
 const DashBoardNav = () => {
   const user = useSelector((state) => state.auth.user);
-  const [isAdmin,isAdminLoading ]= UseAdmin();
-  console.log(isAdmin,isAdminLoading);
-  
+  const [isAdmin, isAdminLoading] = UseAdmin();
+  console.log(isAdmin, isAdminLoading);
+
   const loading = useSelector((state) => state.auth.loading);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   if (loading) return <p>Loading........</p>;
   return (
     <>
       {" "}
-      {/* Sidebar */}
+
       <div
-        className={`  bg-[#01204ed8] text-white w-[250px] lg:w-1/5 fixed lg:static inset-y-0 left-0 transform lg:transform-none transition-transform duration-300 ease-in-out ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } p-4 shadow-lg z-50`}
+        className={`  bg-[#01204ed8] text-white w-[250px] lg:w-1/5 fixed lg:static inset-y-0 left-0 transform lg:transform-none transition-transform duration-300 ease-in-out  ${isSidebarOpen ? "translate-x-0" : "-translate-x-full "
+          } p-4 shadow-lg z-50`}
       >
         {/* Sidebar content */}
         <div className="relative space-y-6">
@@ -57,11 +56,11 @@ const DashBoardNav = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+                      ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                      : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
                 }
               >
-                {/* added component */}
+
               </NavLink>
             ) : (
               ""
@@ -74,8 +73,8 @@ const DashBoardNav = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+                      ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                      : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
                 }
               >
                 {/* add here in component */}
@@ -84,23 +83,7 @@ const DashBoardNav = () => {
               ""
             )}
 
-            {user?.role === "admin" || user?.role === "owner" ? (
-              <NavLink
-                to="/dashboard/manage_rooms"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
-                }
-              >
-                <MdRoomPreferences />
-                Manage Rooms
-              </NavLink>
-            ) : (
-              ""
-            )}
+
 
             <NavLink
               to="/dashboard/tasks"
@@ -108,8 +91,8 @@ const DashBoardNav = () => {
                 isPending
                   ? "pending"
                   : isActive
-                  ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                  : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
               }
             >
               <RiSecurePaymentLine />
@@ -122,8 +105,8 @@ const DashBoardNav = () => {
                 isPending
                   ? "pending"
                   : isActive
-                  ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                  : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
               }
             >
               <BsMicrosoftTeams />
@@ -135,29 +118,44 @@ const DashBoardNav = () => {
                 isPending
                   ? "pending"
                   : isActive
-                  ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                  : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
               }
             >
               <RiSecurePaymentLine />
               Team Create
             </NavLink>
 
-           {
-            isAdmin &&  <NavLink
-            to="/dashboard/payment_history"
-            className={({ isActive, isPending }) =>
-              isPending
-                ? "pending"
-                : isActive
-                ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+            <NavLink
+              to="/dashboard/payment_history"
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? "pending"
+                  : isActive
+                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+              }
+            >
+              <RiSecurePaymentLine />
+              Payment History
+            </NavLink>
+
+            {
+              isAdmin && <NavLink
+                to="/dashboard/payment_history"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                      ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                      : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+                }
+              >
+                <RiSecurePaymentLine />
+                Payment History
+              </NavLink>
             }
-          >
-            <RiSecurePaymentLine />
-            Payment History
-          </NavLink>
-           }
+
 
             <hr />
 
@@ -167,8 +165,8 @@ const DashBoardNav = () => {
                 isPending
                   ? "pending"
                   : isActive
-                  ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                  : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
               }
             >
               <FaHome />
@@ -182,9 +180,8 @@ const DashBoardNav = () => {
       </div>
       {/* Mobile Menu Button */}
       <button
-        className={`${
-          isSidebarOpen ? "hidden" : ""
-        } lg:hidden fixed top-4 left-4 z-50 p-2 rounded-full focus:outline-none`}
+        className={`${isSidebarOpen ? "hidden" : ""
+          } lg:hidden fixed top-4 left-4 z-50 p-2 rounded-full focus:outline-none`}
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
         <svg
