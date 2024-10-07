@@ -16,7 +16,7 @@ const DashBoardHome = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
-  const [toggleOpen, setToggleOpen] = useState(false); // toggleOpen and close
+  const [toggleOpen, setToggleOpen] = useState(false);
   // for create task
   const toggleHandler = () => {
     setToggleOpen(!toggleOpen);
