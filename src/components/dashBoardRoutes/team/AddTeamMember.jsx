@@ -14,6 +14,7 @@ import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import Loader from "@/utlities/Loader";
 
 export function AddTeamMember({ refetch, reset, team }) {
   const [search, setSearch] = useState("");
@@ -52,15 +53,15 @@ export function AddTeamMember({ refetch, reset, team }) {
     };
 
     try {
-      const res = await axiosCommon.post(`/team/${_id}/add-member`, newMember);
+      const res = await axiosCommon.post(`/members`, newMember);
       
       if (res.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "Team Member Added Successfully",
+          title: "Member Added Successfully",
           showConfirmButton: false,
           timer: 1500,
-        });
+        })
         refetch(); // Refetch the team data to show the new member
       }
     } catch (error) {
@@ -73,7 +74,7 @@ export function AddTeamMember({ refetch, reset, team }) {
       });
     }
   };
-
+if(isLoading) return <Loader />
   return (
     <Dialog>
       <DialogTrigger asChild>

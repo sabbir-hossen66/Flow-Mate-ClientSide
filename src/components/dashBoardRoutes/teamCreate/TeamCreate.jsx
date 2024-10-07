@@ -9,63 +9,76 @@ const TeamCreate = () => {
   const [teamName, setTeamName] = useState("");
   const [teamDescription, setTeamDescription] = useState("");
   const user = useSelector((state) => state.auth.user);
-  const displayName = user?.displayName;
   const email = user?.email;
-  const uid = user?.uid;
-  const role = "team-admin";
-  const { data = [] } = useQuery({
-    queryKey: ['data'],
+  const axiosCommon = UseAxiosCommon();
+
+  // Fetch user data
+  const { data = {} } = useQuery({
+    queryKey: ['data', email],
     queryFn: async () => {
-      const res = await UseAxiosCommon.get(`/users?email=${email}`)
-      return res.data 
-    }
-  })
-  console.log(data)
-  
-  const handleSubmit = (e) => {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/users?email=${email}`);
+      return res.data[0];
+    },
+    enabled: !!email,
+  });
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const formData = {
       teamName,
       teamDescription,
       email,
-      role,
-      displayName,
-      uid,
+      displayName: data.name,
+      role: data.role,
+      uid: user.uid,
+      teamCreate: Date.now()
     };
 
-    // API call to create the team
-    fetch(`${import.meta.env.VITE_API_URL}/create-team`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
+    try {
+      // Create the team
+      const teamResponse = await fetch(`${import.meta.env.VITE_API_URL}/create-team`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const teamData = await teamResponse.json();
+
+      // If the team is created successfully, update the user role
+      if (teamData) {
+        const roleUpdateResponse = await axiosCommon.patch(`/users?email=${email}`, {
+          role: 'team-admin',
+        });
+
+        if (roleUpdateResponse.status === 200) {
           Swal.fire({
             position: "top-center",
             icon: "success",
-            title: "Team Created Successfully!",
+            title: "Team Created Success!",
             showConfirmButton: false,
             timer: 1500,
           });
+
           // Reset form fields
           setTeamName("");
           setTeamDescription("");
+        } else {
+          throw new Error("Failed to update user role");
         }
-      })
-      .catch((error) => {
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: "Failed to create team",
-          text: error.message,
-          showConfirmButton: true,
-        });
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: "Failed to create team or update role",
+        text: error.message,
+        showConfirmButton: true,
       });
+    }
   };
 
   return (
