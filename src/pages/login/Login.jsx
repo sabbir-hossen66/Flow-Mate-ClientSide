@@ -20,9 +20,6 @@ const Login = () => {
       .unwrap()
       .then((userCredential) => {
         const user = userCredential;
-
-
-
         const userInfo = {
           name: user.displayName,
           email: user.email,
@@ -33,26 +30,14 @@ const Login = () => {
 
         axiosCommon
           .post("/users/create", userInfo)
-
-          .then((res) => {
-
-
           .then((res) => {
             console.log("Response from saving user:", res);
-
-
             if (res.data) {
               Swal.fire({
                 icon: "success",
                 title: "Congratulations",
-
                 text: `Welcome ${user.displayName}! You have successfully logged in!`,
               });
-
-                text: `Welcome  ${user.displayName}! You have successfully Logged in!`,
-              });
-
-
               navigate(location?.state?.from || "/");
             } else {
               Swal.fire({
@@ -63,52 +48,44 @@ const Login = () => {
             }
           })
           .catch((error) => {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Failed to save user information!",
-            });
+            console.error("Failed to save user information:", error);
+            if (
+              error.response &&
+              error.response.data.message === "User already exists"
+            ) {
+              Swal.fire({
+                icon: "success",
+                title: "Welcome back!",
+                text: `You were already registered ${user.displayName}!`,
+              });
+              navigate("/");
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Failed to save user information!",
+              });
+            }
           });
       })
       .catch((err) => {
         const errorMessage = err.message || "Google Sign-In failed!";
-
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: errorMessage,
         });
-
-
-        if (
-          error.response &&
-          error.response.data.message === "User already exists"
-        ) {
-          Swal.fire({
-            icon: "success",
-            title: "Welcome back!",
-            text: `You Were already registered ${user.displayName}!`,
-          });
-          navigate("/");
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Failed to save user information!",
-          });
-        }
-
       });
   };
 
   const onSubmit = async (data) => {
     try {
-      // First, dispatch the Redux action for email login
+      // Dispatch the Redux action for email login
       const userCredential = await dispatch(signInWithEmail(data)).unwrap();
-  
-      // Then, make the axios request if needed
+
+      // Make the axios request if needed
       const response = await axiosCommon.post("/users/login", data);
-  
+
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
@@ -117,9 +94,6 @@ const Login = () => {
         });
 
         navigate("/dashboard"); // Redirect after successful login
-
-        navigate("/"); // Navigate after successful login
-
       } else {
         Swal.fire({
           icon: "error",
@@ -135,12 +109,11 @@ const Login = () => {
       });
     }
   };
-  
 
   return (
     <div>
       <div className="flex justify-center items-center h-screen text-[#07101b]">
-        <div className="flex w-full max-w-sm mx-auto overflow-hidden  rounded-lg shadow-lg  lg:max-w-4xl">
+        <div className="flex w-full max-w-sm mx-auto overflow-hidden rounded-lg shadow-lg lg:max-w-4xl">
           <div
             className="hidden bg-cover lg:block lg:w-1/2"
             style={{
@@ -153,7 +126,7 @@ const Login = () => {
             <div className="flex justify-center mx-auto">
               <img
                 className="w-auto h-20"
-                src="https://i.ibb.co.com/WgPKBVY/Screenshot-2024-09-18-161854-removebg-preview.png"
+                src="https://i.ibb.co/WgPKBVY/Screenshot-2024-09-18-161854-removebg-preview.png"
                 alt=""
               />
             </div>
@@ -164,12 +137,9 @@ const Login = () => {
 
             <button
               onClick={handleGoogleSignIn}
-              className="flex items-center justify-center mt-4  transition-colors duration-300 transform border rounded-lg dark:border-gray-700  hover:bg-gray-50 dark:hover:bg-gray-600 w-full "
+              className="flex items-center justify-center mt-4 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 w-full "
             >
-              <div className="px-4 py-2">
-                {/* Google icon here */}
-              </div>
-
+              <div className="px-4 py-2">{/* Google icon here */}</div>
               <span className="w-5/6 px-4 py-3 font-bold text-center">
                 Sign in with Google
               </span>
