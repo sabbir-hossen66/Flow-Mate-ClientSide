@@ -5,6 +5,7 @@ import DashBoardChart from "./dashBoardChart/DashBoardChart";
 import CommonButton from "@/components/commonButton/CommonButton";
 import ProjectCreate from "@/components/projectCreate/ProjectCreate";
 import DashBoardCards from "../dashBoardCards/DashBoardCards";
+import VisitorInsightsChart from "../visitorInsightsChart/VisitorInsightsChart";
 
 const DashBoardHome = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const DashBoardHome = () => {
   return (
     <div>
 
-      <div className="">
+      <div className="mb-20">
         <nav className="absolute top-0 right-0 h-16">
           <div className="p-4">
             <div className="flex justify-between gap-5 items-center">
@@ -79,12 +80,19 @@ const DashBoardHome = () => {
       </div>
 
       {/* Cards */}
-      <div className="lg:ml-16 mt-20">
-        <DashBoardCards />
+      <div className="lg:flex flex-1">
+
+        <div className="lg:ml-16">
+          <DashBoardCards />
+        </div>
+
+        <VisitorInsightsChart />
+
       </div>
 
-      {/* Chart */}
-      {/* <DashBoardChart /> */}
+
+
+
     </div>
   );
 };
