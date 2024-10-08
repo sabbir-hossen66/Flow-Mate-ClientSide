@@ -6,6 +6,9 @@ import CommonButton from "@/components/commonButton/CommonButton";
 import ProjectCreate from "@/components/projectCreate/ProjectCreate";
 import DashBoardCards from "../dashBoardCards/DashBoardCards";
 import VisitorInsightsChart from "../visitorInsightsChart/VisitorInsightsChart";
+import DashBoardLoginUser from "../dashBoardLoginUser/DashBoardLoginUser";
+import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
+import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
 
 const DashBoardHome = () => {
   const dispatch = useDispatch();
@@ -91,7 +94,12 @@ const DashBoardHome = () => {
       </div>
 
 
-
+      {/*  */}
+      <div className="lg:flex lg:justify-evenly mx-auto flex-1">
+        <DashBoardLoginUser />
+        <DashBoardSubscriptionUser />
+        <DashBoardPaidUser />
+      </div>
 
     </div>
   );
