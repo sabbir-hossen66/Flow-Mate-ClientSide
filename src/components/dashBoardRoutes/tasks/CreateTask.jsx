@@ -24,8 +24,8 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "sonner";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
-import { useMutation } from "@tanstack/react-query";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 export function CreateTask() {
   // State to manage form inputs
   const [startDate, setStartDate] = useState(new Date());
@@ -36,6 +36,13 @@ export function CreateTask() {
   const [loading,setLoading] = useState(false)
   const axiosCommon = UseAxiosCommon()
 
+
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
+  
+  // Get query client
+  const queryClient = useQueryClient();
+
   // data post
   const { mutateAsync } = useMutation({
     mutationFn: async taskData => {
@@ -44,8 +51,11 @@ export function CreateTask() {
     },
     onSuccess: () => {
       console.log('Data Saved Successfully');
-      toast.success('Products Added Successfully!');
+      toast.success('Task Added Successfully!');
       setLoading(false);
+
+      // Invalidate and refetch tasks (if necessary)
+      queryClient.invalidateQueries('tasks'); // Replace 'tasks' with the appropriate query key.
     },
   });
 
@@ -69,16 +79,25 @@ export function CreateTask() {
       stage,
       priority,
       startDate: startDate.toISOString(), // Convert date to a string in ISO format
+      userEmail: user?.email, // Assuming user's email is available in the user object
+      userName: user?.name, 
     };
 
     try {
       console.log("Sending taskData to /createTask");
       const response = await mutateAsync(taskData);
       console.log(response)
+
       // Show a success toast notification
       toast.success("Task created successfully");
 
       // Optionally reset form fields after successful submission
+      setTaskTitle("");
+      setAssignedTo("");
+      setStage("");
+      setPriority("");
+      setStartDate(new Date());
+
     } catch (error) {
       console.error("Error creating task:", error);
 
@@ -173,22 +192,16 @@ export function CreateTask() {
                   </SelectContent>
                 </Select>
               </div>
-
-              <div className="grid text-start gap-2 w-full">
-                {/* <Label htmlFor="picture">Picture</Label>
-                <Input
-                  id="picture"
-                
-                
-                /> */}
-              </div>
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Submitting..." : "Submit"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
   );
 }
+
