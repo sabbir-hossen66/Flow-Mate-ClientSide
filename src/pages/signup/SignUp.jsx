@@ -75,6 +75,7 @@ const SignUp = () => {
               photo,
               status: "active",
               password,
+              teamName:[],
             };
 
             axiosCommon
@@ -135,6 +136,8 @@ const SignUp = () => {
           role: "member",
           photo: user.photoURL,
           status: "active",
+          password: "",
+          teamName:[],
         };
 
         // Log the userInfo object for debugging purposes

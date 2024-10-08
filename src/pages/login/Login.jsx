@@ -31,7 +31,8 @@ const Login = () => {
           role: "member",
           photo: user.photoURL,
           status: "active",
-          password:''
+          password:'',
+          teamName:[],
         };
 
 
