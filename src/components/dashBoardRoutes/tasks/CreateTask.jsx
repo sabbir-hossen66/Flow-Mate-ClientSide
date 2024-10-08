@@ -25,7 +25,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "sonner";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { useSelector } from "react-redux";
 export function CreateTask() {
   // State to manage form inputs
   const [startDate, setStartDate] = useState(new Date());
@@ -35,6 +35,10 @@ export function CreateTask() {
   const [priority, setPriority] = useState("");
   const [loading,setLoading] = useState(false)
   const axiosCommon = UseAxiosCommon()
+
+
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
   
   // Get query client
   const queryClient = useQueryClient();
@@ -75,6 +79,8 @@ export function CreateTask() {
       stage,
       priority,
       startDate: startDate.toISOString(), // Convert date to a string in ISO format
+      userEmail: user?.email, // Assuming user's email is available in the user object
+      userName: user?.name, 
     };
 
     try {
