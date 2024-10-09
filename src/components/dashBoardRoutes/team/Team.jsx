@@ -65,7 +65,7 @@ const Team = () => {
   }
 
   if (isError) {
-    return <div className="text-red-500">Error loading members.</div>;
+    return <div className="text-red-500">Error loading members....</div>;
   }
 
   const isAdmin = role === 'team-admin';
