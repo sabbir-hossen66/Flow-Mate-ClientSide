@@ -19,7 +19,7 @@ export function AddTeamMember({ refetch, reset, team }) {
   const [search, setSearch] = useState("");
   const _id = team?._id;
   const axiosCommon = UseAxiosCommon();
-  
+
   const { data = [], isLoading } = useQuery({
     queryKey: ["data", search],
     queryFn: async () => {
@@ -31,33 +31,19 @@ export function AddTeamMember({ refetch, reset, team }) {
     },
     enabled: !!search,
   });
-  
+
   const handleAddMember = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    const role = form.role.value;
-    const photo = form.photo.value;
-    const status = 'pending'
     const newMember = {
-      _id: Math.random().toString(36).substr(2, 9),
-      teamId: _id,
-      displayName: name,
-      email: email,
-      role: role,
-      photo: photo,
-      status: status,
-      date: new Date(),
+      userId: data._id,
     };
 
     try {
-      const res = await axiosCommon.post(`/team/${_id}/add-member`, newMember);
-      
+      const res = await axiosCommon.patch(`/teams/${_id}/add-pending-member`, newMember);
       if (res.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "Team Member Added Successfully",
+          title: "Member Added Successfully",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -106,33 +92,29 @@ export function AddTeamMember({ refetch, reset, team }) {
               <Label htmlFor="name" className="text-start">
                 Name
               </Label>
-              <Input id="name" className="col-span-3" defaultValue={data?.name} />
+              <Input
+                id="name"
+                className="col-span-3"
+                defaultValue={data?.name}
+              />
             </div>
 
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="email" className="text-start">
                 Email Address
               </Label>
-              <Input name="email" id="email" className="col-span-3" defaultValue={data?.email} />
-            </div>
-
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="role" className="text-start">
-                Role
-              </Label>
-              <Input name="role" id="role" className="col-span-3" defaultValue={data?.role} />
-            </div>
-
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="imageUrl" className="text-start">
-                Image URL
-              </Label>
-              <Input name="photo" id="imageUrl" className="col-span-3" defaultValue={data?.photo} />
+              <Input
+                name="email"
+                id="email"
+                className="col-span-3"
+                defaultValue={data?.email}
+              />
             </div>
           </div>
-
           <DialogFooter>
-            <Button type="submit">Add Member</Button>
+            <Button type="submit" className="flex justify-start items-start">
+              Add Member
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

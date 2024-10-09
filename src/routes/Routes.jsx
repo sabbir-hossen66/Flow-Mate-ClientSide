@@ -12,8 +12,13 @@ import Team from "@/components/dashBoardRoutes/team/Team";
 import Tasks from "@/components/dashBoardRoutes/tasks/Tasks";
 import TaskDetails from "@/components/dashBoardRoutes/tasks/TaskDetails";
 import PaymentHistory from "@/components/dashBoardRoutes/PaymentHistory/PaymentHistory";
-import TeamCreate from "@/components/dashBoardRoutes/teamCreate/teamCreate";
 import MyTeam from "@/components/dashBoardRoutes/myTeam/MyTeam";
+import TeamCreate from "@/components/dashBoardRoutes/teamCreate/TeamCreate";
+import TaskCard from "@/components/dashBoardRoutes/tasks/TaskCard";
+import UpdateTask from "@/components/dashBoardRoutes/tasks/UpdateTask";
+import TeamRequest from "@/components/dashBoardRoutes/teamRequest/TeamRequest";
+
+
 
 export const router = createBrowserRouter([
   {
@@ -33,11 +38,10 @@ export const router = createBrowserRouter([
           </PrivateRoutes>
         ),
       },
-      
     ],
   },
 
-  // here set dashboard
+  // Dashboard routes
   {
     path: "dashboard",
     element: <DashBoard />,
@@ -49,28 +53,48 @@ export const router = createBrowserRouter([
       {
         path: "team/:teamName",
         element: <Team />,
-        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`)
-      },      
-      
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
+      },
+
       {
         path: "tasks",
-        element: <Tasks/>
+        element: <Tasks />,
       },
       {
-        path:'tasks/taskDetails',
-        element:<TaskDetails/>
-      },{
-        path:'payment_history',
-        element:<PaymentHistory/>
-      }
-      ,{
-        path:'create-team',
-        element:<TeamCreate/>
-      }
-      ,{
-        path:'my-team',
-        element:<MyTeam/>
-      }
+        path: "tasks/taskDetails",
+        element: <TaskDetails />,
+      },
+      {
+        path:'taskCard/:id',
+        element:<TaskCard/>,
+        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
+      },
+      {
+        path:'updateTask/:id',
+        element:<UpdateTask/>,
+        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
+        }
+        ,
+      {
+        path: "tasks/taskDetails",
+        element: <TaskDetails />,
+      },
+      {
+        path: "payment_history",
+        element: <PaymentHistory />,
+      },
+      {
+        path: "create-team",
+        element: <TeamCreate />,
+      },
+      {
+        path: "my-team",
+        element: <MyTeam />,
+      },
+      {
+        path: "team-request",
+        element: <TeamRequest />,
+      },
     ],
   },
   {
@@ -81,4 +105,4 @@ export const router = createBrowserRouter([
     path: "/signUp",
     element: <SignUp />,
   },
-])
+]);

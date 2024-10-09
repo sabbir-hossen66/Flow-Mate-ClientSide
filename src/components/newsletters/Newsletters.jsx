@@ -1,36 +1,54 @@
-import React from "react";
-
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 
 const Newsletters = () => {
   const {
     register,
     handleSubmit,
-    watch,
+
     formState: { errors },
     reset,
   } = useForm();
+  const axiosCommon = UseAxiosCommon();
 
   const onSubmit = (data) => {
     const { email } = data;
-    Swal.fire({
-      title: "Subscribed!",
-      text: `You have successfully subscribed with email: ${email}`,
-      icon: "success",
-      confirmButtonText: "Cool!",
-    });
+    axiosCommon
+      .post("/newsletter", { email })
+      .then((res) => {
+        Swal.fire({
+          icon: "success",
+          title: "Thank you for subscribing",
+          text: "We will keep you updated with our latest news and updates.",
+          showConfirmButton: true,
+          confirmButtonText: "Close",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      });
+
+    reset();
   };
   return (
-    <div className="max-w-7xl mx-auto ">
-      <div className="text-center py-10">
-        <h2 className="text-4xl font-bold">Stay Connected with FlowMate</h2>
-        <p className="text-lg text-gray-600 ">
+    <div id="subscribe" className=" lg:max-w-7xl mx-auto ">
+      <div className="mx-auto max-w-3xl text-center pb-12 md:pb-20">
+        <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
+          Stay Connected <span className="text-blue-500">FlowMate</span>
+        </h1>
+        <p className="text-center text-gray-500">
           Sign up to receive our latest news, updates, and exclusive content.
         </p>
       </div>
       <div
-        className="w-full py-3  mt-4 bg-gray-500 transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0"
+        className=" py-3  mt-4 bg-gray-500 transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0"
         style={{
           backgroundImage:
             "url('https://www.dooly.ai/wp-content/uploads/2023/11/Why-Sales-Team-Collaboration-Matters-for-Improving-Deal-Efficiency-1.jpg')",
