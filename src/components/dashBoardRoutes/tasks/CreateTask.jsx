@@ -80,7 +80,7 @@ export function CreateTask() {
       priority,
       startDate: startDate.toISOString(), // Convert date to a string in ISO format
       userEmail: user?.email, // Assuming user's email is available in the user object
-      userName: user?.name, 
+      userName: user?.displayName, 
     };
 
     try {
