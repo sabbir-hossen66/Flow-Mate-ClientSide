@@ -21,7 +21,9 @@ const Login = () => {
       .unwrap()
       .then((userCredential) => {
         const user = userCredential;
+        console.log("User credentials:", user);
 
+        // Prepare user information for the database
         const userInfo = {
           name: user.displayName,
           email: user.email,
@@ -29,12 +31,15 @@ const Login = () => {
           photo: user.photoURL,
           status: "active",
           password: "",
-          teamName: [],
+          teamName:[],
         };
 
+        // Log the userInfo object for debugging purposes
+        console.log("User Info:", userInfo);
+
+        // Save user information to the database
         axiosCommon
           .post("/users/create", userInfo)
-
           .then((res) => {
             console.log("Response from saving user:", res);
 
@@ -42,7 +47,7 @@ const Login = () => {
               Swal.fire({
                 icon: "success",
                 title: "Congratulations",
-                text: `Welcome  ${user.displayName}! You have successfully Logged in!`,
+                text: `Welcome ${user.displayName}! You have successfully! Login with Google`,
               });
 
               navigate(location?.state?.from || "/");
@@ -55,41 +60,44 @@ const Login = () => {
             }
           })
           .catch((error) => {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Failed to save user information!",
-            });
+            console.error("Error saving user information:", error);
+
+            if (
+              error.response &&
+              error.response.data.message === "User already exists"
+            ) {
+              Swal.fire({
+                icon: "success",
+                title: "Welcome back!",
+                text: `You Were already registered ${user.displayName}!`,
+              });
+              navigate("/");
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Failed to save user information!",
+              });
+            }
           });
 
-        // Show success message for sign-in
         Swal.fire({
           icon: "success",
           title: "Login Success",
           text: `Welcome back ${user.displayName}!`,
         });
+
         navigate("/");
       })
       .catch((err) => {
-        const errorMessage = err.message || "Google Sign-In failed!";
+        console.error("Error signing in with Google:", err);
 
-        if (
-          error.response &&
-          error.response.data.message === "User already exists"
-        ) {
-          Swal.fire({
-            icon: "success",
-            title: "Welcome back!",
-            text: `You Were already registered ${user.displayName}!`,
-          });
-          navigate("/");
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Failed to save user information!",
-          });
-        }
+        const errorMessage = err.message || "Google Sign-In failed!";
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: errorMessage,
+        });
       });
   };
 
