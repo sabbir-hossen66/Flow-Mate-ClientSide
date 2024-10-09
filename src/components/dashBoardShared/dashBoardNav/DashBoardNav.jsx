@@ -135,31 +135,23 @@ const DashBoardNav = () => {
               Team Create
             </NavLink>
 
-
-            
-
-
-
-            {
-              isAdmin ? (
-                <NavLink
-
-                  to="/dashboard/payment_history"
-                  className={({ isActive, isPending }) =>
-                    isPending
-                      ? "pending"
-                      : isActive
-                        ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
-                        : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
-                  }
-                >
-                  <RiSecurePaymentLine />
-                  Payment History
-                </NavLink>) : ""
-
-            }
-
-
+            {isAdmin ? (
+              <NavLink
+                to="/dashboard/payment_history"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                    ? "flex items-center gap-1 bg-blue-500 hover:bg-blue-500 rounded p-2"
+                    : "flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+                }
+              >
+                <RiSecurePaymentLine />
+                Payment History
+              </NavLink>
+            ) : (
+              ""
+            )}
 
             <hr />
 

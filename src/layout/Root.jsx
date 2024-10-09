@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "../../Firebase/Firebase.config";
 import { clearUser, setLoading, setUser } from "../redux/slices/authSlice";
+import Navbar from "@/Shared/Navbar";
 
 const Root = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const Root = () => {
 
   return (
     <div className="h-screen">
-      <Hero/>
+     <Navbar/>
       <Outlet />
       <Footer/>
     </div>
