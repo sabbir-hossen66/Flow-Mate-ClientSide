@@ -1,6 +1,6 @@
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Loader from "@/utlities/Loader";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -8,24 +8,24 @@ import Swal from "sweetalert2";
 
 const MyTeam = () => {
   const user = useSelector((state) => state.auth.user);
+  const axiosCommon = UseAxiosCommon();
   const [role, setRole] = useState(null);
 
-  // Fetch teams using react-query
-  const { data = [], isLoading, error, refetch } = useQuery({
+  // Fetch user teams using react-query
+  const { data: teams = [], isLoading, error, refetch } = useQuery({
     queryKey: ['teams', user?.email],
     queryFn: async () => {
-      if (!user?.email) return [];
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/create-team?email=${user?.email}`);
+      const res = await axiosCommon.get(`/teams`);
       return res.data;
     },
+    enabled: !!user?.email,
   });
 
-  // Fetch the user role
   useEffect(() => {
     const fetchRole = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/create-team/role/team-admin?email=${user?.email}`);
-        const data = await response.json();
+        const response = await axiosCommon.get(`/create-team/role/team-admin?email=${user?.email}`);
+        const data = response.data;
         if (data && data[0]) {
           setRole(data[0].role);
         }
@@ -35,7 +35,7 @@ const MyTeam = () => {
     };
 
     if (user?.email) fetchRole();
-  }, [user?.email]);
+  }, [user?.email, axiosCommon]);
 
   // Handle team deletion
   const handleDelete = async (id) => {
@@ -51,8 +51,9 @@ const MyTeam = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/create-team/${id}`);
+        await axiosCommon.delete(`/create-team/${id}`);
         Swal.fire("Deleted!", "Your team has been deleted.", "success");
+        // Refetch teams after deletion
         refetch();
       }
     } catch (error) {
@@ -60,7 +61,9 @@ const MyTeam = () => {
       Swal.fire("Error!", "There was an error deleting the team.", "error");
     }
   };
-
+  const handleEdit = id => {
+    console.log(id)
+  }
   // Show loader or error message
   if (isLoading) return <Loader />;
   if (error) return <div className="text-red-500">Error: {error.message}</div>;
@@ -70,10 +73,10 @@ const MyTeam = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">My Teams</h2>
-      {data.length > 0 ? (
+      <h2 className="text-3xl font-bold mb-6 text-start">My Teams ({teams.length})</h2>
+      {teams.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {data.map((team) => (
+          {teams.map((team) => (
             <div key={team._id} className="bg-white border border-gray-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
               <h3 className="text-xl font-semibold mb-2">
                 <Link to={`/dashboard/team/${team?.teamName}`} className="text-blue-600 hover:underline">
@@ -84,10 +87,13 @@ const MyTeam = () => {
               <p className="text-gray-600 text-sm mb-4">Members: {team.teamMembers.length}</p>
               {isAdmin && (
                 <div className="flex justify-start mt-4 space-x-4">
-                  <button className="bg-green-500 text-white p-2 rounded-lg hover:bg-green-600 transition-colors duration-200">
+                  <button  onClick={() => handleEdit(team._id)} className="bg-green-500 text-white p-2 rounded-lg hover:bg-green-600 transition-colors duration-200">
                     Edit
                   </button>
-                  <button className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors duration-200" onClick={() => handleDelete(team._id)}>
+                  <button
+                    className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors duration-200"
+                    onClick={() => handleDelete(team._id)}
+                  >
                     Delete
                   </button>
                 </div>

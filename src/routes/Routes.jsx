@@ -11,13 +11,14 @@ import DashBoardHome from "@/components/dashBoardRoutes/dashBoardHome/DashBoardH
 import Team from "@/components/dashBoardRoutes/team/Team";
 import Tasks from "@/components/dashBoardRoutes/tasks/Tasks";
 import TaskDetails from "@/components/dashBoardRoutes/tasks/TaskDetails";
-
 import PaymentHistory from "@/components/dashBoardRoutes/PaymentHistory/PaymentHistory";
-
 import MyTeam from "@/components/dashBoardRoutes/myTeam/MyTeam";
 import TeamCreate from "@/components/dashBoardRoutes/teamCreate/TeamCreate";
 import TaskCard from "@/components/dashBoardRoutes/tasks/TaskCard";
 import UpdateTask from "@/components/dashBoardRoutes/tasks/UpdateTask";
+import TeamRequest from "@/components/dashBoardRoutes/teamRequest/TeamRequest";
+
+
 
 export const router = createBrowserRouter([
   {
@@ -29,7 +30,6 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-
       {
         path: "/about",
         element: (
@@ -53,11 +53,7 @@ export const router = createBrowserRouter([
       {
         path: "team/:teamName",
         element: <Team />,
-      },
-
-      {
-        loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
       },
 
       {
@@ -68,43 +64,17 @@ export const router = createBrowserRouter([
         path: "tasks/taskDetails",
         element: <TaskDetails />,
       },
-
       {
-        path: "taskCard/:id",
-        element: <TaskCard />,
-        loader: ({ params }) =>
-          fetch(`http://localhost:5000/createTask/${params.id}`),
+        path:'taskCard/:id',
+        element:<TaskCard/>,
+        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
       },
       {
-        path: "updateTask/:id",
-        element: <UpdateTask />,
-        loader: ({ params }) =>
-          fetch(`http://localhost:5000/createTask/${params.id}`),
-      },
-      {
-        path: "taskCard/:id",
-        element: <TaskCard />,
-        loader: ({ params }) =>
-          fetch(
-            `https://flowmate-serverside.vercel.app/createTask/${params.id}`
-          ),
-      },
-      {
-        path: "updateTask/:id",
-        element: <UpdateTask />,
-        loader: ({ params }) =>
-          fetch(
-            `https://flowmate-serverside.vercel.app/createTask/${params.id}`
-          ),
-      },
-      {
-        path: "tasks/taskDetails",
-        element: <TaskDetails />,
-      },
-      {
-        path: "payment_history",
-        element: <PaymentHistory />,
-      },
+        path:'updateTask/:id',
+        element:<UpdateTask/>,
+        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
+        }
+        ,
       {
         path: "tasks/taskDetails",
         element: <TaskDetails />,
@@ -122,12 +92,8 @@ export const router = createBrowserRouter([
         element: <MyTeam />,
       },
       {
-        path: "create-team",
-        element: <TeamCreate />,
-      },
-      {
-        path: "my-team",
-        element: <MyTeam />,
+        path: "team-request",
+        element: <TeamRequest />,
       },
     ],
   },
