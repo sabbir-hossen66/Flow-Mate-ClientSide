@@ -1,34 +1,38 @@
 import { useQuery } from "@tanstack/react-query";
-
+import { useSelector } from "react-redux";
 
 const TodoList = () => {
+  // Fetch todos from the server
+  const user = useSelector((state) => state.auth.user); // Fetch user's email from Redux
 
+  if (!user) {
+    return <div>Please log in to see your tasks.</div>;
+  }
   const {
     isLoading,
     error,
-    data: todos,
-    refetch,
+    data: todos = [], // Default to an empty array to avoid errors if data is undefined
   } = useQuery({
     queryKey: ["todos"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/createTask");
-     
+      const res = await fetch(`http://localhost:5000/createTask?email=${user.email}`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
       return res.json();
     },
   });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error loading products</div>;
+    return <div>Error loading tasks</div>; // Updated the error message
   }
 
-
-  const filteredTodos = todos.filter((todo) => todo.stage === "todo");
+  // Filter todos to get only those that are in the "todo" stage
+  const filteredTodos = todos.filter((todo) => todo.stage === "todo" && todo.email === user.email);
 
   return (
     <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
@@ -41,15 +45,15 @@ const TodoList = () => {
         // Existing todos
         filteredTodos.map((todo) => (
           <div
-            key={todo.id}
+            key={todo._id} // Use _id for uniqueness
             className="p-2 mb-2 bg-gray-100 rounded-md flex justify-between items-center"
           >
             <span
               className={`text-gray-800 ${
-                todo?.completed ? "line-through" : ""
+                todo.completed ? "line-through" : ""
               }`}
             >
-              {todo.taskTitle.slice(0, 35)}
+              {todo.taskTitle.slice(0, 35)} {/* Display the title */}
             </span>
           </div>
         ))

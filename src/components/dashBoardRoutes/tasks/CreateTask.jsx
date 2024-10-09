@@ -96,7 +96,7 @@ export function CreateTask() {
     stage,
     priority,
     startDate: startDate.toISOString(),
-    userEmail: user?.email,
+    email: user?.email,
     userName: user?.displayName, 
     teamName: firstTeam?.teamName, // Correctly accessing teamName
     teamLeaderId: firstTeam?.teamLeader // Correctly accessing teamLeader
