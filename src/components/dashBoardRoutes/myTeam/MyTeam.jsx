@@ -81,7 +81,7 @@ const MyTeam = () => {
               {team.teamLeader === currentUser?._id && (
                 <div className="flex justify-start mt-4 space-x-4">
                   <EditTeam
-                    currentUserTeams={currentUserTeams}
+                    currentUserTeams={team}
                     refetch={refetch}
                     className="flex items-center bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-colors duration-200"
                   >
