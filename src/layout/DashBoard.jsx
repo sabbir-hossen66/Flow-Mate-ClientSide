@@ -52,7 +52,7 @@ const DashBoard = () => {
       <div >
         <DashBoardNav />
       </div>
-      <div>
+      <div className="flex-1 overflow-y-auto h-screen">
         <Outlet context={{ loading }}  />
       </div>
     </div>
