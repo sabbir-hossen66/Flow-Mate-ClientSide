@@ -148,8 +148,7 @@ const DashBoardNav = () => {
           </svg>
         </button>
 
-        {/* Outlet for nested routes */}
-        <Outlet />
+        
       </div>
     </div>
   );
