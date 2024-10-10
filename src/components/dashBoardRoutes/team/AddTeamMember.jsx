@@ -14,8 +14,10 @@ import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import io from "socket.io-client";
 
 export function AddTeamMember({ refetch, reset, team }) {
+  const socket = io('http://localhost:3000')
   const [search, setSearch] = useState("");
   const _id = team?._id;
   const axiosCommon = UseAxiosCommon();
@@ -59,6 +61,9 @@ export function AddTeamMember({ refetch, reset, team }) {
       });
     }
   };
+
+
+
 
   return (
     <Dialog>

@@ -26,9 +26,9 @@ const DashBoardNav = () => {
     <div className="flex h-screen">
       {/* Sidebar */}
       <div
-        className={`overflow-y-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 text-white w-[250px] h-full fixed lg:static transform lg:transform-none transition-transform duration-300 ease-in-out ${
+        className={`bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 text-white w-[250px] h-full lg:static lg:transform-none transition-transform duration-300 ease-in-out fixed lg:relative ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } p-4 shadow-lg z-50`}
+        } lg:translate-x-0 p-4 shadow-lg z-50 absolute lg:relative`}
       >
         {/* Sidebar content */}
         <div className="relative space-y-6">
@@ -129,7 +129,7 @@ const DashBoardNav = () => {
       </div>
 
       {/* Main content area */}
-      <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-[250px]' : 'ml-0'} lg:ml-0`}>
+      <div className="flex-1">
         {/* Mobile Menu Button */}
         <button
           className={`${
@@ -148,7 +148,8 @@ const DashBoardNav = () => {
           </svg>
         </button>
 
-        
+        {/* Page content here */}
+      
       </div>
     </div>
   );
