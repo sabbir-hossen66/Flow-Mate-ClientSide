@@ -20,7 +20,7 @@ const SmallBarChart = ({ data }) => {
     datasets: [
       {
         label: 'User Count',
-        data: [data.paidUsers, data.loggedInUsers, data.subscriptionUsers], // Directly using counts
+        data: [data.paidUsers, data.loggedInUsers, data.subscriptionUsers],
         backgroundColor: 'rgba(54, 162, 235, 0.6)',
       },
     ],

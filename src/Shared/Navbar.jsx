@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Dropdown from "@/components/dropdown/Dropdown";
 import UseAdmin from "@/hooks/UseAdmin";
+import { IoIosNotifications } from "react-icons/io";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
@@ -67,7 +68,21 @@ function Navbar() {
             </div>
             <div className="flex items-center gap-[20px] select-none">
               {user ? (
+                <>
+                 <div className="flex justify-center md:block">
+            <Link to="/notifications"
+              className="relative text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300"
+              
+            >
+              <IoIosNotifications className="text-blue-500 text-3xl" />
+              <span className="absolute top-0 left-1  p-[2px] text-xs text-white bg-red-500 rounded-full">
+                2
+              </span>
+            </Link>
+          </div>
                 <Dropdown />
+                
+                </>
               ) : (
                 <>
                   <Link to={'/login'}>

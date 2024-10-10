@@ -48,7 +48,7 @@ const DashBoard = () => {
   }
   return (
     // flex lg:flex-row flex-col
-    <div className="min-h-screen flex lg:flex-row flex-col bg-gray-100 ">
+    <div className="min-h-screen flex  bg-gray-100 ">
     
         <DashBoardNav />
       
