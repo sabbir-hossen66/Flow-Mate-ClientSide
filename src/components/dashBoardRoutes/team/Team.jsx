@@ -50,18 +50,7 @@ const Team = () => {
   // Handle member removal
   const handleRemoveMember = async (id) => {
     try {
-      const teamId = team._id; 
-      const res = await axiosCommon.delete(`/members/${teamId}/${id}`);
-      if (res.status === 200) {
-        Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: "Removed Successfully!",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        refetch(); 
-      }
+      console.log(id)
     } catch (err) {
       console.error(err.message);
     }
@@ -85,7 +74,7 @@ const Team = () => {
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">
             Team {team?.teamName} Members
           </h2>
-          {team.teamLeader === currentUserTeams[0].teamLeader && <AddTeamMember refetch={refetch} team={team} />}
+          {currentUserTeams[0]?.teamLeader === team?.teamLeader && <AddTeamMember refetch={refetch} team={team} />}
         </div>
 
         {filteredMembers.length === 0 ? (
@@ -111,7 +100,7 @@ const Team = () => {
                   <th className="py-4 px-4 text-sm font-semibold text-gray-700 border-b border-gray-200 text-left">
                     Active
                   </th>
-                  {team.teamLeader === currentUserTeams[0].teamLeader && (
+                  {currentUserTeams[0]?.teamLeader === team?.teamLeader && (
                     <th className="py-4 px-4 text-sm font-semibold text-gray-700 border-b border-gray-200 text-left">
                       Actions
                     </th>
@@ -145,7 +134,7 @@ const Team = () => {
                         </span>
                       </div>
                     </td>
-                    {team.teamLeader === currentUserTeams[0].teamLeader && (
+                    {currentUserTeams[0]?.teamLeader === team?.teamLeader  && (
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-x-2">
                           <button onClick={() => handleRemoveMember(member._id)} className="text-white p-2 rounded-md bg-red-500 hover:bg-red-600 duration-75">
