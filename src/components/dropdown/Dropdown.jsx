@@ -21,7 +21,7 @@ const handleLogout = () => {
 
 };
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block z-50">
 
       {/* Dropdown toggle button */}
       <button
