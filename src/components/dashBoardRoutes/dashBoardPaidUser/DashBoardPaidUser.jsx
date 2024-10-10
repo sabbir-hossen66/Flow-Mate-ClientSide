@@ -3,18 +3,24 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-const DashBoardPaidUser = () => {
+const DashBoardSubscriptionUser = () => {
   const axiosCommon = UseAxiosCommon();
   const user = useSelector((state) => state.auth.user);
+
 
   // Fetching paid user data
   const { data: paid = [], isLoading, isError } = useQuery({
     queryKey: ["paid"],
+
     queryFn: async () => {
-      const res = await axiosCommon.get("/payments/payment");
+      const res = await axiosCommon.get("/newsletters");
       return res.data;
     },
+    onError: (error) => {
+      setError(error.message);
+    },
   });
+
 
   // Handle loading state
   if (isLoading) {
@@ -26,6 +32,7 @@ const DashBoardPaidUser = () => {
     return <div>Error fetching paid user data.</div>;
   }
 
+
   return (
     <div className="p-6">
       {user ? (
@@ -34,25 +41,31 @@ const DashBoardPaidUser = () => {
             <img
               className="w-20 h-20 rounded-full border-4 border-white shadow-md"
               src={user?.photoURL}
+
               alt={user?.name || 'User Avatar'}
             />
             <div className="text-center">
               <p className="text-sm text-gray-100">Paid Users: {paid.length}</p>
+
 
               <Card className="shadow-xl hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
                 <CardHeader>
                   <div className="flex items-center space-x-4">
                     <img
                       className="w-16 h-16 rounded-full border-2 border-gray-200"
+
                       src={user?.avatar || user?.photoURL} // Fallback for user avatar
                       alt={`${user?.name}'s avatar`}
                     />
                     <CardTitle className="text-lg font-semibold">{user?.name}</CardTitle>
+
                   </div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-gray-500">
+
                     <strong>Total Paid Users:</strong> {paid.length}
+
                   </p>
                 </CardContent>
               </Card>
@@ -60,10 +73,12 @@ const DashBoardPaidUser = () => {
           </div>
         </div>
       ) : (
+
         <div>No user logged in.</div>
+
       )}
     </div>
   );
 };
 
-export default DashBoardPaidUser;
+export default DashBoardSubscriptionUser;
