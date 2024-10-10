@@ -20,9 +20,11 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 
+
 // TaskCard Component
 const TaskCard = () => {
   const axiosCommon = UseAxiosCommon();
+
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const {
     register,
@@ -33,7 +35,7 @@ const TaskCard = () => {
   const [sortOption, setSortOption] = useState(""); // State for sort option
 
   const user = useSelector((state) => state.auth.user);
-  const userEmail = user?.email;
+  const email = user?.email;
   const [elapsedTime, setElapsedTime] = useState({}); // Track elapsed time for tasks
   const [timers, setTimers] = useState({}); // Track timers for each task
   
@@ -71,10 +73,10 @@ const TaskCard = () => {
     data: createTask,
     refetch,
   } = useQuery({
-    queryKey: ["createTask", searchQuery, sortOption, userEmail], // Include search and sort in the query key
+    queryKey: ["createTask", searchQuery, sortOption, email], // Include search and sort in the query key
     queryFn: async () => {
       const res = await fetch(
-        `https://flowmate-serverside.vercel.app/createTask?search=${searchQuery}&sort=${sortOption}&userEmail=${userEmail}`
+        `http://localhost:5000/createTask?search=${searchQuery}&sort=${sortOption}&email=${email}`
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
@@ -296,13 +298,13 @@ const TaskCard = () => {
               onClick={handleReset}
               className="ml-4 px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-red-500 rounded-md hover:bg-red-400 focus:bg-red-400 focus:outline-none"
             >
-              Reset
+              Reset 
             </button>
           </div>
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-1 items-center bg-gray-100 gap-6 p-4">
-        {/* Iterate over each task */}
+        {/* Iterate  each task */}
         {!createTask || createTask.length === 0 ? (
           <div className="text-center text-gray-500 text-lg col-span-full">
             Create task for your team member.
@@ -310,7 +312,7 @@ const TaskCard = () => {
         ) : (
           createTask?.map(
             (task, index) =>
-              task.userEmail === userEmail && (
+              task.email === email && (
                 <div
                   key={index}
                   className="bg-white w-80 p-4 rounded-lg shadow-lg my-2"
