@@ -32,6 +32,18 @@ const DashBoardSubscriptionUser = () => {
     <div>
       <div className="p-6">
         {user ? (
+
+          <div className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-xl rounded-2xl overflow-hidden transform hover:scale-110 transition-transform duration-300 w-64">
+            <div className="p-6 flex flex-col items-center space-y-4">
+              <img
+                className="w-20 h-20 rounded-full border-4 border-white shadow-md"
+                src={user?.photoURL}
+                alt=''
+              />
+              <div className="text-center">
+
+                <p className="text-sm text-gray-100">Subscription user : {subscription.length}</p>
+
           <Card className="shadow-xl hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
             <CardHeader>
               <div className="flex items-center space-x-4">
@@ -41,6 +53,7 @@ const DashBoardSubscriptionUser = () => {
                   alt={`${user.name}'s avatar`}
                 />
                 <CardTitle className="text-lg font-semibold">{user.name}</CardTitle>
+
               </div>
             </CardHeader>
             <CardContent>
