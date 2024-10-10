@@ -53,7 +53,7 @@ const DashBoard = () => {
         <DashBoardNav />
       </div>
       <div>
-        <Outlet />
+        <Outlet context={{ loading }}  />
       </div>
     </div>
   );

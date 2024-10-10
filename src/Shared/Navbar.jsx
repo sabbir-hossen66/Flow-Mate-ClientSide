@@ -7,6 +7,7 @@ import Container from "@/components/Container";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Dropdown from "@/components/dropdown/Dropdown";
+import UseAdmin from "@/hooks/UseAdmin";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
@@ -21,11 +22,17 @@ function Navbar() {
     { route: "/contact", name: "Contact", badgeCount: 0 },
   ];
 
-  // If user is authenticated, show Dashboard link
-  const links = user
-    ? [...defaultLinks, { route: "/dashboard", name: "Dashboard", badgeCount: 0 }]
-    : defaultLinks;
-
+ const [isAdmin,isAdminLoading]=UseAdmin();
+ const links = user
+ ? [
+     ...defaultLinks, 
+     { 
+       route: isAdmin ? "/dashboard/admin" : "/dashboard", 
+       name: "Dashboard", 
+       badgeCount: 0 
+     }
+   ]
+ : defaultLinks;
   const [menu, setMenu] = useState(false);
   const toggleMenu = () => {
     setMenu(!menu);
