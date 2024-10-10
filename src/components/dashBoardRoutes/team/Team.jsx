@@ -10,8 +10,8 @@ import Swal from "sweetalert2";
 
 const Team = () => {
   const axiosCommon = UseAxiosCommon();
-  const team = useLoaderData();
-  const user = useSelector((state) => state.auth.user);
+  const team = useLoaderData(); // Loaded team data
+  const user = useSelector((state) => state.auth.user); // Logged-in user
   const email = user?.email;
 
   // Fetch users
@@ -22,6 +22,8 @@ const Team = () => {
       return res.data;
     }
   });
+
+  // Fetch the current logged-in user
   const { data: userss = {} } = useQuery({
     queryKey: ['data', email],
     queryFn: async () => {
@@ -30,9 +32,9 @@ const Team = () => {
     },
     enabled: !!email,
   });
- 
-   // Fetch user teams using react-query
-   const { data: teams = [] } = useQuery({
+
+  // Fetch user teams
+  const { data: teams = [] } = useQuery({
     queryKey: ['teams', user?.email],
     queryFn: async () => {
       const res = await axiosCommon.get(`/teams`);
@@ -40,32 +42,36 @@ const Team = () => {
     },
     enabled: !!user?.email,
   });
-  // Filter team members by their IDs
-  const filteredMembers = team.teamMembers.map(memberId => 
-    users.find(user => user._id === memberId)
-  ).filter(member => member !== undefined); // Only include valid members
 
-  
+  // Filter members of the team
+  const filteredMembers = team.teamMembers
+    .map(memberId => users.find(user => user._id === memberId))
+    .filter(member => member !== undefined); // Only valid members
 
-  // Handle member removal
+  // Remove member logic
   const handleRemoveMember = async (id) => {
     try {
-      console.log(id)
+      console.log("Removing member with ID:", id);
     } catch (err) {
       console.error(err.message);
     }
   };
+
+  // Get the logged-in user's ID
   const userId = userss?._id; 
+  // Find the teams the logged-in user is part of
   const currentUserTeams = teams.filter(team => team.teamMembers.includes(userId));
 
+
+  // Loading state
   if (isLoading) {
     return <Loader />;
   }
 
+  // Error handling
   if (isError) {
     return <div className="text-red-500">Error loading members....</div>;
   }
-
 
   return (
     <div className="md:w-[1050px] mx-auto mt-8">
@@ -74,7 +80,9 @@ const Team = () => {
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">
             Team {team?.teamName} Members
           </h2>
-          {currentUserTeams[0]?.teamLeader === team?.teamLeader && <AddTeamMember refetch={refetch} team={team} />}
+          {team?.teamLeader === userss[0]._id && (
+            <AddTeamMember refetch={refetch} team={team} />
+          )}
         </div>
 
         {filteredMembers.length === 0 ? (
@@ -100,7 +108,7 @@ const Team = () => {
                   <th className="py-4 px-4 text-sm font-semibold text-gray-700 border-b border-gray-200 text-left">
                     Active
                   </th>
-                  {currentUserTeams[0]?.teamLeader === team?.teamLeader && (
+                  {team?.teamLeader === userss[0]._id && (
                     <th className="py-4 px-4 text-sm font-semibold text-gray-700 border-b border-gray-200 text-left">
                       Actions
                     </th>
@@ -134,13 +142,12 @@ const Team = () => {
                         </span>
                       </div>
                     </td>
-                    {currentUserTeams[0]?.teamLeader === team?.teamLeader  && (
+                    {team?.teamLeader === userss[0]._id  && (
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-x-2">
                           <button onClick={() => handleRemoveMember(member._id)} className="text-white p-2 rounded-md bg-red-500 hover:bg-red-600 duration-75">
                             Remove
                           </button>
-                         
                         </div>
                       </td>
                     )}
