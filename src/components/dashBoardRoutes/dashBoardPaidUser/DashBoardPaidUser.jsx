@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 const DashBoardPaidUser = () => {
   const axiosCommon = UseAxiosCommon();
   const user = useSelector((state) => state.auth.user);
+
   const [error, setError] = useState(null);
 
   //newsletters,users/get,payments/payment
@@ -33,12 +34,12 @@ const DashBoardPaidUser = () => {
             <div className="p-6 flex flex-col items-center space-y-4">
               <img
                 className="w-20 h-20 rounded-full border-4 border-white shadow-md"
-                src={user.avatar}
-                alt={`${user.name}'s avatar`}
+                src={user?.photoURL}
+                alt={''}
               />
               <div className="text-center">
 
-                <p className="text-sm text-gray-100">Paid user : {paid.length}</p>
+                <p className="text-sm text-gray-100">Paid user: {paid.length}</p>
               </div>
             </div>
           </div>

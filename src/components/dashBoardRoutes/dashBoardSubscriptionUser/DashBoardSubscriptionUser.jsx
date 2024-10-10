@@ -36,8 +36,8 @@ const DashBoardSubscriptionUser = () => {
             <div className="p-6 flex flex-col items-center space-y-4">
               <img
                 className="w-20 h-20 rounded-full border-4 border-white shadow-md"
-                src={user.avatar}
-                alt={`${user.name}'s avatar`}
+                src={user?.photoURL}
+                alt=''
               />
               <div className="text-center">
 
