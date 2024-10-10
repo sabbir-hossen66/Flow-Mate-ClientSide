@@ -37,7 +37,7 @@ const UpperNavigation = () => {
     <div className="flex flex-col bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 text-white">
       {/* Sticky Nav */}
       <nav className="sticky-nav">
-        {/* Dashboard Icon */}
+       
         <div className="flex items-center">
         <span className="dashboard-icon text-2xl">
           <MdDashboard />
@@ -51,12 +51,12 @@ const UpperNavigation = () => {
           </Link>
         </div>
 
-        {/* Search Box */}
+      
         <div className="search-container">
           <input type="text" placeholder="Search..." />
         </div>
 
-        {/* Admin Name and Date-Time */}
+       
         <div className="user-actions flex items-center space-x-6">
        {
         user?  <Dropdown/>:''
