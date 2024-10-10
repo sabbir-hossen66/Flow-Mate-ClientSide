@@ -47,7 +47,7 @@ const DashBoardNav = () => {
                 to="/dashboard/admin"
                 className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
               >
-              <RiDashboardHorizontalFill />
+                <RiDashboardHorizontalFill />
                 AdminDashboard
               </NavLink>
             ) : (
@@ -69,7 +69,6 @@ const DashBoardNav = () => {
               </NavLink>
             )}
 
-            
             <NavLink
               to="/dashboard/tasks"
               className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
@@ -129,23 +128,29 @@ const DashBoardNav = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Button */}
-      <button
-        className={`${
-          isSidebarOpen ? "hidden" : ""
-        } lg:hidden fixed top-4 left-4 z-50 p-2 rounded-full focus:outline-none`}
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          className="w-5 h-5 fill-current dark:text-gray-800"
+      {/* Main content area */}
+      <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-[250px]' : 'ml-0'} lg:ml-0`}>
+        {/* Mobile Menu Button */}
+        <button
+          className={`${
+            isSidebarOpen ? "hidden" : ""
+          } lg:hidden fixed top-4 left-4 z-50 p-2 rounded-full focus:outline-none`}
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
-          <rect width="352" height="32" x="80" y="96"></rect>
-          <rect width="352" height="32" x="80" y="240"></rect>
-          <rect width="352" height="32" x="80" y="384"></rect>
-        </svg>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            className="w-5 h-5 fill-current dark:text-gray-800"
+          >
+            <rect width="352" height="32" x="80" y="96"></rect>
+            <rect width="352" height="32" x="80" y="240"></rect>
+            <rect width="352" height="32" x="80" y="384"></rect>
+          </svg>
+        </button>
+
+        {/* Outlet for nested routes */}
+        <Outlet />
+      </div>
     </div>
   );
 };

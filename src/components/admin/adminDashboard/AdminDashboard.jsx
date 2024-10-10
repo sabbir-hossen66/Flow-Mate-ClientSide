@@ -53,10 +53,10 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="container mx-auto py-6">
+    <div className=" mx-auto lg:pb-5">
       <UpperNavigation />
-      <div className="my-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="lg:my-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6 gap-1 text-center">
           {/* Paid User Section */}
           <Card className="transition-transform transform hover:scale-105 bg-gradient-to-r from-green-400 to-blue-500 text-white">
             <CardHeader className="flex items-center">
