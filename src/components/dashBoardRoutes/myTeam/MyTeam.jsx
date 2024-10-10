@@ -25,7 +25,7 @@ const MyTeam = () => {
     queryKey: ['data', user?.email],
     queryFn: async () => {
       const res = await axiosCommon.get(`/users?email=${user.email}`);
-      return Array.isArray(res.data) ? res.data : [res.data]; // Ensure users is an array
+      return Array.isArray(res.data) ? res.data : [res.data]; 
     },
     enabled: !!user?.email,
   });
@@ -59,7 +59,7 @@ const MyTeam = () => {
   if (isLoading) return <Loader />;
   if (error) return <div className="text-red-500">Error: {error.message}</div>;
 
-  const userId = currentUser?._id; // Get current user's ID
+  const userId = currentUser?._id; 
   const currentUserTeams = teams.filter(team => team.teamMembers.includes(userId));
 
   return (
