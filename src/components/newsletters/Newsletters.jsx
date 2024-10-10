@@ -17,26 +17,39 @@ const Newsletters = () => {
     axiosCommon
       .post("/newsletter", { email })
       .then((res) => {
-        Swal.fire({
-          icon: "success",
-          title: "Thank you for subscribing",
-          text: "We will keep you updated with our latest news and updates.",
-          showConfirmButton: true,
-          confirmButtonText: "Close",
-        });
+        if (res.data.message === "You have already been subscribed to our newsletter") {
+          // Swal for existing subscription
+          Swal.fire({
+            icon: "info",
+            title: "Already Subscribed",
+            text: "You have already been subscribed to our newsletter.",
+            showConfirmButton: true,
+            confirmButtonText: "Close",
+          });
+        } else {
+          // Swal for successful subscription
+          Swal.fire({
+            icon: "success",
+            title: "Thank you for subscribing",
+            text: "We will keep you updated with our latest news and updates.",
+            showConfirmButton: true,
+            confirmButtonText: "Close",
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
-
+  
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "Something went wrong!",
         });
       });
-
+  
     reset();
   };
+  
   return (
     <div id="subscribe" className=" lg:max-w-7xl mx-auto ">
       <div className="mx-auto max-w-3xl text-center pb-12 md:pb-20">

@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
@@ -18,10 +18,13 @@ import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
+
 
 // TaskCard Component
 const TaskCard = () => {
   const axiosCommon = UseAxiosCommon();
+
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const {
     register,
@@ -32,7 +35,13 @@ const TaskCard = () => {
   const [sortOption, setSortOption] = useState(""); // State for sort option
 
   const user = useSelector((state) => state.auth.user);
-  const userEmail = user?.email;
+  const email = user?.email;
+  const [elapsedTime, setElapsedTime] = useState({}); // Track elapsed time for tasks
+  const [timers, setTimers] = useState({}); // Track timers for each task
+  
+
+  // click for completed
+
   // Handlers for dropdown visibility
   const handleMouseEnter = () => {
     setDropdownVisible(true);
@@ -64,10 +73,10 @@ const TaskCard = () => {
     data: createTask,
     refetch,
   } = useQuery({
-    queryKey: ["createTask", searchQuery, sortOption, userEmail], // Include search and sort in the query key
+    queryKey: ["createTask", searchQuery, sortOption, email], // Include search and sort in the query key
     queryFn: async () => {
       const res = await fetch(
-        `https://flowmate-serverside.vercel.app/createTask?search=${searchQuery}&sort=${sortOption}&userEmail=${userEmail}`
+        `http://localhost:5000/createTask?search=${searchQuery}&sort=${sortOption}&email=${email}`
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
@@ -125,6 +134,76 @@ const TaskCard = () => {
       }
     });
   };
+
+  // Timer handling
+  const handleStopTimer = (taskId) => {
+    clearInterval(timers[taskId]); // Stop the timer
+    setTimers((prev) => ({ ...prev, [taskId]: null }));
+
+    // Save the stop state and elapsed time in localStorage
+    const stoppedTimers =
+      JSON.parse(localStorage.getItem("stoppedTimers")) || {};
+
+    // Store the elapsed time when stopping the timer
+    if (elapsedTime[taskId]) {
+      stoppedTimers[taskId] = {
+        stopped: true,
+        elapsedTime: elapsedTime[taskId], // Store the current elapsed time
+      };
+      localStorage.setItem("stoppedTimers", JSON.stringify(stoppedTimers));
+    }
+
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Timer stopped",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+
+  // Timer handling in useEffect
+  useEffect(() => {
+    if (createTask) {
+      const stoppedTimers =
+        JSON.parse(localStorage.getItem("stoppedTimers")) || {};
+
+      createTask.forEach((task) => {
+        if (stoppedTimers[task._id]?.stopped) {
+          // Timer was stopped, so we display the stored elapsed time
+          setElapsedTime((prev) => ({
+            ...prev,
+            [task._id]: stoppedTimers[task._id].elapsedTime, // Display the fixed elapsed time
+          }));
+          return; // Don't start a new timer
+        }
+
+        const startTime = new Date(task?.startDate);
+        const updateElapsedTime = () => {
+          const now = new Date();
+          const diffInSeconds = dayjs(now).diff(dayjs(startTime), "second");
+
+          const hours = Math.floor(diffInSeconds / 3600);
+          const minutes = Math.floor((diffInSeconds % 3600) / 60);
+          const seconds = diffInSeconds % 60;
+
+          setElapsedTime((prev) => ({
+            ...prev,
+            [task._id]: { hours, minutes, seconds },
+          }));
+        };
+
+        if (!timers[task._id]) {
+          const timerId = setInterval(updateElapsedTime, 1000);
+          setTimers((prev) => ({ ...prev, [task._id]: timerId }));
+        }
+      });
+    }
+
+    return () => {
+      Object.values(timers).forEach(clearInterval);
+    };
+  }, [createTask]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -219,13 +298,13 @@ const TaskCard = () => {
               onClick={handleReset}
               className="ml-4 px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-red-500 rounded-md hover:bg-red-400 focus:bg-red-400 focus:outline-none"
             >
-              Reset
+              Reset 
             </button>
           </div>
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-1 items-center bg-gray-100 gap-6 p-4">
-        {/* Iterate over each task */}
+        {/* Iterate  each task */}
         {!createTask || createTask.length === 0 ? (
           <div className="text-center text-gray-500 text-lg col-span-full">
             Create task for your team member.
@@ -233,7 +312,7 @@ const TaskCard = () => {
         ) : (
           createTask?.map(
             (task, index) =>
-              task.userEmail === userEmail && (
+              task.email === email && (
                 <div
                   key={index}
                   className="bg-white w-80 p-4 rounded-lg shadow-lg my-2"
@@ -249,10 +328,20 @@ const TaskCard = () => {
                   </div>
 
                   {/* Task Date */}
-                  <div className="text-gray-500 text-sm mb-3">
+                  {/* <div className="text-gray-500 text-sm mb-3">
                     {" "}
                     Started Date:{" "}
                     {new Date(task?.startDate).toLocaleDateString()}
+                  </div> */}
+                  <div className="text-gray-500 text-sm mb-3">
+                    Elapsed Time:{" "}
+                    {elapsedTime[task._id] && (
+                      <>
+                        {elapsedTime[task._id].hours}h{" "}
+                        {elapsedTime[task._id].minutes}m{" "}
+                        {elapsedTime[task._id].seconds}s
+                      </>
+                    )}
                   </div>
 
                   <div className="flex mb-3 items-center">
@@ -296,9 +385,15 @@ const TaskCard = () => {
 
                   {/* Delete and Edit Icons */}
                   <div className="flex justify-between gap-1">
-                    <div className="text-gray-500 text-xs mt-3 cursor-pointer">
-                      + ADD SUBTASK
-                    </div>
+                    {/* <div className="text-gray-500 text-sm mb-3"> */}
+
+                    <button
+                      onClick={() => handleStopTimer(task._id)}
+                      className="text-sm bg-red-500 text-white py-1 px-3 rounded"
+                    >
+                      Stop Timer
+                    </button>
+
                     <div className="flex gap-2">
                       <div className="p-2 border bg-blue-200 rounded-sm">
                         <span onClick={() => handleDelete(task)}>

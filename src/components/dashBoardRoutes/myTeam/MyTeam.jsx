@@ -1,37 +1,36 @@
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Loader from "@/utlities/Loader";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FaEdit, FaTrash } from "react-icons/fa"; // Importing icons
+import { EditTeam } from "../editTeam/EditTeam";
 
 const MyTeam = () => {
   const user = useSelector((state) => state.auth.user);
-  const [role, setRole] = useState(null);
+  const axiosCommon = UseAxiosCommon();
 
-  // Fetch teams using react-query
-  const { data = [], isLoading, error, refetch } = useQuery({
+  // Fetch user teams using react-query
+  const { data: teams = [], isLoading, error, refetch } = useQuery({
     queryKey: ['teams', user?.email],
     queryFn: async () => {
-      if (!user?.email) {
-        return [];
-      }
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/create-team?email=${user?.email}`);
+      const res = await axiosCommon.get(`/teams`);
       return res.data;
     },
+    enabled: !!user?.email,
   });
 
-  // Fetch the user role
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/create-team/role/team-admin?email=${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data[0]) {
-          setRole(data[0].role); 
-        }
-      });
-  }, [user?.email]);
+  const { data: users = [], isError } = useQuery({
+    queryKey: ['data', user?.email],
+    queryFn: async () => {
+      const res = await axiosCommon.get(`/users?email=${user.email}`);
+      return Array.isArray(res.data) ? res.data : [res.data]; 
+    },
+    enabled: !!user?.email,
+  });
+  
+  const currentUser = users.length > 0 ? users[0] : null;
 
   // Handle team deletion
   const handleDelete = async (id) => {
@@ -47,70 +46,62 @@ const MyTeam = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/create-team/${id}`);
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your team has been deleted.",
-          icon: "success",
-        });
-
+        await axiosCommon.delete(`/create-team/${id}`);
+        Swal.fire("Deleted!", "Your team has been deleted.", "success");
         refetch();
       }
     } catch (error) {
       console.error("Error deleting team:", error);
-      Swal.fire({
-        title: "Error!",
-        text: "There was an error deleting the team.",
-        icon: "error",
-      });
+      Swal.fire("Error!", "There was an error deleting the team.", "error");
     }
   };
+  // Show loader or error message
+  if (isLoading) return <Loader />;
+  if (error) return <div className="text-red-500">Error: {error.message}</div>;
 
-  if (isLoading) return <Loader/>;
-  if (error) return <div>Error: {error.message}</div>;
-
-  // Only show edit/delete buttons if user role is "team-admin"
-  const isAdmin = role === 'team-admin';
+  const userId = currentUser?._id; 
+  const currentUserTeams = teams.filter(team => team.teamMembers.includes(userId));
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">My Teams</h2>
-      {data.length > 0 ? (
-        <table className="table-auto w-full border-collapse border border-gray-200">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 px-4 py-2">Display Name</th>
-              <th className="border border-gray-300 px-4 py-2">Email</th>
-              <th className="border border-gray-300 px-4 py-2">Team Name</th>
-              <th className="border border-gray-300 px-4 py-2">Description</th>
-              <th className="border border-gray-300 px-4 py-2">UID</th>
-              {isAdmin && <th className="border border-gray-300 px-4 py-2">Actions</th>}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((team) => (
-              <tr key={team._id}>
-                <td className="border border-gray-300 px-4 py-2">{team.displayName}</td>
-                <td className="border border-gray-300 px-4 py-2">{team.email}</td>
-                <td className="border border-gray-300 px-4 py-2"><Link to={`/dashboard/team/${team?.teamName}`} className="underline text-blue-500">{team?.teamName}</Link></td>
-                <td className="border border-gray-300 px-4 py-2">{team.teamDescription}</td>
-                <td className="border border-gray-300 px-4 py-2">{team.uid}</td>
-                {isAdmin && (
-                  <td className="border border-gray-300 px-4 py-2 flex gap-2">
-                    <button className="btn bg-green-500 text-white p-2 rounded-lg" /*onClick={() => handleEdit(team._id)}*/>
-                      Edit
-                    </button>
-                    <button className="btn bg-red-500 text-white p-2 rounded-lg" onClick={() => handleDelete(team._id)}>
-                      Delete
-                    </button>
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="container mx-auto p-6">
+      <h2 className="text-3xl font-bold mb-6 text-start opacity-80 text-gray-500">Total Teams ({currentUserTeams.length})</h2>
+      {currentUserTeams.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {currentUserTeams.map((team) => (
+            <div key={team._id} className="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
+              <h3 className="text-2xl font-bold mb-2">
+                <Link to={`/dashboard/team/${team?.teamName}`} className="hover:underline">
+                  {team?.teamName}
+                </Link>
+              </h3>
+              <p className="text-white opacity-80 text-[16px]">Admin: {team.displayName}</p>
+              <p className="text-white opacity-70 mb-4 text-[16px]">Members: {team.teamMembers.length}</p>
+              
+              {/* Show Edit/Delete buttons if the user is the team leader */}
+              {team.teamLeader === currentUser?._id && (
+                <div className="flex justify-start mt-4 space-x-4">
+                  <EditTeam
+                    currentUserTeams={team}
+                    refetch={refetch}
+                    className="flex items-center bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-colors duration-200"
+                  >
+                    <FaEdit className="mr-1" /> 
+                  </EditTeam>
+                  <button
+                    className="flex items-center bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 transition-colors duration-200"
+                    onClick={() => handleDelete(team._id)}
+                  >
+                    <FaTrash className="mr-1" /> Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       ) : (
-        <p>No teams found for {user?.email}</p>
+        <p className="text-center text-gray-500">
+          {user?.email ? `No teams found for ${user?.email}` : "Please log in to see your teams."}
+        </p>
       )}
     </div>
   );

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Completed from "./Completed";
 import { CreateTask } from "./CreateTask";
 import InProgress from "./InProgress";
@@ -7,7 +6,7 @@ import TodoList from "./TodoList";
 
 const Tasks = () => {
   // State for search term and sort order
-  
+
   return (
     <div>
       <section className="container px-5 py-10 mx-auto">
@@ -37,16 +36,11 @@ const Tasks = () => {
         </div>
 
         {/* Filter Component */}
-        <div>
-         
-        </div>
+        <div></div>
 
         {/* Task Cards */}
         <div>
-          <TaskCard 
-            
-            
-          />
+          <TaskCard />
         </div>
       </section>
     </div>

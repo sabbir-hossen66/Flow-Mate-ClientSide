@@ -13,11 +13,12 @@ const Dropdown = () => {
   };
 
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
+
   
 const { displayName, email, photoURL } = user;
 const handleLogout = () => {
   dispatch(logout());
+
 };
   return (
     <div className="relative inline-block">
