@@ -10,7 +10,6 @@ const TeamCreate = () => {
   const user = useSelector((state) => state.auth.user);
   const displayName = user?.displayName;
   const email = user?.email;
-  const role = "team-admin";
   const {data = {}} = useQuery({
     queryKey: ['data',email],
     queryFn: async () => {
@@ -28,13 +27,12 @@ const TeamCreate = () => {
       teamMembers: [data._id],
       pendingMembers: [],
       email,
-      role,
       displayName,
     };
 
    // API call to create the team
 axiosCommon
-.post(`${import.meta.env.VITE_API_URL}/create-team`, formData)
+.post(`/create-team`, formData)
 .then((response) => {
   const data = response.data; 
   if (data) {
@@ -62,7 +60,7 @@ axiosCommon
   };
 
   return (
-    <div className="md:ms-72 flex justify-center items-center min-h-screen ">
+    <div className=" flex justify-center items-center min-h-screen ">
       <div className="card w-full max-w-lg shadow-2xl bg-white rounded-xl p-8">
         <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
           Create Your Team

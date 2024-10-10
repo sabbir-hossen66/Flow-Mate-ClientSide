@@ -45,20 +45,23 @@ const DashBoardCards = () => {
   };
   return (
     <div>
-      <div className="lg:flex lg:justify-between  gap-8">
+      <div className="lg:flex lg:justify-between gap-6">
         {cardData.map((card, index) => (
           <div
             key={index}
             onClick={() => handleCardClick(card.navigateTo)}
-            className={`cursor-pointer ${card.color} text-white rounded-lg shadow-lg p-8 flex flex-col items-center hover:scale-105 transform transition-transform duration-300`}
+            className={`cursor-pointer ${card.color} text-white rounded-lg shadow-lg p-6 lg:p-8 w-full lg:w-1/2  flex flex-col items-center hover:scale-105 transform transition-transform duration-300`}
           >
-            <div className="text-4xl mb-4">{card.icon}</div>
-            <h2 className="text-3xl font-bold mb-4">{card.title}</h2>
-            <p className="text-2xl mb-4">{card.count} Tasks</p>
-            <p className="text-sm">{card.description}</p>
+            <div className="text-3xl mb-4">{card.icon}</div>
+            <h2 className="text-2xl font-bold mb-4">{card.title}</h2>
+            <p className="text-xl mb-4">{card.count} Tasks</p>
+            {/* <p className="text-sm">{card.description}</p> */}
           </div>
         ))}
       </div>
+
+
+
     </div>
   );
 };

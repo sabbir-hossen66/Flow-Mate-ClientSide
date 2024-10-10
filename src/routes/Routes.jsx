@@ -17,6 +17,7 @@ import TeamCreate from "@/components/dashBoardRoutes/teamCreate/TeamCreate";
 import TaskCard from "@/components/dashBoardRoutes/tasks/TaskCard";
 import UpdateTask from "@/components/dashBoardRoutes/tasks/UpdateTask";
 import TeamRequest from "@/components/dashBoardRoutes/teamRequest/TeamRequest";
+import AdminDashboard from "@/components/Admin/AdminDashboard/AdminDashboard";
 
 
 
@@ -47,8 +48,16 @@ export const router = createBrowserRouter([
     element: <DashBoard />,
     children: [
       {
-        index: true,
+       index:true,
         element: <DashBoardHome />,
+      },
+      {
+        path: "admin",
+        element: (
+          
+            <AdminDashboard />
+        
+        ),
       },
       {
         path: "team/:teamName",

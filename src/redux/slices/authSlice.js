@@ -128,6 +128,7 @@ export const fetchCurrentUser = createAsyncThunk(
         if (user) {
           // Dispatch setUser action to update state with current user data
           dispatch(setUser({
+            
             uid: user.uid,
             email: user.email,
             displayName: user.displayName,

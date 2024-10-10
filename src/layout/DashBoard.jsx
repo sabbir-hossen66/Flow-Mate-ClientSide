@@ -48,12 +48,12 @@ const DashBoard = () => {
   }
   return (
     // flex lg:flex-row flex-col
-    <div className="min-h-screen flex lg:flex-row flex-col bg-gray-100">
-      <div >
+    <div className="min-h-screen flex lg:flex-row flex-col bg-gray-100 ">
+    
         <DashBoardNav />
-      </div>
-      <div>
-        <Outlet />
+      
+      <div className="flex-1 overflow-y-auto h-screen">
+        <Outlet context={{ loading }}  />
       </div>
     </div>
   );

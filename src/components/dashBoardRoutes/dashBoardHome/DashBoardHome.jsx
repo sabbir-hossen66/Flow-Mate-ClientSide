@@ -5,6 +5,10 @@ import DashBoardChart from "./dashBoardChart/DashBoardChart";
 import CommonButton from "@/components/commonButton/CommonButton";
 import ProjectCreate from "@/components/projectCreate/ProjectCreate";
 import DashBoardCards from "../dashBoardCards/DashBoardCards";
+import VisitorInsightsChart from "../visitorInsightsChart/VisitorInsightsChart";
+import DashBoardLoginUser from "../dashBoardLoginUser/DashBoardLoginUser";
+import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
+import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
 
 const DashBoardHome = () => {
   const dispatch = useDispatch();
@@ -26,7 +30,7 @@ const DashBoardHome = () => {
   return (
     <div>
 
-      <div className="">
+      <div className="mb-20">
         <nav className="absolute top-0 right-0 h-16">
           <div className="p-4">
             <div className="flex justify-between gap-5 items-center">
@@ -79,12 +83,24 @@ const DashBoardHome = () => {
       </div>
 
       {/* Cards */}
-      <div className="lg:ml-16 mt-20">
-        <DashBoardCards />
+      <div className="lg:flex flex-1">
+
+        <div className="lg:ml-16">
+          <DashBoardCards />
+        </div>
+
+        <VisitorInsightsChart />
+
       </div>
 
-      {/* Chart */}
-      {/* <DashBoardChart /> */}
+
+      {/*  */}
+      <div className="lg:flex lg:justify-evenly mx-auto flex-1">
+        <DashBoardLoginUser />
+        <DashBoardSubscriptionUser />
+        <DashBoardPaidUser />
+      </div>
+
     </div>
   );
 };

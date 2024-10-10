@@ -25,7 +25,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "sonner";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { useSelector } from "react-redux";
+import UserTeamName from "@/hooks/UserTeamName";
 export function CreateTask() {
   // State to manage form inputs
   const [startDate, setStartDate] = useState(new Date());
@@ -35,6 +36,23 @@ export function CreateTask() {
   const [priority, setPriority] = useState("");
   const [loading,setLoading] = useState(false)
   const axiosCommon = UseAxiosCommon()
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
+
+  const { teams } = UserTeamName(); // Destructuring to get 'teams' from the hook
+
+  // Log the entire teams array
+  console.log(teams);
+  
+  // Check if the teams array exists and has data
+  if (teams.length > 0) {
+    teams.forEach(team => {
+      console.log('Team Leader:', team.teamLeader);
+      console.log('Team Name:', team.teamName);
+    });
+  } else {
+    console.log('No teams found.');
+  }
   
   // Get query client
   const queryClient = useQueryClient();
@@ -66,16 +84,23 @@ export function CreateTask() {
       stage,
       priority,
       startDate,
+     
     });
 
     // Prepare the data as a JSON object
-    const taskData = {
-      taskTitle,
-      assignedTo,
-      stage,
-      priority,
-      startDate: startDate.toISOString(), // Convert date to a string in ISO format
-    };
+    const firstTeam = teams?.[0]; 
+
+  const taskData = {
+    taskTitle,
+    assignedTo,
+    stage,
+    priority,
+    startDate: startDate.toISOString(),
+    email: user?.email,
+    userName: user?.displayName, 
+    teamName: firstTeam?.teamName, // Correctly accessing teamName
+    teamLeaderId: firstTeam?.teamLeader // Correctly accessing teamLeader
+  };
 
     try {
       console.log("Sending taskData to /createTask");
