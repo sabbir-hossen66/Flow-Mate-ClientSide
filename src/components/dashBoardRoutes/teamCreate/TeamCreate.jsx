@@ -10,7 +10,6 @@ const TeamCreate = () => {
   const user = useSelector((state) => state.auth.user);
   const displayName = user?.displayName;
   const email = user?.email;
-  const role = "team-admin";
   const {data = {}} = useQuery({
     queryKey: ['data',email],
     queryFn: async () => {
@@ -28,7 +27,6 @@ const TeamCreate = () => {
       teamMembers: [data._id],
       pendingMembers: [],
       email,
-      role,
       displayName,
     };
 

@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 const Team = () => {
-  const [role, setRole] = useState(null);
   const axiosCommon = UseAxiosCommon();
   const team = useLoaderData();
   const user = useSelector((state) => state.auth.user);
@@ -23,15 +22,15 @@ const Team = () => {
       return res.data;
     }
   });
-  const { data: userss = [] } = useQuery({
-    queryKey: ['data', user?.email],
+  const { data: userss = {} } = useQuery({
+    queryKey: ['data', email],
     queryFn: async () => {
       const res = await axiosCommon.get(`/users?email=${email}`);
-      return Array.isArray(res.data) ? res.data : [res.data]; 
+      return res.data[0]; 
     },
-    enabled: !!user?.email,
+    enabled: !!email,
   });
-  const currentUser = userss.length > 0 ? users[0] : null;
+ 
    // Fetch user teams using react-query
    const { data: teams = [] } = useQuery({
     queryKey: ['teams', user?.email],
@@ -46,16 +45,7 @@ const Team = () => {
     users.find(user => user._id === memberId)
   ).filter(member => member !== undefined); // Only include valid members
 
-  // Fetch the user role
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/create-team/role/team-admin?email=${email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data[0]) {
-          setRole(data[0].role);
-        }
-      });
-  }, [email]);
+  
 
   // Handle member removal
   const handleRemoveMember = async (id) => {
@@ -76,7 +66,7 @@ const Team = () => {
       console.error(err.message);
     }
   };
-  const userId = currentUser?._id; 
+  const userId = userss?._id; 
   const currentUserTeams = teams.filter(team => team.teamMembers.includes(userId));
 
   if (isLoading) {
@@ -87,8 +77,7 @@ const Team = () => {
     return <div className="text-red-500">Error loading members....</div>;
   }
 
-  const isAdmin = role === 'team-admin';
-  
+
   return (
     <div className="md:w-[1050px] mx-auto mt-8">
       <section className="container p-10 mx-auto">
@@ -96,7 +85,7 @@ const Team = () => {
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">
             Team {team?.teamName} Members
           </h2>
-          {isAdmin && <AddTeamMember refetch={refetch} team={team} />}
+          {team.teamLeader === currentUserTeams[0].teamLeader && <AddTeamMember refetch={refetch} team={team} />}
         </div>
 
         {filteredMembers.length === 0 ? (
@@ -122,7 +111,7 @@ const Team = () => {
                   <th className="py-4 px-4 text-sm font-semibold text-gray-700 border-b border-gray-200 text-left">
                     Active
                   </th>
-                  {isAdmin && (
+                  {team.teamLeader === currentUserTeams[0].teamLeader && (
                     <th className="py-4 px-4 text-sm font-semibold text-gray-700 border-b border-gray-200 text-left">
                       Actions
                     </th>
@@ -130,7 +119,7 @@ const Team = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {filteredMembers.map((member) => (
+                {filteredMembers?.map((member) => (
                   <tr key={member._id} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
                       <div className="flex items-center gap-x-2">
@@ -143,7 +132,7 @@ const Team = () => {
                       </div>
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
-                      {member.role}
+                      {member?.role}
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
                       {member.email}
@@ -156,7 +145,7 @@ const Team = () => {
                         </span>
                       </div>
                     </td>
-                    {isAdmin && (
+                    {team.teamLeader === currentUserTeams[0].teamLeader && (
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-x-2">
                           <button onClick={() => handleRemoveMember(member._id)} className="text-white p-2 rounded-md bg-red-500 hover:bg-red-600 duration-75">
