@@ -25,7 +25,7 @@ const MyTeam = () => {
     queryKey: ['data', user?.email],
     queryFn: async () => {
       const res = await axiosCommon.get(`/users?email=${user.email}`);
-      return Array.isArray(res.data) ? res.data : [res.data]; // Ensure users is an array
+      return Array.isArray(res.data) ? res.data : [res.data]; 
     },
     enabled: !!user?.email,
   });
@@ -59,7 +59,7 @@ const MyTeam = () => {
   if (isLoading) return <Loader />;
   if (error) return <div className="text-red-500">Error: {error.message}</div>;
 
-  const userId = currentUser?._id; // Get current user's ID
+  const userId = currentUser?._id; 
   const currentUserTeams = teams.filter(team => team.teamMembers.includes(userId));
 
   return (
@@ -81,7 +81,7 @@ const MyTeam = () => {
               {team.teamLeader === currentUser?._id && (
                 <div className="flex justify-start mt-4 space-x-4">
                   <EditTeam
-                    currentUserTeams={currentUserTeams}
+                    currentUserTeams={team}
                     refetch={refetch}
                     className="flex items-center bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-colors duration-200"
                   >

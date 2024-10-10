@@ -23,7 +23,24 @@ const Team = () => {
       return res.data;
     }
   });
-
+  const { data: userss = [] } = useQuery({
+    queryKey: ['data', user?.email],
+    queryFn: async () => {
+      const res = await axiosCommon.get(`/users?email=${email}`);
+      return Array.isArray(res.data) ? res.data : [res.data]; 
+    },
+    enabled: !!user?.email,
+  });
+  const currentUser = userss.length > 0 ? users[0] : null;
+   // Fetch user teams using react-query
+   const { data: teams = [] } = useQuery({
+    queryKey: ['teams', user?.email],
+    queryFn: async () => {
+      const res = await axiosCommon.get(`/teams`);
+      return res.data;
+    },
+    enabled: !!user?.email,
+  });
   // Filter team members by their IDs
   const filteredMembers = team.teamMembers.map(memberId => 
     users.find(user => user._id === memberId)
@@ -59,6 +76,8 @@ const Team = () => {
       console.error(err.message);
     }
   };
+  const userId = currentUser?._id; 
+  const currentUserTeams = teams.filter(team => team.teamMembers.includes(userId));
 
   if (isLoading) {
     return <Loader />;
