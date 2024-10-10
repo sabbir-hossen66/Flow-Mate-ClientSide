@@ -34,11 +34,11 @@ const Testimonial = () => {
   return (
     <div>
       <Container className=" bg-gradient-to-b from-[#1e3a8a] to-[#299edd] text-white ">
-        <div className=" px-20 py-20">
+        <div className=" lg:px-20 px-5 py-5 lg:py-20">
           <div className="flex flex-col lg:flex-row gap-10">
-            <div className="my-auto space-y-4 flex-1">
+            <div className="my-auto space-y-2 lg:space-y-4 flex-1 lg:text-start text-center">
               <h1 className="text-xl font-bold">Clients Feedback</h1>
-              <h2 className="text-3xl font-bold">
+              <h2 className="lg:text-3xl text-sm lg:font-bold">
                 What Our Happy <br />
                 Customers Are Saying
               </h2>
@@ -50,42 +50,51 @@ const Testimonial = () => {
             </div>
 
             {/* Swiper Implementation for Sliding Cards */}
-            <div className="bg-white p-14 rounded-2xl flex-1 lg:w-[600px]">
+            <div className="bg-white p-5 lg:p-14 rounded-2xl flex-1 lg:w-[600px]">
               <Swiper
                 spaceBetween={20}
                 slidesPerView={1}
                 loop={true}
-                navigation={true} // Add navigation arrows
-                pagination={{ clickable: true }} // Add pagination dots
+                pagination={{ clickable: true }}
                 className="swiper-container"
-                onSwiper={(swiper) => (swiperRef.current = swiper)} // Set Swiper reference
+                onSwiper={(swiper) => (swiperRef.current = swiper)}
               >
                 {feedbacks.map((feedback, index) => (
                   <SwiperSlide key={index}>
-                    <div className="bg-white rounded-xl shadow-sm sm:flex h-60">
-                      <div className="shrink-0 w-60 relative rounded-xl overflow-hidden pt-[40%] sm:max-w-60 md:max-w-xs">
+                    <div className="bg-white rounded-xl shadow-sm flex flex-col sm:flex-row h-auto sm:h-60 ">
+                      <div className="shrink-0 sm:w-60 relative rounded-xl overflow-hidden sm:pt-[40%]">
                         <img
-                          className="size-full absolute top-0 start-0 object-cover"
-                          src={feedback.image} // Dynamic Image
+                          className="size-full absolute top-0 start-0 object-cover w-full h-full sm:h-auto"
+                          src={feedback.image}
                           alt={feedback.name}
                         />
                       </div>
-                      <div className="flex flex-wrap">
-                        <div className="px-8 py-2 flex flex-col h-full">
-                          <h3 className="text-lg font-bold text-gray-800 py-3">
-                            {feedback.name} {/* Dynamic Name */}
+                      <div className="flex flex-col sm:flex-wrap w-full sm:w-auto">
+                        <div className="px-4 py-2 sm:px-8 sm:py-2 flex flex-col justify-between h-full">
+                          <h3 className="text-lg font-bold text-gray-800 py-2 sm:py-3 text-center sm:text-start">
+                            {feedback.name}
                           </h3>
-                          <div className="flex items-center">
+                          <div className="flex justify-center sm:justify-start">
                             {Array.from({ length: feedback.rating }, (_, i) => (
                               <Star key={i} className="text-yellow-400" />
                             ))}
                           </div>
-                          <p className="mt-1 text-gray-500">
-                            {feedback.feedback} {/* Dynamic Comment */}
+                          <p className="mt-2 text-gray-500 text-center sm:text-start">
+                            {feedback.feedback}
                           </p>
-                          <div className="mt-5 sm:mt-auto flex gap-5">
-                            <button className="bg-black p-3 rounded-full text-yellow-600" onClick={handleSlideLeft}><FaChevronLeft /></button>  
-                            <button className="bg-black p-3 rounded-full text-yellow-600"  onClick={handleSlideRight}><FaChevronRight /></button>
+                          <div className="mt-5 sm:mt-auto flex justify-center sm:justify-start gap-3">
+                            <button
+                              className="bg-black p-3 rounded-full text-yellow-600"
+                              onClick={handleSlideLeft}
+                            >
+                              <FaChevronLeft />
+                            </button>
+                            <button
+                              className="bg-black p-3 rounded-full text-yellow-600"
+                              onClick={handleSlideRight}
+                            >
+                              <FaChevronRight />
+                            </button>
                           </div>
                         </div>
                       </div>
