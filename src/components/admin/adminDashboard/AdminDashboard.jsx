@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import UseAxiosCommon from '@/hooks/UseAxiosCommon';
 import { FaDollarSign, FaUserFriends, FaNewspaper } from 'react-icons/fa';
 import SmallBarChart from '../elements/upperNavigation/lineChart/SmallLineChart';
+import { Pie } from 'react-chartjs-2';
+import PieChartInteraction from '../elements/pieChart/PieChartInteraction';
 
 const AdminDashboard = () => {
   const [error, setError] = useState(null);
@@ -39,6 +41,37 @@ const AdminDashboard = () => {
       setError(error.message);
     },
   });
+  //fetch all teams
+  const { data: teams = [], error: teamError } = useQuery({
+    queryKey: ["teams"],
+    queryFn: async () => {
+      const res = await axiosCommon.get("/allTeams");
+      return res.data;
+    },
+  });
+  //get All mails tried to contact us
+
+  const { data: contactUs = [], error: contactUsError } = useQuery({
+    queryKey: ["contactUs"],
+    queryFn: async () => {
+      const res = await axiosCommon.get("/contacts/get");
+      return res.data;
+    },
+  });
+  //get all tasks created in our website
+  const { data: tasks = [], error: tasksError } = useQuery({
+    queryKey: ["tasks"],
+    queryFn: async () => {
+      const res = await axiosCommon.get("/createTask");
+      return res.data;
+    },
+  });
+console.log(tasks);
+console.log(contactUs);
+console.log(teams);
+
+
+
 
   // Handle error states
   if (paidError || loggedInError || subscriptionError) {
@@ -51,6 +84,13 @@ const AdminDashboard = () => {
     loggedInUsers: loggedInUsers.length, // Count of logged-in users
     subscriptionUsers: subscription.length, // Count of subscription users
   };
+  const userInteractionData = {
+    contactUs: contactUs.length,
+    tasks: tasks.length,
+    teams: teams.length
+  };
+  console.log(userInteractionData);
+  
 
   return (
     <div className=" mx-auto lg:pb-5">
@@ -92,8 +132,9 @@ const AdminDashboard = () => {
         </div>
 
         {/* Chart Section */}
-        <div className="">
+        <div className="flex flex-col lg:flex-row my-5">
           <SmallBarChart data={userGrowthData} /> {/* Use the Bar chart */}
+          <PieChartInteraction  data={userInteractionData} />
         </div>
       </div>
     </div>
