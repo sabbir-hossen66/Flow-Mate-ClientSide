@@ -1,17 +1,17 @@
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const DashBoardSubscriptionUser = () => {
   const axiosCommon = UseAxiosCommon();
   const user = useSelector((state) => state.auth.user);
-  const [error, setError] = useState(null);
 
-  // Fetching subscription user data
-  const { data: subscription = [], isLoading } = useQuery({
-    queryKey: ["subscription"],
+
+  // Fetching paid user data
+  const { data: paid = [], isLoading, isError } = useQuery({
+    queryKey: ["paid"],
+
     queryFn: async () => {
       const res = await axiosCommon.get("/newsletters");
       return res.data;
@@ -21,12 +21,17 @@ const DashBoardSubscriptionUser = () => {
     },
   });
 
+
+  // Handle loading state
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading paid user data...</div>;
   }
-  if (error) {
-    return <div>Error: {error}</div>;
+
+  // Handle error state
+  if (isError) {
+    return <div>Error fetching paid user data.</div>;
   }
+
 
   return (
     <div className="p-6">
@@ -36,25 +41,31 @@ const DashBoardSubscriptionUser = () => {
             <img
               className="w-20 h-20 rounded-full border-4 border-white shadow-md"
               src={user?.photoURL}
-              alt=""
+
+              alt={user?.name || 'User Avatar'}
             />
             <div className="text-center">
-              <p className="text-sm text-gray-100">Subscription user: {subscription.length}</p>
+              <p className="text-sm text-gray-100">Paid Users: {paid.length}</p>
+
 
               <Card className="shadow-xl hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
                 <CardHeader>
                   <div className="flex items-center space-x-4">
                     <img
                       className="w-16 h-16 rounded-full border-2 border-gray-200"
-                      src={user.avatar}
-                      alt={`${user.name}'s avatar`}
+
+                      src={user?.avatar || user?.photoURL} // Fallback for user avatar
+                      alt={`${user?.name}'s avatar`}
                     />
-                    <CardTitle className="text-lg font-semibold">{user.name}</CardTitle>
+                    <CardTitle className="text-lg font-semibold">{user?.name}</CardTitle>
+
                   </div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-gray-500">
-                    <strong>Subscription Users:</strong> {subscription.length}
+
+                    <strong>Total Paid Users:</strong> {paid.length}
+
                   </p>
                 </CardContent>
               </Card>
@@ -62,7 +73,9 @@ const DashBoardSubscriptionUser = () => {
           </div>
         </div>
       ) : (
-        <div>Loading user data...</div>
+
+        <div>No user logged in.</div>
+
       )}
     </div>
   );

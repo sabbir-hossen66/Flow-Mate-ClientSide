@@ -26,7 +26,7 @@ const handleLogout = () => {
       {/* Dropdown toggle button */}
       <button
         onClick={toggleDropdown}
-        className="relative z-10 flex items-center  text-sm  bg-white border border-transparent rounded-md focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring  focus:outline-none"
+        className="relative z-10 flex items-center  text-sm   border border-transparent rounded-md focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring  focus:outline-none"
       >
         <span className="">
           <img
@@ -43,9 +43,9 @@ const handleLogout = () => {
       {/* Dropdown menu */}
       {isOpen && (
         <div
-          className="absolute right-0 z-20 lg:w-64 md:w-56 w-48 py-2  overflow-hidden origin-top-right bg-white rounded-md shadow-xl dark:bg-gray-800"
+          className="absolute right-0 z-20 lg:w-64 md:w-56 w-38 py-2  overflow-hidden origin-top-right bg-white rounded-md shadow-xl dark:bg-gray-800"
         >
-          <li className="flex justify-center items-center p-2 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+          <li className="flex flex-col md:flex-row justify-center items-center p-2 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
             <img
               className="flex-shrink-0 object-cover mx-1 rounded-full w-6 h-6"
               src={photoURL || 'https://randomuser.me/api/portraits'}
@@ -55,7 +55,7 @@ const handleLogout = () => {
               <h1 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                 {displayName || 'No Name'}
               </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="lg:text-sm text-xs text-gray-500 dark:text-gray-400">
                 {email || 'No Email'}
               </p>
             </div>

@@ -11,30 +11,23 @@ import {
 } from 'firebase/auth';
 import auth from '../../../Firebase/Firebase.config';
 
-
 // Initialize Google Auth Provider
 const googleProvider = new GoogleAuthProvider();
 
 // Initial state
 const initialState = {
   user: null,
-  isAuthenticated: false, 
-  loading: false,
+  isAuthenticated: false,
+  loading: true,
   error: null,
 };
 
 // Async actions for Redux Toolkit
-
 export const createUser = createAsyncThunk(
   'auth/createUser',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      // Create user with email and password
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       // Extract serializable user data
@@ -55,14 +48,14 @@ export const signInWithGoogle = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      return {
+      const userData = {
         uid: result.user.uid,
         email: result.user.email,
         displayName: result.user.displayName,
         photoURL: result.user.photoURL,
-        creationTime: result.user.metadata.creationTime,
-        lastSignInTime: result.user.metadata.lastSignInTime,
       };
+
+      return userData;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -74,15 +67,14 @@ export const signInWithEmail = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
-      return {
+      const userData = {
         uid: result.user.uid,
         email: result.user.email,
         displayName: result.user.displayName,
         photoURL: result.user.photoURL,
-        creationTime: result.user.metadata.creationTime,
-        lastSignInTime: result.user.metadata.lastSignInTime,
-
       };
+
+      return userData;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -108,9 +100,12 @@ export const updateUserProfile = createAsyncThunk(
         await updateProfile(auth.currentUser, {
           displayName: name,
           photoURL: photo,
-        
         });
-        return { displayName: name, photoURL: photo };
+
+        return {
+          displayName: name,
+          photoURL: photo,
+        };
       }
       return rejectWithValue('No user is signed in.');
     } catch (error) {
@@ -119,31 +114,27 @@ export const updateUserProfile = createAsyncThunk(
   }
 );
 
-// Setup listener to persist user data in the Redux state
+// Setup listener to manage user authentication state
 export const fetchCurrentUser = createAsyncThunk(
   'auth/fetchCurrentUser',
-  async (_, { dispatch, rejectWithValue }) => {
-    try {
+  async (_, { dispatch }) => {
+    return new Promise((resolve) => {
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          // Dispatch setUser action to update state with current user data
-          dispatch(setUser({
-            
+          const userData = {
             uid: user.uid,
             email: user.email,
             displayName: user.displayName,
             photoURL: user.photoURL,
-            creationTime: user.metadata.creationTime,
-            lastSignInTime: user.metadata.lastSignInTime,
-            
-          }));
+          };
+
+          dispatch(setUser(userData));
         } else {
-          dispatch(setUser(null));
+          dispatch(clearUser());
         }
+        resolve();
       });
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
+    });
   }
 );
 
@@ -154,15 +145,14 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = !!action.payload; // Set isAuthenticated based on payload
-      state.loading = false;
+      state.loading = false; // Set loading to false after setting user
     },
     clearUser: (state) => {
       state.user = null;
       state.isAuthenticated = false; // Clear authentication state
-      state.loading = false;
+      state.loading = false; // Set loading to false when clearing user
     },
     setLoading: (state, action) => {
-      
       state.loading = action.payload; // Set loading state based on the action payload
     },
   },
@@ -231,7 +221,6 @@ const authSlice = createSlice({
   },
 });
 
-
-export const { setUser, clearUser,setLoading } = authSlice.actions;
+export const { setUser, clearUser, setLoading } = authSlice.actions;
 
 export default authSlice.reducer;
