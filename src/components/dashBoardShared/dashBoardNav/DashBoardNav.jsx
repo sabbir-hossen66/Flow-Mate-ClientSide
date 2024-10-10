@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { FaAd, FaHome } from "react-icons/fa";
 import { BsMicrosoftTeams } from "react-icons/bs";
 import { MdRoomPreferences } from "react-icons/md";
-import { RiSecurePaymentLine } from "react-icons/ri";
+import { RiDashboardHorizontalFill, RiSecurePaymentLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { Feedback } from "@/components/feedback/Feedback";
 import UseAdmin from "@/hooks/UseAdmin";
@@ -47,7 +47,7 @@ const DashBoardNav = () => {
                 to="/dashboard/admin"
                 className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
               >
-              
+              <RiDashboardHorizontalFill />
                 AdminDashboard
               </NavLink>
             ) : (

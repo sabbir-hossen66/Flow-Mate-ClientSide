@@ -58,7 +58,9 @@ const UpperNavigation = () => {
 
         {/* Admin Name and Date-Time */}
         <div className="user-actions flex items-center space-x-6">
-         <Dropdown/>
+       {
+        user?  <Dropdown/>:''
+       }
           <div className="date-time flex justify-between items-end gap-2">
             <span>{formattedDate}</span>
             <span>{formattedTime}</span>
@@ -66,23 +68,7 @@ const UpperNavigation = () => {
         </div>
       </nav>
 
-      {/* Sidebar for mobile (if necessary) */}
-      <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-          {/* Close button icon */}
-        </button>
-        <nav className="flex flex-col space-y-2">
-          {isAdmin ? (
-            <Link to="/dashboard/admin">
-
-            </Link>
-          ) : (
-            <Link to="/dashboard">
-                
-            </Link>
-          )}
-        </nav>
-      </div>
+     
     </div>
   );
 };
