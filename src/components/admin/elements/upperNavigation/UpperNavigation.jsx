@@ -61,7 +61,7 @@ const UpperNavigation = () => {
         <div
           className={`${
             isNavOpen ? "block" : "hidden"
-          } w-full lg:w-auto lg:flex lg:flex-col lg:items-center lg:space-y-4`}
+          } w-full lg:w-auto lg:flex lg:flex-row lg:items-center lg:space-x-4`}
         >
           {/* Search field on its own line */}
           <div className="w-full lg:w-auto mb-4 lg:mb-0">
@@ -72,8 +72,8 @@ const UpperNavigation = () => {
             />
           </div>
 
-          {/* User actions and Date-Time (third line in mobile) */}
-          <div className="flex flex-col items-center space-y-4 lg:flex-row lg:space-y-0 lg:space-x-4">
+          {/* User actions and Date-Time */}
+          <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
             {user && <Dropdown />}
             <div className="text-center text-sm">
               <p>{formattedDate}</p>
