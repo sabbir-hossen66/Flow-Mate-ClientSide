@@ -1,4 +1,5 @@
 import Marquee from "react-fast-marquee";
+import "./MarqueeSection.css"; // Assuming you have an external CSS file
 
 function MarqueeSection() {
   const logosGoingToLeft = [
@@ -16,13 +17,21 @@ function MarqueeSection() {
     "/images/bravado.png",
     "/images/beacons.png",
   ];
+
   return (
     <section className="my-8 sm:my-16">
-      <div>
-        <h2 className="text-center text-lg font-semibold leading-8 text-gray-900 pb-10">
-          Trusted by the world’s most innovative teams
+      <div className="my-4">
+        <h2 className="text-center text-xl font-semibold leading-8 text-slate-800 pb-10">
+          Trusted by
+          <span className="text-blue-800"> the world’s </span>
+          most innovative teams
         </h2>
+        <p className="text-center text-sm text-slate-800 py-3">
+          Over 10,000 customers in 100+ countries use our software to build
+          products their users love.
+        </p>
       </div>
+
       {/* TOP SIDE */}
       <Marquee
         direction="left"
@@ -33,8 +42,8 @@ function MarqueeSection() {
         pauseOnClick
       >
         {logosGoingToLeft.map((item, index) => (
-          <div key={index} className="mr-[89px]">
-            <img src={item} alt="logo" />
+          <div key={index} className="logo-container mr-[89px]">
+            <img src={item} alt="logo" className="logo-image" />
           </div>
         ))}
       </Marquee>
@@ -50,8 +59,8 @@ function MarqueeSection() {
         pauseOnClick
       >
         {logosGoingToRight.map((item, index) => (
-          <div key={index} className="mr-[89px]">
-            <img src={item} alt="logo" />
+          <div key={index} className="logo-container mr-[89px]">
+            <img src={item} alt="logo" className="logo-image" />
           </div>
         ))}
       </Marquee>
