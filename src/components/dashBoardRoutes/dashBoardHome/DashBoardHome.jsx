@@ -9,6 +9,7 @@ import VisitorInsightsChart from "../visitorInsightsChart/VisitorInsightsChart";
 import DashBoardLoginUser from "../dashBoardLoginUser/DashBoardLoginUser";
 import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
 import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
+import { Link } from "react-router-dom";
 
 const DashBoardHome = () => {
   const dispatch = useDispatch();
@@ -65,7 +66,7 @@ const DashBoardHome = () => {
                         href="#profile"
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                       >
-                        Profile
+                        <Link to={'/dashboard/dbprofile'}>Profile</Link>
                       </a>
                       <a
                         href="#logout"
