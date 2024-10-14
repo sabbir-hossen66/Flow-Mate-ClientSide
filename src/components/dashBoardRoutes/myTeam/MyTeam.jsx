@@ -71,7 +71,7 @@ const MyTeam = () => {
             <div key={team._id} className="bg-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
               <h3 className="text-2xl font-[500] mb-2">
                 <Link to={`/dashboard/team/${team?.teamName}`} className="hover:underline">
-                 Team Name: {team?.teamName}
+                {team?.teamName}
                 </Link>
               </h3>
               <p className=" opacity-80 text-[16px]">Admin: {team.displayName}</p>
