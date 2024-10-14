@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import UseAdmin from "@/hooks/UseAdmin";
 import Dropdown from "@/components/dropdown/Dropdown";
 import { Link } from "react-router-dom";
+import NotificationDropdown from "@/components/Notification/NotificationDropdown";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
@@ -52,7 +53,6 @@ function Navbar() {
 
   const [menu, setMenu] = useState(false);
   const toggleMenu = () => setMenu(!menu);
-  if (isAdminLoading) return <div>Loading...</div>;
 
   return (
     <div className="md:sticky md:top-0 md:shadow-none z-20 mt-[5rem] md:mt-0">
@@ -60,7 +60,11 @@ function Navbar() {
       <Container>
         <div className="hidden lg:block animate-in fade-in zoom-in bg-white p-4">
           <div className="flex justify-between mx-4 items-center">
-            <h1 className="text-xl font-bold">FlowMate</h1>
+            <img
+              className="h-14 w-auto"
+              src="https://i.ibb.co.com/sH49jvt/logo2-removebg-preview.png"
+              alt=""
+            />
             <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
               {links.map((item, index) => (
                 <div key={index} className="flex gap-2">
@@ -82,13 +86,8 @@ function Navbar() {
             <div className="flex items-center justify-between lg:gap-[20px] select-none">
               {user ? (
                 <>
-                  <div className="relative">
-                    <Link to="/notifications" className="relative">
-                      <IoIosNotifications className="text-blue-500 text-3xl" />
-                      <span className="absolute top-0 left-1 p-[2px] text-xs text-white bg-red-500 rounded-full">
-                        2
-                      </span>
-                    </Link>
+                  <div className="relative  text-xl">
+                    <NotificationDropdown />
                   </div>
                   <Dropdown />
                 </>
@@ -119,11 +118,11 @@ function Navbar() {
       >
         <div className="flex justify-between mx-[10px]">
           <Link to="/">
-            <h1 className="text-xl font-bold">Flow
-              <span className="text-blue-600">
-                Mate
-              </span>
-            </h1>
+            <img
+              className="h-8 md:h-12 w-auto"
+              src="https://i.ibb.co.com/sH49jvt/logo2-removebg-preview.png"
+              alt=""
+            />
           </Link>
           <div className="flex items-center gap-[40px]">
             {menu ? (
@@ -161,13 +160,8 @@ function Navbar() {
               <div className="flex flex-col gap-[20px]">
                 {user ? (
                   <div className="relative">
-                    <Link to="/notifications" className="relative">
-                      <IoIosNotifications className="text-blue-500 text-3xl" />
-                      <span className="absolute top-0 left-1 p-[2px] text-xs text-white bg-red-500 rounded-full">
-                        2
-                      </span>
-                    </Link>
-                    <Dropdown/>
+                    <NotificationDropdown />
+                    <Dropdown />
                   </div>
                 ) : (
                   <>
