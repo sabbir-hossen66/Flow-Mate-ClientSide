@@ -2,6 +2,7 @@ import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const TeamRequest = () => {
   const user = useSelector((state) => state.auth.user);
@@ -58,6 +59,12 @@ const acceptMember = async (teamId) => {
           : team
       )
     );
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Member accepted successfully",
+  });
+
 
     console.log(`Accepted member for team ${teamId}`);
   } catch (error) {

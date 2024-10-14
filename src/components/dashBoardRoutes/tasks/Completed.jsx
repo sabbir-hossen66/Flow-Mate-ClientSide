@@ -15,7 +15,7 @@ const Completed = () => {
   } = useQuery({
     queryKey: ["todos"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/createTask?email=${user.email}`);
+      const res = await fetch(`https://flowmate-serverside-ecru.vercel.app/createTask?email=${user.email}`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }

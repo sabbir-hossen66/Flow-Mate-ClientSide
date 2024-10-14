@@ -17,7 +17,7 @@ const T = () => {
     queryKey: ["tasks", user.email], // Include email in queryKey
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/createTask?email=${user.email}&stage=todo` // Fetch tasks for the logged-in user in "in progress" stage
+        `https://flowmate-serverside-ecru.vercel.app/createTask?email=${user.email}&stage=todo` // Fetch tasks for the logged-in user in "in progress" stage
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
@@ -74,7 +74,7 @@ export default T;
 //   } = useQuery({
 //     queryKey: ["todos"],
 //     queryFn: async () => {
-//       const res = await fetch("http://localhost:5000/createTask");
+//       const res = await fetch("https://flowmate-serverside-ecru.vercel.app/createTask");
 
 //       if (!res.ok) {
 //         throw new Error("Network response was not ok");
@@ -141,7 +141,7 @@ const InProgress = () => {
     queryKey: ["tasks", user.email], // Include email in queryKey
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/createTask?email=${user.email}&stage=in progress` // Fetch tasks for the logged-in user in "in progress" stage
+        `https://flowmate-serverside-ecru.vercel.app/createTask?email=${user.email}&stage=in progress` // Fetch tasks for the logged-in user in "in progress" stage
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
@@ -210,7 +210,7 @@ const Completed = () => {
     queryKey: ["tasks", user.email], // Include email in queryKey
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/createTask?email=${user.email}&stage=done` // Fetch tasks for the logged-in user in "in progress" stage
+        `https://flowmate-serverside-ecru.vercel.app/createTask?email=${user.email}&stage=done` // Fetch tasks for the logged-in user in "in progress" stage
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
