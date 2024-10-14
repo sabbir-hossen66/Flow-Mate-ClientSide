@@ -1,7 +1,7 @@
 import Container from "@/components/Container";
 import { ShineBorder } from "@/components/ui/border";
 import { useTheme } from "next-themes";
-
+import photo from '../../../../public/images/screenshot.png'
 export function BannerImage() {
   const theme = useTheme();
   return (
@@ -13,7 +13,7 @@ export function BannerImage() {
         <div className="w-full  ">
           <img
             className="w-full rounded-[14px]"
-            src="../../../../public/images/screenshot.png"
+            src={photo}
             alt=""
           />
         </div>

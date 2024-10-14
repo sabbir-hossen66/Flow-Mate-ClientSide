@@ -15,7 +15,7 @@ const InProgress = () => {
   } = useQuery({
     queryKey: ["tasks", user.email], // Include email in queryKey
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/createTask?email=${user.email}`); // Fetch all tasks for the logged-in user
+      const res = await fetch(`https://flowmate-serverside-ecru.vercel.app/createTask?email=${user.email}`); // Fetch all tasks for the logged-in user
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
