@@ -75,11 +75,11 @@ const acceptMember = async (teamId) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-3xl font-semibold mb-4">Pending Team Requests</h2>
+      <h2 className="text-3xl font-[500] mb-4"></h2>
       {matchingTeams.length > 0 ? (
         <table className="min-w-full text-center mt-12 w-full border border-gray-300">
           <thead>
-            <tr className="bg-gray-100">
+            <tr className="bg-gray-200">
               <th className="border px-4 py-2">Team Name</th>
               <th className="border px-4 py-2">Email</th>
               <th className="border px-4 py-2">Team Admin</th>
