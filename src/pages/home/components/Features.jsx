@@ -78,11 +78,15 @@ const Features = () => {
                   />
                   <div className=" h-1/2 w-1/2 md:h-1/4 md:w-1/3 absolute  bottom-2 left-2 md:bottom-8 md:left-8   rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border p-2  border-blue-400">
                     <div className="flex text-blue-800 justify-start items-center">
-                      <div className=" space-x-2">{icon}</div>
-                      <h1 className=" text-lg md:text-xl font-bold">{title}</h1>
+                      <div className="text-sm md:text-base space-x-2">
+                        {icon}
+                      </div>
+                      <h1 className=" text-base md:text-xl font-bold">
+                        {title}
+                      </h1>
                     </div>
 
-                    <p className=" leading-none text-slate-900 text-justify py-1 text-[12px] md:text-sm">
+                    <p className=" leading-none text-slate-900 text-justify lg:py-1 text-[10px] md:text-sm">
                       {description}
                     </p>
                   </div>
