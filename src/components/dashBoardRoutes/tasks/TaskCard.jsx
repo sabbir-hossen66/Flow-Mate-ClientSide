@@ -33,14 +33,13 @@ const TaskCard = () => {
   } = useForm();
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [sortOption, setSortOption] = useState(""); // State for sort option
-
+// track user
   const user = useSelector((state) => state.auth.user);
   const email = user?.email;
   const [elapsedTime, setElapsedTime] = useState({}); // Track elapsed time for tasks
   const [timers, setTimers] = useState({}); // Track timers for each task
   
 
-  // click for completed
 
   // Handlers for dropdown visibility
   const handleMouseEnter = () => {
@@ -136,32 +135,82 @@ const TaskCard = () => {
   };
 
   // Timer handling
-  const handleStopTimer = (taskId) => {
+  // const handleStopTimer = (taskId) => {
+  //   clearInterval(timers[taskId]); // Stop the timer
+  //   setTimers((prev) => ({ ...prev, [taskId]: null }));
+
+  //   // Save the stop state and elapsed time in localStorage
+  //   const stoppedTimers =
+  //     JSON.parse(localStorage.getItem("stoppedTimers")) || {};
+
+  //   // Store the elapsed time when stopping the timer
+  //   if (elapsedTime[taskId]) {
+  //     stoppedTimers[taskId] = {
+  //       stopped: true,
+  //       elapsedTime: elapsedTime[taskId], // Store the current elapsed time
+  //     };
+  //     localStorage.setItem("stoppedTimers", JSON.stringify(stoppedTimers));
+  //   }
+
+  //   Swal.fire({
+  //     position: "center",
+  //     icon: "success",
+  //     title: "Timer stopped",
+  //     showConfirmButton: false,
+  //     timer: 1500,
+  //   });
+  // };
+  const handleStopTimer = async (taskId) => {
     clearInterval(timers[taskId]); // Stop the timer
     setTimers((prev) => ({ ...prev, [taskId]: null }));
-
+  
     // Save the stop state and elapsed time in localStorage
-    const stoppedTimers =
-      JSON.parse(localStorage.getItem("stoppedTimers")) || {};
-
+    const stoppedTimers = JSON.parse(localStorage.getItem("stoppedTimers")) || {};
+  
     // Store the elapsed time when stopping the timer
     if (elapsedTime[taskId]) {
       stoppedTimers[taskId] = {
         stopped: true,
         elapsedTime: elapsedTime[taskId], // Store the current elapsed time
+    
       };
       localStorage.setItem("stoppedTimers", JSON.stringify(stoppedTimers));
+  
+      // Prepare the data to send in the POST request
+      const dataToSend = {
+        taskId: taskId,
+        elapsedTime: elapsedTime[taskId],
+        workerMail: taskId?.workerMail,
+        stopped: true,
+        taskTitle:taskId?.taskTitle,
+        taskDescription: taskId?.description,
+        taskDueDate: dayjs(taskId.dueDate).format("YYYY-MM-DD"),
+      };
+  
+      try {
+        // Send the POST request to save the timer data
+        const response = await axiosCommon.post(`timerData`, dataToSend);
+        if (response.status === 200) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Timer stopped and data saved",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          throw new Error("Failed to save data");
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Failed to stop timer and save data!",
+        });
+      }
     }
-
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Timer stopped",
-      showConfirmButton: false,
-      timer: 1500,
-    });
   };
-
+  
   // Timer handling in useEffect
   useEffect(() => {
     if (createTask) {
@@ -315,7 +364,7 @@ const TaskCard = () => {
               task.email === email && (
                 <div
                   key={index}
-                  className="bg-white w-80 p-4 rounded-lg shadow-lg my-2"
+                  className="bg-white hover:shadow-lg hover:shadow-sky-200 w-80 p-4 rounded-lg shadow-lg my-2"
                 >
                   {/* Priority */}
                   <div className="text-blue-500 text-xs font-semibold mb-2 uppercase">
@@ -325,14 +374,7 @@ const TaskCard = () => {
                   {/* Task Title */}
                   <div className="text-xl font-semibold mb-5">
                     {task?.taskTitle.slice(0, 50)}..
-                  </div>
-
-                  {/* Task Date */}
-                  {/* <div className="text-gray-500 text-sm mb-3">
-                    {" "}
-                    Started Date:{" "}
-                    {new Date(task?.startDate).toLocaleDateString()}
-                  </div> */}
+                  </div>               
                   <div className="text-gray-500 text-sm mb-3">
                     Elapsed Time:{" "}
                     {elapsedTime[task._id] && (
