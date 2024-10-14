@@ -15,13 +15,20 @@ export function FAQ() {
   }, []);
 
   return (
-    <Container className="flex flex-col max-w-6xl mx-auto my-20 md:flex-row justify-between gap-5 bg-blue-50 rounded-tl-2xl rounded-b-3xl py-3">
+    <div className="flex flex-col max-w-6xl mx-auto my-20 md:flex-row justify-between gap-5 bg-slate-300 rounded-tl-2xl rounded-b-3xl py-8 px-6">
       {/* Left section with title and description */}
       <div className="md:w-1/2" data-aos="fade-up">
         <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
         <p className="text-md font-normal mb-12">
           Below are answers to some common questions. If you need more help,
-          feel free to <a href="mailto:support@flowmate.com" className="text-blue-600 underline">email us</a>.
+          feel free to{" "}
+          <a
+            href="mailto:support@flowmate.com"
+            className="text-blue-600 underline"
+          >
+            email us
+          </a>
+          .
         </p>
       </div>
 
@@ -75,6 +82,6 @@ export function FAQ() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </Container>
+    </div>
   );
 }
