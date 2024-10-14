@@ -75,11 +75,11 @@ const acceptMember = async (teamId) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Pending Team Requests</h2>
+      <h2 className="text-3xl font-bold mb-6 text-start opacity-80 text-gray-600"></h2>
       {matchingTeams.length > 0 ? (
-        <table className="min-w-full w-full border border-gray-300">
+        <table className="min-w-full text-center mt-12 w-full border border-gray-300">
           <thead>
-            <tr className="bg-gray-100">
+            <tr className="bg-gray-200">
               <th className="border px-4 py-2">Team Name</th>
               <th className="border px-4 py-2">Email</th>
               <th className="border px-4 py-2">Team Admin</th>
@@ -95,7 +95,7 @@ const acceptMember = async (teamId) => {
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => acceptMember(team._id)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    className=" px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400  focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
                   >
                     Accept
                   </button>
