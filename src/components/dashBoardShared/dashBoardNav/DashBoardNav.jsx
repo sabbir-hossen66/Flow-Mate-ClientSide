@@ -26,9 +26,8 @@ const DashBoardNav = () => {
     <div className="flex h-screen">
       {/* Sidebar */}
       <div
-        className={`bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 text-white w-[250px] h-full lg:static lg:transform-none transition-transform duration-300 ease-in-out fixed lg:relative ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 p-4 shadow-lg z-50 absolute lg:relative`}
+        className={`bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 text-white w-[250px] h-full  lg:transform-none transition-transform duration-300 ease-in-out fixed lg:relative ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 p-4 shadow-lg z-50 absolute lg:relative`}
       >
         {/* Sidebar content */}
         <div className="relative space-y-6">
@@ -56,7 +55,7 @@ const DashBoardNav = () => {
                 className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
               >
                 <FaHome />
-                DashboardHome
+                UserDashBoard
               </NavLink>
             )}
 
@@ -132,9 +131,8 @@ const DashBoardNav = () => {
       <div className="flex-1">
         {/* Mobile Menu Button */}
         <button
-          className={`${
-            isSidebarOpen ? "hidden" : ""
-          } lg:hidden fixed top-4 left-4 z-50 p-2 rounded-full focus:outline-none`}
+          className={`${isSidebarOpen ? "hidden" : ""
+            } lg:hidden fixed top-4 left-4 z-50 p-2 rounded-full focus:outline-none`}
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           <svg
@@ -149,7 +147,7 @@ const DashBoardNav = () => {
         </button>
 
         {/* Page content here */}
-      
+
       </div>
     </div>
   );

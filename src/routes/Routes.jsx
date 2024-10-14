@@ -48,16 +48,20 @@ export const router = createBrowserRouter([
     element: <DashBoard />,
     children: [
       {
-       index:true,
+        index: true,
         element: <DashBoardHome />,
+      },
+      {
+        path: 'user',
+        element: <DashBoardHome />
       },
       {
         path: "admin",
         element: (
           <PrivateRoutes>
             <AdminDashboard />
-            </PrivateRoutes>
-        
+          </PrivateRoutes>
+
         ),
       },
       {
@@ -75,16 +79,16 @@ export const router = createBrowserRouter([
         element: <TaskDetails />,
       },
       {
-        path:'taskCard/:id',
-        element:<TaskCard/>,
-        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
+        path: 'taskCard/:id',
+        element: <TaskCard />,
+        loader: ({ params }) => fetch(`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
       },
       {
-        path:'updateTask/:id',
-        element:<UpdateTask/>,
-        loader:({params})=> fetch (`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
-        }
-        ,
+        path: 'updateTask/:id',
+        element: <UpdateTask />,
+        loader: ({ params }) => fetch(`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
+      }
+      ,
       {
         path: "tasks/taskDetails",
         element: <TaskDetails />,
