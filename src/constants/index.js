@@ -80,7 +80,7 @@ export const pricingPlans = [
   },
   {
     name: "6 Months Plan",
-    price: 15,
+    price: 50,
     paymentType: "Billed half-yearly",
     type: "basic", // Add type for tab filtering
     features: [
@@ -96,7 +96,7 @@ export const pricingPlans = [
   },
   {
     name: "12 Months Plan",
-    price: 12,
+    price: 90,
     paymentType: "Billed annually",
     type: "basic",
     features: [
@@ -115,7 +115,7 @@ export const pricingPlans = [
   },
   {
     name: "Expert Plan",
-    price: 320,
+    price: 299,
     paymentType: "Billed Annually",
     type: "premium", // Add type for tab filtering
     features: [
@@ -133,7 +133,7 @@ export const pricingPlans = [
   },
   {
     name: "Professional Plan",
-    price: 489,
+    price: 499,
     paymentType: "Billed Annually",
     type: "premium", // Add type for tab filtering
     features: [
@@ -152,7 +152,7 @@ export const pricingPlans = [
   },
   {
     name: "Premium Plan (5 Years)",
-    price: 579, // Set a price for 5 years
+    price: 1899, // Set a price for 5 years
     paymentType: "Billed every 5 years",
     type: "premium", // Add type for tab filtering
     features: [

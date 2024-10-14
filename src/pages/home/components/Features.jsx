@@ -1,6 +1,6 @@
 import Container from "@/components/Container";
 import { Command, Layout, ListFilter, TextQuote, Users } from "lucide-react";
-
+import { IoNotificationsSharp } from "react-icons/io5";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -72,7 +72,7 @@ const Features = () => {
               <SwiperSlide key={id}>
                 <div className="relative">
                   <img
-                    className="bg-gray-900  rounded-2xl"
+                    className="bg-slate-500 rounded-2xl"
                     src={image}
                     alt=""
                   />
@@ -133,7 +133,7 @@ const Features = () => {
           </div>
         </div>
         <div className="row-span-2 col-start-3 row-start-1  bg-slate-900 text-white rounded-xl pl-5 pt-5 ">
-          <ListFilter className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
+          <IoNotificationsSharp className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
           <h1 className="text-2xl font-bold text-slate-100 py-2">
             Realtime Notification
