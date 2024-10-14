@@ -22,6 +22,7 @@ const TeamCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
+      date: new Date().toLocaleString(),
       teamName,
       teamLeader: data._id,
       teamMembers: [data._id],
@@ -76,7 +77,7 @@ axiosCommon
             <input
               type="text"
               placeholder="Enter team name"
-              className="input w-full border-2 rounded-lg px-4 py-3 text-black placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition duration-200"
+              className="input mt-3 w-full border-2 rounded-lg px-4 py-3 text-black placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition duration-200"
               value={teamName}
               onChange={(e) => setTeamName(e.target.value)}
               required
@@ -86,7 +87,7 @@ axiosCommon
           <div className="form-control mt-6">
             <button
               type="submit"
-              className="btn btn-primary w-full py-3 text-lg font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300"
+              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400  focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
             >
               Create Team
             </button>
