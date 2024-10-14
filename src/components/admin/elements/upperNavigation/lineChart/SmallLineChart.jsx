@@ -1,20 +1,21 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2'; // Import Line chart
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
 
-// Register the required components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Register the required components for the line chart
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const SmallBarChart = ({ data }) => {
-  // Prepare data for the bar chart
+const SmallLineChart = ({ data }) => {
+  // Prepare data for the line chart
   const chartData = {
     labels: ['Paid Users', 'Logged In Users', 'Subscription Users'], // Updated labels
     datasets: [
@@ -22,6 +23,9 @@ const SmallBarChart = ({ data }) => {
         label: 'User Count',
         data: [data.paidUsers, data.loggedInUsers, data.subscriptionUsers],
         backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 2,
+        fill: true, // Fill under the line
       },
     ],
   };
@@ -50,10 +54,10 @@ const SmallBarChart = ({ data }) => {
   };
 
   return (
-    <div className='lg:w-auto h-[450px] px-3'>
-      <Bar data={chartData} options={chartOptions} />
+    <div className='w-auto h-[600px] px-3'> {/* Reduced width here */}
+      <Line data={chartData} options={chartOptions} />
     </div>
   );
 };
 
-export default SmallBarChart;
+export default SmallLineChart;
