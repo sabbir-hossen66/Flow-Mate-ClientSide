@@ -7,9 +7,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import Timeline from "../../../../public/images/features/timeline.svg";
-import Board from "../../../../public/images/features/board.svg";
-import List from "../../../../public/images/features/list.svg";
+import Timeline from "../../../../public/images/features/timeline.png";
+import Board from "../../../../public/images/features/board.png";
+import List from "../../../../public/images/features/list.png";
 
 import "../style.css";
 
@@ -76,15 +76,13 @@ const Features = () => {
                     src={image}
                     alt=""
                   />
-                  <div className=" h-1/2 w-1/2 md:h-1/4 md:w-1/3 absolute  bottom-2 left-2 md:bottom-8 md:left-8   rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border p-4">
-                    <div className="flex text-slate-300 justify-start items-center">
+                  <div className=" h-1/2 w-1/2 md:h-1/4 md:w-1/3 absolute  bottom-2 left-2 md:bottom-8 md:left-8   rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border p-2  border-blue-400">
+                    <div className="flex text-blue-800 justify-start items-center">
                       <div className=" space-x-2">{icon}</div>
-                      <h1 className=" text-lg md:text-2xl font-bold">
-                        {title}
-                      </h1>
+                      <h1 className=" text-lg md:text-xl font-bold">{title}</h1>
                     </div>
 
-                    <p className=" leading-none text-white text-justify py-2 text-[12px] md:text-sm">
+                    <p className=" leading-none text-slate-900 text-justify py-1 text-[12px] md:text-sm">
                       {description}
                     </p>
                   </div>
@@ -98,7 +96,7 @@ const Features = () => {
       {/* Bento Grid */}
 
       <div className="grid sm:grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 my-10 md:my-16 ">
-        <div className="col-span-2 bg-slate-900 text-white rounded-xl p-5 ">
+        <div className="col-span-2 bg-slate-800 text-white rounded-xl p-5 ">
           <ListFilter className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
           <h1 className="text-2xl font-bold text-slate-100 py-2">
