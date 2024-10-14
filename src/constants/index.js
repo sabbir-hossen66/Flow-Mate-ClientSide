@@ -66,8 +66,9 @@ export const footerLinks = [
 export const pricingPlans = [
   {
     name: "Free Plan",
-    price: "$0 / Month",
+    price: "0",
     paymentType: "",
+    type: "basic", // Add type for tab filtering
     features: [
       "1 active project",
       "2 team members",
@@ -81,6 +82,7 @@ export const pricingPlans = [
     name: "6 Months Plan",
     price: 15,
     paymentType: "Billed half-yearly",
+    type: "basic", // Add type for tab filtering
     features: [
       "10 active projects",
       "10 team members",
@@ -96,6 +98,7 @@ export const pricingPlans = [
     name: "12 Months Plan",
     price: 12,
     paymentType: "Billed annually",
+    type: "basic",
     features: [
       "Unlimited active projects",
       "Unlimited team members",
@@ -110,4 +113,63 @@ export const pricingPlans = [
       "And much more!",
     ],
   },
+  {
+    name: "Expert Plan",
+    price: 320,
+    paymentType: "Billed Annually",
+    type: "premium", // Add type for tab filtering
+    features: [
+      "Unlimited active projects",
+      "Unlimited team members",
+      "Advanced task management features",
+      "Unlimited file sharing",
+      "Task time tracking and reporting",
+      "API access and integrations (Slack, Google Drive, etc.)",
+      "Customizable dashboard and reports",
+      "Role-based access control",
+      "Priority support",
+      "Dedicated account manager",
+    ],
+  },
+  {
+    name: "Professional Plan",
+    price: 489,
+    paymentType: "Billed Annually",
+    type: "premium", // Add type for tab filtering
+    features: [
+      "Unlimited active projects",
+      "Unlimited team members",
+      "All advanced task management features",
+      "Unlimited file sharing",
+      "Task time tracking and reporting",
+      "API access and integrations (Slack, Google Drive, etc.)",
+      "Customizable dashboard and reports",
+      "Role-based access control",
+      "Dedicated account manager",
+      "Onboarding and training sessions",
+      "Custom reporting features",
+    ],
+  },
+  {
+    name: "Premium Plan (5 Years)",
+    price: 579, // Set a price for 5 years
+    paymentType: "Billed every 5 years",
+    type: "premium", // Add type for tab filtering
+    features: [
+      "Unlimited active projects",
+      "Unlimited team members",
+      "All advanced task management features",
+      "Unlimited file sharing",
+      "Task time tracking and reporting",
+      "API access and integrations (Slack, Google Drive, etc.)",
+      "Customizable dashboard and reports",
+      "Role-based access control",
+      "Priority support",
+      "Dedicated account manager",
+      "Onboarding and training sessions",
+      "Custom reporting features",
+      "Discounted rate for long-term commitment",
+    ],
+  },
 ];
+
