@@ -30,6 +30,7 @@ export function FAQ() {
           </a>
           .
         </p>
+        <img src="" alt="" />
       </div>
 
       {/* Accordion FAQ section with light background and rounded edges */}
