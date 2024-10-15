@@ -10,7 +10,7 @@ import DashBoardLoginUser from "../dashBoardLoginUser/DashBoardLoginUser";
 import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
 import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
 import { Link } from "react-router-dom";
-
+import roundGrapg from '../../../assets/round.png.png'
 const DashBoardHome = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -84,23 +84,30 @@ const DashBoardHome = () => {
       </div>
 
       {/* Cards */}
-      <div className="lg:flex flex-1">
-
-        <div className="lg:ml-16">
+      <div className="lg:flex flex-1 my-10">
+        <div className="lg:ml-16 bg-gray-200 p-10 rounded-2xl shadow-lg hover:shadow-sky-100">
+          <h1 className="mb-2 font-bold text-2xl">User Dashboard</h1>
+          <p className='text-gray-500 text-sm mb-4'>Here is some user information</p>
           <DashBoardCards />
         </div>
 
-        <VisitorInsightsChart />
-
       </div>
-
-
-      {/*  */}
       <div className="lg:flex lg:justify-evenly mx-auto flex-1">
         <DashBoardLoginUser />
         <DashBoardSubscriptionUser />
         <DashBoardPaidUser />
       </div>
+      <div className="flex lg:flex-row flex-col justify-between mx-14 my-10 gap-6">
+      <div className="flex-1 bg-white rounded-2xl">
+        <VisitorInsightsChart />
+      </div>
+      <div className=" bg-white  rounded-2xl h-96 p-10">
+        <img className="h-80 w-full" src={roundGrapg} alt="" />
+      </div>
+      </div>
+     
+      {/*  */}
+      
 
     </div>
   );
