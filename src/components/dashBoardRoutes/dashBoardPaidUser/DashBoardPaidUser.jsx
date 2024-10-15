@@ -2,6 +2,7 @@ import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { MdTurnSharpLeft } from "react-icons/md";
 
 const DashBoardSubscriptionUser = () => {
   const axiosCommon = UseAxiosCommon();
@@ -37,40 +38,25 @@ const DashBoardSubscriptionUser = () => {
     <div className="p-6">
       {user ? (
         <div className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-xl rounded-2xl overflow-hidden transform hover:scale-110 transition-transform duration-300 w-64">
-          <div className="p-6 flex flex-col items-center space-y-4">
-            <img
-              className="w-20 h-20 rounded-full border-4 border-white shadow-md"
-              src={user?.photoURL}
+        
 
-              alt={user?.name || 'User Avatar'}
-            />
-            <div className="text-center">
-              <p className="text-sm text-gray-100">Paid Users: {paid.length}</p>
-
-
-              <Card className="shadow-xl hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
+        <Card className="shadow-xl hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
                 <CardHeader>
-                  <div className="flex items-center space-x-4">
-                    <img
-                      className="w-16 h-16 rounded-full border-2 border-gray-200"
-
-                      src={user?.avatar || user?.photoURL} // Fallback for user avatar
-                      alt={`${user?.name}'s avatar`}
-                    />
-                    <CardTitle className="text-lg font-semibold">{user?.name}</CardTitle>
-
+                  <div className="text-start space-x-4">
+  
+                    <CardTitle className="text-lg font-semibold pb-7 text-gray-800">Logged-in </CardTitle>
+                     <p className="text-5xl font-bold text-black">
+                     {paid.length}
+                  </p>
+                    
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-500">
-
-                    <strong>Total Paid Users:</strong> {paid.length}
-
-                  </p>
+                <CardContent className='flex'>
+                <span className='text-blue-500 font-bold text-2xl'> <MdTurnSharpLeft /></span>
+                <p className="text-lg font-semibold">Total Logged-in Users</p>
                 </CardContent>
               </Card>
-            </div>
-          </div>
+           
         </div>
       ) : (
 
