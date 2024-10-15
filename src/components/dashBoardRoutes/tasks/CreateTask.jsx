@@ -33,8 +33,9 @@ export function CreateTask() {
   const [taskTitle, setTaskTitle] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
   const [stage, setStage] = useState("");
+  const [workerMail, setworkerMail] = useState("");
   const [priority, setPriority] = useState("");
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const axiosCommon = UseAxiosCommon()
   const user = useSelector((state) => state.auth.user);
   console.log(user);
@@ -43,7 +44,7 @@ export function CreateTask() {
 
   // Log the entire teams array
   console.log(teams);
-  
+
   // Check if the teams array exists and has data
   if (teams.length > 0) {
     teams.forEach(team => {
@@ -53,7 +54,7 @@ export function CreateTask() {
   } else {
     console.log('No teams found.');
   }
-  
+
   // Get query client
   const queryClient = useQueryClient();
 
@@ -84,23 +85,24 @@ export function CreateTask() {
       stage,
       priority,
       startDate,
-     
+      workerMail
     });
 
     // Prepare the data as a JSON object
-    const firstTeam = teams?.[0]; 
+    const firstTeam = teams?.[0];
 
-  const taskData = {
-    taskTitle,
-    assignedTo,
-    stage,
-    priority,
-    startDate: startDate.toISOString(),
-    email: user?.email,
-    userName: user?.displayName, 
-    teamName: firstTeam?.teamName, // Correctly accessing teamName
-    teamLeaderId: firstTeam?.teamLeader // Correctly accessing teamLeader
-  };
+    const taskData = {
+      taskTitle,
+      assignedTo,
+      stage,
+      priority,
+      workerMail,
+      startDate: startDate.toISOString(),
+      email: user?.email,
+      userName: user?.displayName,
+      teamName: firstTeam?.teamName, // Correctly accessing teamName
+      teamLeaderId: firstTeam?.teamLeader // Correctly accessing teamLeader
+    };
 
     try {
       console.log("Sending taskData to /createTask");
@@ -148,17 +150,27 @@ export function CreateTask() {
                 onChange={(e) => setTaskTitle(e.target.value)}
               />
             </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="assign">Assign Task To</Label>
-              <Input
-                id="assign"
-                placeholder="Codewave Asante, Jane Smith, Alex Johnson"
-                value={assignedTo}
-                onChange={(e) => setAssignedTo(e.target.value)}
-              />
+            <div className="flex flex-col lg:flex-row justify-between gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="assign">Assign Task To</Label>
+                <Input
+                  id="assign"
+                  placeholder="Codewave Asante, Jane Smith, Alex Johnson"
+                  value={assignedTo}
+                  onChange={(e) => setAssignedTo(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="assign">Worker mail</Label>
+                <Input
+                  id="worker_mail"
+                  type='email'
+                  placeholder="example@gmail.com"
+                  value={workerMail}
+                  onChange={(e) => setworkerMail(e.target.value)}
+                />
+              </div>
             </div>
-
             <div className="flex flex-col lg:flex-row justify-between gap-6">
               <div className="grid gap-2 w-full">
                 <Label htmlFor="stage">Select Stage</Label>
