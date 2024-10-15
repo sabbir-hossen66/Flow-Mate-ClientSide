@@ -77,7 +77,7 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
         isSelected ? "bg-gray-200" : "hover:bg-gray-100"
       }`}
     >
-      <div className="flex flex-col text-center pb-10 md:w-[350px] w-[280px]">
+      <div className="flex flex-col text-center pb-10 md:w-[350px] w-[263px]">
         <h3 className="text-base font-semibold">{name}</h3>
         <p className="text-3xl font-bold">
           {price === "0" ? "Get Started for Free!" : `$${price}`}
