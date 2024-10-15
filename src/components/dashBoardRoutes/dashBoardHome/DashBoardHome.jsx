@@ -28,6 +28,9 @@ const DashBoardHome = () => {
     setToggleOpen(!toggleOpen);
   };
 
+
+
+
   return (
     <div>
 
@@ -92,22 +95,25 @@ const DashBoardHome = () => {
         </div>
 
       </div>
+
+
+      {/*  */}
       <div className="lg:flex lg:justify-evenly mx-auto flex-1">
         <DashBoardLoginUser />
         <DashBoardSubscriptionUser />
         <DashBoardPaidUser />
       </div>
       <div className="flex lg:flex-row flex-col justify-between mx-14 my-10 gap-6">
-      <div className="flex-1 bg-white rounded-2xl">
-        <VisitorInsightsChart />
+        <div className="flex-1 bg-white rounded-2xl">
+          <VisitorInsightsChart />
+        </div>
+        <div className=" bg-white  rounded-2xl h-96 p-10">
+          <img className="h-80 w-full" src={roundGrapg} alt="" />
+        </div>
       </div>
-      <div className=" bg-white  rounded-2xl h-96 p-10">
-        <img className="h-80 w-full" src={roundGrapg} alt="" />
-      </div>
-      </div>
-     
+
       {/*  */}
-      
+
 
     </div>
   );
