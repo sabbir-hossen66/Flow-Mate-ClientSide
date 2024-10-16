@@ -5,6 +5,7 @@ import MainButton from "@/Shared/MainButton";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { HashLink } from "react-router-hash-link";
 
 function HeroSection() {
   useEffect(() => {
@@ -31,11 +32,13 @@ function HeroSection() {
           </p>
 
           <div className="flex gap-[12px] justify-center">
+            <HashLink smooth to="/#price" className="cursor-pointer">
             <MainButton
               text="Start for free"
               size="small"
               className="border-none rounded-[12px]"
             />
+            </HashLink>
             <MainButton
               text="Talk to sales"
               size="small"

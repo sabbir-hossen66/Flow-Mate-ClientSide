@@ -202,7 +202,7 @@ const PricingPlans = () => {
   const filteredPlans = pricingPlans.filter((plan) => plan.type === activeTab);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto" id="price">
       <section  data-aos="fade-up"
      data-aos-duration="500" className="p-4 md:p-8">
         <div className="py-8 max-w-screen-xl lg:py-16 py-5">
