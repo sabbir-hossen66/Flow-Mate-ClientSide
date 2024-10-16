@@ -40,7 +40,11 @@ const DashBoardLoginUser = () => {
 
     <div className="p-6">
       {user ? (
+
+        <div className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-xl rounded-2xl overflow-hidden transform hover:scale-110 transition-transform duration-300 w-64">
+
         <div className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-xl rounded-2xl overflow-hidden transform hover:scale-110 transition-transform duration-300 w-72">
+
            <Card className="shadow-xl hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
                 <CardHeader>
                   <div className="text-start space-x-4">

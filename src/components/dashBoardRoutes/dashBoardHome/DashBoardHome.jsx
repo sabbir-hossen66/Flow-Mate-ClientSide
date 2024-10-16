@@ -11,7 +11,9 @@ import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
 import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
 import { Link } from "react-router-dom";
 import roundGrapg from '../../../assets/round.png.png'
+
 import BoardSystem from "./boardSystem/BoardSystem";
+
 const DashBoardHome = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -28,6 +30,9 @@ const DashBoardHome = () => {
   const toggleHandler = () => {
     setToggleOpen(!toggleOpen);
   };
+
+
+
 
   return (
     <div>
@@ -79,8 +84,13 @@ const DashBoardHome = () => {
 
       {/* Cards */}
       <div className="lg:flex flex-1 my-10">
+
+        <div className="lg:ml-16 bg-gray-200 p-10 rounded-2xl shadow-lg hover:shadow-sky-100">
+          <h1 className="mb-2 font-bold text-2xl">User Dashboard</h1>
+
         <div className="lg:mx-16 bg-gray-200 p-10 rounded-2xl shadow-lg hover:shadow-sky-100 w-full">
           <h1 className="mb-2 font-bold text-2xl">FlowMate User Dashboard</h1>
+
           <p className='text-gray-500 text-sm mb-4'>Here is some user information</p>
           <DashBoardCards />
         </div>
@@ -102,6 +112,13 @@ const DashBoardHome = () => {
           <img className="h-80 w-full" src={roundGrapg} alt="" />
         </div>
       </div>
+
+
+      {/*  */}
+
+
+
+
     </div>
   );
 };
