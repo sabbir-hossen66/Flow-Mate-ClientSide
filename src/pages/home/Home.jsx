@@ -14,6 +14,7 @@ import HeroSection from "./components/HeroSection";
 import MarqueeSection from "./components/MarqueeSection";
 import { BannerImage } from "./components/BannerImage";
 import Features from "./components/Features";
+
 // import ModalPage from "@/components/modalPage/ModalPage";
 
 const Home = () => {
@@ -32,8 +33,9 @@ const Home = () => {
       {/* <OurTeams /> */}
 
       <PricingPlans />
+   
       <Testmonial />
-      <Newsletters />
+      {/* <Newsletters /> */}
       <FAQ />
       <Contact></Contact>
     </div>

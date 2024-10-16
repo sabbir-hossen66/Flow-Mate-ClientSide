@@ -1,15 +1,15 @@
 import Container from "@/components/Container";
 import { Command, Layout, ListFilter, TextQuote, Users } from "lucide-react";
-
+import { IoNotificationsSharp } from "react-icons/io5";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import Timeline from "../../../../public/images/features/timeline.svg";
-import Board from "../../../../public/images/features/board.svg";
-import List from "../../../../public/images/features/list.svg";
+import Timeline from "../../../../public/images/features/image .png";
+import Board from "../../../../public/images/features/board.png";
+import List from "../../../../public/images/features/list.png";
 
 import "../style.css";
 
@@ -67,24 +67,26 @@ const Features = () => {
           modules={[Autoplay]}
           className="mySwiper"
         >
-          <div className="w-2/3 mx-auto ">
+          <div className="w-2/3 bg-slate-100 mx-auto ">
             {features.map(({ id, title, description, icon, image }) => (
               <SwiperSlide key={id}>
                 <div className="relative">
                   <img
-                    className="bg-gray-900  rounded-2xl"
+                    className="bg-slate-100 rounded-2xl"
                     src={image}
                     alt=""
                   />
-                  <div className=" h-1/2 w-1/2 md:h-1/4 md:w-1/3 absolute  bottom-2 left-2 md:bottom-8 md:left-8   rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border p-4">
-                    <div className="flex text-slate-300 justify-start items-center">
-                      <div className=" space-x-2">{icon}</div>
-                      <h1 className=" text-lg md:text-2xl font-bold">
+                  <div className=" h-1/2 w-1/2 md:h-1/4 md:w-1/3 absolute  bottom-2 left-2 md:bottom-8 md:left-8   rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border p-2  border-blue-400">
+                    <div className="flex text-blue-800 justify-start items-center">
+                      <div className="text-sm md:text-base space-x-2">
+                        {icon}
+                      </div>
+                      <h1 className=" text-base md:text-xl font-bold">
                         {title}
                       </h1>
                     </div>
 
-                    <p className=" leading-none text-white text-justify py-2 text-[12px] md:text-sm">
+                    <p className=" leading-none text-slate-900 text-justify lg:py-1 text-[10px] md:text-sm">
                       {description}
                     </p>
                   </div>
@@ -98,55 +100,58 @@ const Features = () => {
       {/* Bento Grid */}
 
       <div className="grid sm:grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 my-10 md:my-16 ">
-        <div className="col-span-2 bg-slate-900 text-white rounded-xl p-5 ">
+        <div className="col-span-2 bg-slate-100 text-gray-950 rounded-xl p-5 ">
           <ListFilter className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
-          <h1 className="text-2xl font-bold text-slate-100 py-2">
+          <h1 className="text-2xl font-bold text-blue-800 py-2">
             Advance Filters
           </h1>
-          <p className="text-zinc-400">
+          <p className="text-zinc-800">
             Filter your notifications ans issue by any property with logical
             operators
           </p>
           <img
             className="pt-4"
-            src="../../../../public/images/features/filters.svg"
-            alt=""
+            src="/images/features/filters.svg" // Directly reference the public folder
+            alt="Filter icon"
+            style={{ filter: "invert(1)" }}
           />
         </div>
-        <div className="col-span-2 col-start-1 row-start-2 bg-slate-900 text-white rounded-xl pt-5 pl-5">
+        <div className="col-span-2 col-start-1 row-start-2 bg-slate-200 text-gray-950 rounded-xl pt-5 pl-5">
           <div className="flex justify-between">
             <div>
               <Command className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
-              <h1 className="text-2xl font-bold text-slate-100 py-2">
+              <h1 className="text-2xl font-bold text-blue-800 py-2">
                 Keyboard-first Design
               </h1>
-              <p className="text-zinc-400">
+              <p className="text-zinc-800">
                 Optimize for efficient keyboard navigation and shortcut for
                 everything
               </p>
             </div>
             <img
               className="pt-4"
-              src="../../../../public/images/features/shortcuts.svg"
+              src="/images/features/shortcuts.svg"
               alt=""
+              style={{ filter: "invert(1)" }}
             />
           </div>
         </div>
-        <div className="row-span-2 col-start-3 row-start-1  bg-slate-900 text-white rounded-xl pl-5 pt-5 ">
-          <ListFilter className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
+        <div className="row-span-2 col-start-3 row-start-1 bg-slate-100 text-gray-950  rounded-xl pl-5 pt-5 ">
+          <IoNotificationsSharp className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
-          <h1 className="text-2xl font-bold text-slate-100 py-2">
+          <h1 className="text-2xl font-bold text-blue-800 py-2">
             Realtime Notification
           </h1>
-          <p className="text-zinc-400">
+          <p className="text-zinc-800">
             Get notified of new issues, comments, and updates in real-time.
           </p>
           <img
             className="pt-4 pl-20"
-            src="../../../../public/images/features/editor.svg"
+            src="/images/features/editor.svg"
             alt=""
+            style={{ filter: "invert(1)" }}
           />
         </div>
       </div>
