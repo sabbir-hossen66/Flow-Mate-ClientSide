@@ -19,7 +19,7 @@ import {
 import { Input } from "../ui/input";
 import CommonButton from "../commonButton/CommonButton";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -29,14 +29,22 @@ export function CardWithForm({ closeForm }) {
   const axiosCommon = UseAxiosCommon();
 
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
+  const email = user?.email;
+  const {data = {}} = useQuery({
+    queryKey: ['data',email],
+    queryFn: async () => {
+      const res = await axiosCommon.get(`/users?email=${email}`)
+      return res.data
+    },
+    enabled: !!email
+  })
 
   const queryClient = useQueryClient();
 
   // data post
   const { mutateAsync } = useMutation({
     mutationFn: async (boardData) => {
-      const { data } = await axiosCommon.post(`/createBoard`, boardData);
+      const { data } = await axiosCommon.post(`/create-team`, boardData);
       return data;
     },
     onSuccess: () => {
@@ -52,8 +60,9 @@ export function CardWithForm({ closeForm }) {
     e.preventDefault();
     setLoading(true);
     const boardData = {
+      date: new Date().toLocaleString(),
       boardName: e.target.boardName.value,
-      workspace: e.target.workspace.value,
+      teamName: e.target.teamName.value,
       email: user?.email,
       userName: user?.displayName,
     };
@@ -92,8 +101,8 @@ export function CardWithForm({ closeForm }) {
               <Input id="boardName" placeholder="Name of your project" />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="workspace">Work Space</Label>
-              <Input id="workspace" placeholder="Workspace for your project" />
+              <Label htmlFor="teamName">Team Name</Label>
+              <Input id="teamName" placeholder="Team Name for your project" />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Visibility</Label>
