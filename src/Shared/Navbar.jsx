@@ -45,7 +45,7 @@ function Navbar() {
         ...defaultLinks,
         {
           route: isAdmin ? "/dashboard/admin" : "/dashboard",
-          name: "Dashboard",
+          name: isAdminLoading ? "Loading..." : "Dashboard",
           badgeCount: 0,
         },
       ]
