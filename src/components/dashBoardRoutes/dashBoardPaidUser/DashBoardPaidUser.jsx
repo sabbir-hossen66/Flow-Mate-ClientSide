@@ -43,7 +43,7 @@ const DashBoardSubscriptionUser = () => {
             <CardHeader>
               <div className="text-start space-x-4">
                 <CardTitle className="text-lg font-semibold pb-7 text-gray-800">
-                  Logged-in{" "}
+                  Paid{" "}
                 </CardTitle>
                 <p className="text-5xl font-bold text-black">{paid.length}</p>
               </div>
@@ -53,7 +53,7 @@ const DashBoardSubscriptionUser = () => {
                 {" "}
                 <MdTurnSharpLeft />
               </span>
-              <p className="text-lg font-semibold">Total Logged-in Users</p>
+              <p className="text-lg font-semibold">Total paid Users</p>
             </CardContent>
           </Card>
         </div>

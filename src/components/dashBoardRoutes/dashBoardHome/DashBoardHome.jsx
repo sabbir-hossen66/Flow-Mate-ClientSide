@@ -84,19 +84,22 @@ const DashBoardHome = () => {
 
       {/* Dashboard Content */}
       <div className="lg:flex flex-1 my-10">
-        {/* User Dashboard Section */}
-        <div className="lg:ml-16 bg-gray-200 p-10 rounded-2xl shadow-lg hover:shadow-sky-100 w-full">
+        <div className="lg:mx-16 bg-gray-200 p-10 rounded-2xl shadow-lg hover:shadow-sky-100 w-full">
           <h1 className="mb-2 font-bold text-2xl">FlowMate User Dashboard</h1>
           <p className="text-gray-500 text-sm mb-4">
             Here is some user information
           </p>
           <DashBoardCards />
         </div>
+      </div>
 
-        {/* Board System */}
-        <div className="mx-10 my-10">
-          <BoardSystem />
-        </div>
+      <div className=" mx-10 my-10">
+        <BoardSystem />
+      </div>
+      <div className="lg:flex lg:justify-evenly mx-auto flex-1">
+        <DashBoardLoginUser />
+        <DashBoardSubscriptionUser />
+        <DashBoardPaidUser />
       </div>
 
       {/* User Stats */}
