@@ -1,5 +1,5 @@
 import Completed from "./Completed";
-import { CreateTask } from "./CreateTask";
+// import { CreateTask } from "./CreateTask";
 import InProgress from "./InProgress";
 import TaskCard from "./TaskCard";
 import TodoList from "./TodoList";
@@ -18,7 +18,7 @@ const Tasks = () => {
             </h2>
           </div>
           <div className="py-5 lg:py-0">
-            <CreateTask />
+          
           </div>
         </div>
 
