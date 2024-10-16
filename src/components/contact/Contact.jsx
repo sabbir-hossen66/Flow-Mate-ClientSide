@@ -3,7 +3,9 @@ import Swal from "sweetalert2";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { MessageSquareCode, PhoneIcon } from "lucide-react";
 import Container from "../Container";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 const Contact = () => {
   const axiosCommon = UseAxiosCommon();
   const serviceID = import.meta.env.VITE_EMAILJS_SERVICEID;
@@ -50,9 +52,14 @@ const Contact = () => {
       }
     });
   };
-
+  useEffect(() => {
+    AOS.init({
+      duration: 500,  
+      once: false, 
+    });
+  }, []);
   return (
-    <div className="mx-auto max-w-7xl rounded-2xl">
+    <div data-aos="zoom-in-right" className="mx-auto max-w-7xl rounded-2xl">
       <div className="relative my-2 mb-4 ">
         <div className="absolute inset-0">
           <div className="absolute inset-y-0 left-0 w-1/2 bg-slate-200 rounded-2xl" />
