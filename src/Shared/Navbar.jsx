@@ -144,14 +144,19 @@ function Navbar() {
         </div>
         {menu && (
           <div className="my-8 select-none animate-in slide-in-from-right">
-            <div className="flex flex-col gap-8 mt-8 mx-4">
+            <div className="flex flex-col items-center justify-center gap-8 mt-8 mx-4">
               {links.map((item, index) => (
                 <div key={index} className="flex gap-2 ">
-                  <Link to={item.route}>
-                    <p className="hover:text-primary cursor-pointer flex items-center gap-2 font-[500] text-gray text-center mx-auto">
-                      {index + 1}. {item.name}
-                    </p>
-                  </Link>
+                  <NavLink
+                    to={item.route}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-[#F1F5F9] text-primary font-[500] p-1 rounded-lg flex items-center justify-center"
+                        : "hover:text-primary cursor-pointer flex items-center justify-center gap-2 font-[500] text-gray"
+                    }
+                  >
+                    <p>{item.name}</p>
+                  </NavLink>
                   {item.badgeCount ? (
                     <div className="h-8 w-8 rounded-full bg-primary flex justify-center items-center font-semibold text-white">
                       {item.badgeCount}
