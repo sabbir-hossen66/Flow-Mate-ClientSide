@@ -19,6 +19,8 @@ import UpdateTask from "@/components/dashBoardRoutes/tasks/UpdateTask";
 import TeamRequest from "@/components/dashBoardRoutes/teamRequest/TeamRequest";
 import AdminDashboard from "@/components/admin/adminDashboard/AdminDashboard";
 import DashBoardProfile from "@/components/dashBoardRoutes/dashBoardProfile/DashBoardProfile";
+import BoardSystem from "@/components/dashBoardRoutes/dashBoardHome/boardSystem/BoardSystem";
+import BoardDetails from "@/components/dashBoardRoutes/dashBoardHome/boardSystem/boardDetails";
 
 
 
@@ -114,8 +116,19 @@ export const router = createBrowserRouter([
         path: "team-request",
         element: <TeamRequest />,
       },
+      {
+        path: 'boardSystem',
+        element: <BoardSystem />,
+      },
+      {
+        path: 'createBoard/:id',
+        element: <BoardDetails />,
+        loader: ({ params }) => fetch(`http://localhost:5000/createBoard/${params.id}`)
+      },
+     
     ],
   },
+  
   {
     path: "/login",
     element: <Login />,

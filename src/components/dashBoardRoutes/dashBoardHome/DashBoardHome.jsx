@@ -11,6 +11,9 @@ import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
 import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
 import { Link } from "react-router-dom";
 import roundGrapg from '../../../assets/round.png.png'
+
+import BoardSystem from "./boardSystem/BoardSystem";
+
 const DashBoardHome = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -38,19 +41,12 @@ const DashBoardHome = () => {
         <nav className="absolute top-0 right-0 h-16">
           <div className="p-4">
             <div className="flex justify-between gap-5 items-center">
-
               <div className="flex items-center justify-between space-x-4 lg:space-x-9 ml-auto">
-
                 <div className="relative" onClick={toggleHandler}>
                   <CommonButton text="Create"></CommonButton>
                 </div>
-
-
                 {toggleOpen && <ProjectCreate />}
-
                 <FaBell className="h-6 w-6" />
-
-
                 <div className="relative">
                   <button
                     onClick={toggleDropdown}
@@ -88,16 +84,21 @@ const DashBoardHome = () => {
 
       {/* Cards */}
       <div className="lg:flex flex-1 my-10">
+
         <div className="lg:ml-16 bg-gray-200 p-10 rounded-2xl shadow-lg hover:shadow-sky-100">
           <h1 className="mb-2 font-bold text-2xl">User Dashboard</h1>
+
+        <div className="lg:mx-16 bg-gray-200 p-10 rounded-2xl shadow-lg hover:shadow-sky-100 w-full">
+          <h1 className="mb-2 font-bold text-2xl">FlowMate User Dashboard</h1>
+
           <p className='text-gray-500 text-sm mb-4'>Here is some user information</p>
           <DashBoardCards />
         </div>
 
       </div>
-
-
-      {/*  */}
+      <div className=" mx-10 my-10">
+        <BoardSystem />
+      </div>
       <div className="lg:flex lg:justify-evenly mx-auto flex-1">
         <DashBoardLoginUser />
         <DashBoardSubscriptionUser />
@@ -112,7 +113,10 @@ const DashBoardHome = () => {
         </div>
       </div>
 
+
       {/*  */}
+
+
 
 
     </div>

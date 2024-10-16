@@ -20,6 +20,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkout/CheckoutForm";
 import { FaHandPointRight } from "react-icons/fa";
+import { MdOutlineWorkspacePremium } from "react-icons/md";
+import { RiWirelessChargingLine } from "react-icons/ri";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -58,7 +60,7 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
         title: "Free Plan Activated",
         confirmButtonColor: "#2563EB",
         confirmButtonText: "Close",
-        text: "You have successfully activated the free plan.",
+        text: "You are already included in the free plan.",
       });
     }
   };
@@ -75,7 +77,7 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
         isSelected ? "bg-gray-200" : "hover:bg-gray-100"
       }`}
     >
-      <div className="flex flex-col text-center pb-10 md:w-[350px] w-[280px]">
+      <div className="flex flex-col text-center pb-10 md:w-[350px] w-[263px]">
         <h3 className="text-base font-semibold">{name}</h3>
         <p className="text-3xl font-bold">
           {price === "0" ? "Get Started for Free!" : `$${price}`}
@@ -95,14 +97,14 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
         </ul>
         {price === "0" ? (
           <Button
-            className="w-full font-bold gap-2 shadow uppercase p-2 text-white"
+            className="w-full font-bold gap-2 shadow uppercase p-2 text-white bg-blue-800"
             onClick={handleStartFree}
           >
             Start Free
           </Button>
         ) : (
           <Button
-            className="w-full font-bold gap-2 shadow uppercase p-2 text-white"
+            className="w-full font-bold gap-2 shadow uppercase p-2 text-white bg-blue-800"
             onClick={handleGetStarted}
           >
             Get Started
@@ -211,7 +213,10 @@ const PricingPlans = () => {
                 }`}
                 onClick={() => setActiveTab("basic")}
               >
-                Basic
+                <div className="flex justify-center items-center py-2 gap-2">
+                  <RiWirelessChargingLine />
+                  Basic Plans
+                </div>
               </button>
 
               <button
@@ -222,7 +227,10 @@ const PricingPlans = () => {
                 }`}
                 onClick={() => setActiveTab("premium")}
               >
-                Premium
+                <div className="flex justify-center gap-2 items-center py-2">
+                  <MdOutlineWorkspacePremium />
+                  Premium Plans
+                </div>
               </button>
             </div>
           </div>

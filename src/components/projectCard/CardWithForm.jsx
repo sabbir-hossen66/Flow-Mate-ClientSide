@@ -52,9 +52,9 @@ export function CardWithForm({ closeForm }) {
     e.preventDefault();
     setLoading(true);
     const boardData = {
-      name: e.target.name.value,
+      boardName: e.target.boardName.value,
       workspace: e.target.workspace.value,
-      userEmail: user?.email,
+      email: user?.email,
       userName: user?.displayName,
     };
     try {
@@ -89,7 +89,7 @@ export function CardWithForm({ closeForm }) {
             />
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Board Name</Label>
-              <Input id="name" placeholder="Name of your project" />
+              <Input id="boardName" placeholder="Name of your project" />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="workspace">Work Space</Label>
