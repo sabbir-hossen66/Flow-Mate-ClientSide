@@ -59,7 +59,7 @@ const Contact = () => {
     });
   }, []);
   return (
-    <div data-aos="zoom-in-right" className="mx-auto max-w-7xl rounded-2xl">
+    <div id="contact" data-aos="zoom-in-right" className="mx-auto max-w-7xl rounded-2xl">
       <div className="relative my-2 mb-4 ">
         <div className="absolute inset-0">
           <div className="absolute inset-y-0 left-0 w-1/2 bg-slate-200 rounded-2xl" />
