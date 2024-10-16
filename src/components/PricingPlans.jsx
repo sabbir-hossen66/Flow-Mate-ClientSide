@@ -19,15 +19,17 @@ import { useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkout/CheckoutForm";
+import { FaHandPointRight } from "react-icons/fa";
+import { MdOutlineWorkspacePremium } from "react-icons/md";
+import { RiWirelessChargingLine } from "react-icons/ri";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-
-console.log(stripePromise);
 
 const PricingPlanCard = ({ name, price, features, paymentType }) => {
   const user = useSelector((state) => state.auth.user);
   const [open, setOpen] = useState(false);
   const [openPaymentModal, setOpenPaymentModal] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
 
   const handleGetStarted = () => {
     if (!user) {
@@ -43,19 +45,44 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
     }
   };
 
+  const handleStartFree = () => {
+    if (!user) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Required",
+        confirmButtonColor: "#2563EB",
+        confirmButtonText: "Login",
+        text: "You need to be logged in to subscribe to a plan",
+      });
+    } else {
+      Swal.fire({
+        icon: "success",
+        title: "Free Plan Activated",
+        confirmButtonColor: "#2563EB",
+        confirmButtonText: "Close",
+        text: "You are already included in the free plan.",
+      });
+    }
+  };
+
   const handleProceedToPayment = () => {
-    setOpen(false); // Close the first modal
+    setOpen(false);
+    setIsSelected(true);
     setOpenPaymentModal(true);
   };
 
   return (
-    <div className="flex flex-col border-2 rounded-lg p-5 hover:shadow-lg transform delay-150 mx-auto">
-      <div className="flex flex-col text-center pb-10">
+    <div
+      className={`flex flex-col border-2 rounded-lg p-5 hover:shadow-lg transform delay-150 mx-auto hover:bg-slate-200 active:bg-gray-700 active:text-white ${
+        isSelected ? "bg-gray-200" : "hover:bg-gray-100"
+      }`}
+    >
+      <div className="flex flex-col text-center pb-10 md:w-[350px] w-[263px]">
         <h3 className="text-base font-semibold">{name}</h3>
         <p className="text-3xl font-bold">
-          {price}{" "}
+          {price === "0" ? "Get Started for Free!" : `$${price}`}
           <span className="text-sm font-semibold text-zinc-500">
-            ({paymentType})
+            {price === "0" ? "" : ` ${paymentType ? `(${paymentType})` : ""}`}
           </span>
         </p>
       </div>
@@ -63,28 +90,26 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
         <ul role="list" className="mb-8 space-y-4 text-left">
           {features.map((feature, index) => (
             <li key={index} className="flex items-center space-x-3">
-              <svg
-                className="flex-shrink-0 w-5 h-5 text-teal-600"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 00-1.414 0L7 13.586 4.707 11.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l9-9a1 1 0 000-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <FaHandPointRight className="text-blue-600" />
               <span>{feature}</span>
             </li>
           ))}
         </ul>
-        <Button
-          className="w-full font-bold gap-2 shadow uppercase p-2 text-white"
-          onClick={handleGetStarted}
-        >
-          Get Started
-        </Button>
+        {price === "0" ? (
+          <Button
+            className="w-full font-bold gap-2 shadow uppercase p-2 text-white bg-blue-800"
+            onClick={handleStartFree}
+          >
+            Start Free
+          </Button>
+        ) : (
+          <Button
+            className="w-full font-bold gap-2 shadow uppercase p-2 text-white bg-blue-800"
+            onClick={handleGetStarted}
+          >
+            Get Started
+          </Button>
+        )}
       </div>
       {/* Modal for Subscription Details */}
       <Dialog open={open} onOpenChange={setOpen}>
@@ -162,33 +187,75 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
   );
 };
 
-const PricingPlans = () => (
-  <Container>
-    <section className="p-4 md:p-8">
-      <div className="py-8 max-w-screen-xl lg:py-16">
-        <div className="mx-auto max-w-3xl text-center pb-12 md:pb-20">
-          <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
-            Pricing <span className="text-blue-500">Plans</span>
-          </h1>
-          <p className="text-center text-gray-500">
-            Choose a plan that best suits your data needs.
-          </p>
+const PricingPlans = () => {
+  const [activeTab, setActiveTab] = useState("basic"); // State to track the active tab
+
+  // Filter pricing plans based on the active tab
+  const filteredPlans = pricingPlans.filter((plan) => plan.type === activeTab);
+
+  return (
+    <div className="max-w-7xl mx-auto">
+      <section className="p-4 md:p-8">
+        <div className="py-8 max-w-screen-xl lg:py-16 py-5">
+          <div className="mx-auto max-w-3xl text-center pb-12 md:pb-20">
+            <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
+              Pricing <span className="text-blue-500">Plans</span>
+            </h1>
+            <p className="text-center text-gray-500">
+              Choose a plan that best suits your data needs.
+            </p>
+            <div className="grid gap-3 md:grid-cols-2 my-4">
+              <button
+                className={`w-full px-3 py-2 font-medium text-gray-800 uppercase transition-colors duration-300 transform rounded-lg focus:outline-none ${
+                  activeTab === "basic"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-800"
+                }`}
+                onClick={() => setActiveTab("basic")}
+              >
+                <div className="flex justify-center items-center py-2 gap-2">
+                  <RiWirelessChargingLine />
+                  Basic Plans
+                </div>
+              </button>
+
+              <button
+                className={`w-full px-3 py-2 font-medium text-gray-800 uppercase transition-colors duration-300 transform rounded-lg focus:outline-none ${
+                  activeTab === "premium"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-800"
+                }`}
+                onClick={() => setActiveTab("premium")}
+              >
+                <div className="flex justify-center gap-2 items-center py-2">
+                  <MdOutlineWorkspacePremium />
+                  Premium Plans
+                </div>
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-col-3 lg:grid-cols-3 gap-4 ">
+            {filteredPlans.map((plan) => (
+              <PricingPlanCard
+                key={plan.id}
+                name={plan.name}
+                price={plan.price}
+                features={plan.features}
+                paymentType={plan.paymentType}
+              />
+            ))}
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-col-3 lg:grid-cols-3 gap-4">
-          {pricingPlans.map((plan, index) => (
-            <PricingPlanCard key={index} {...plan} />
-          ))}
-        </div>
-      </div>
-    </section>
-  </Container>
-);
+      </section>
+    </div>
+  );
+};
 
 PricingPlanCard.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
-  paymentType: PropTypes.string.isRequired,
   features: PropTypes.arrayOf(PropTypes.string).isRequired,
+  paymentType: PropTypes.string,
 };
 
 export default PricingPlans;

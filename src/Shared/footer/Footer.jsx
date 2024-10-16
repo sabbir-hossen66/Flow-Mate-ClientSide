@@ -1,104 +1,217 @@
-
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
-import us from "../../assets/flag.png";
+import { FaRedditAlien, FaFacebookF, FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useForm } from "react-hook-form";
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import { useSelector } from "react-redux";
+import * as Dialog from "@radix-ui/react-dialog";
+
 const Footer = () => {
+  const user = useSelector((state) => state.auth.user);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const axiosCommon = UseAxiosCommon();
+
+  const onSubmit = (data) => {
+    const { email } = data;
+    axiosCommon
+      .post("/newsletter", { email })
+      .then((res) => {
+        if (
+          res.data.message ===
+          "You have already been subscribed to our newsletter"
+        ) {
+          Swal.fire({
+            icon: "info",
+            title: "Already Subscribed",
+            text: "You have already been subscribed to our newsletter.",
+            showConfirmButton: true,
+            confirmButtonText: "Close",
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "Thank you for subscribing",
+            text: "We will keep you updated with our latest news and updates.",
+            showConfirmButton: true,
+            confirmButtonText: "Close",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      });
+
+    reset();
+  };
+
   return (
-    <footer className="bg-white text-gray-800 hover:bg-white">
-   
-      <section className="max-w-6xl mx-auto px-4 py-12 md:flex md:justify-between md:space-x-8">
-        {/* Logo and Brand Name */}
-        <div className="mb-6 md:mb-0">
-          {/* <h1 className='text-4xl'>Flow<span className="text-blue-600">Mate</span></h1> */}
-          <Link to={'/'}>
-              <img className="xl:h-20 md:h-16 h-12 w-auto rounded-full" src="https://i.ibb.co.com/WgPKBVY/Screenshot-2024-09-18-161854-removebg-preview.png" alt="Logo" />
-            </Link>
-          <p className="text-sm mt-1 text-gray-600">Worlds best Team Collaboration tool for work</p>
-        </div>
-
-
-    
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-
-          <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-wider text-gray-700">About Us</h3>
-            <ul className="space-y-4 text-gray-500">
-              <li><a href="#" className="hover:underline">Master Plan</a></li>
-              <li><a href="#" className="hover:underline">Jobs</a></li>
-              <li><a href="#" className="hover:underline">Blog</a></li>
-              <li><a href="#" className="hover:underline">Contact</a></li>
-            </ul>
-          </div>
-
-    
-          <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-wider text-gray-700">Explore EEVE</h3>
-            <ul className="space-y-4 text-gray-500">
-              <li><a href="#" className="hover:underline">Unlock my Robot Power</a></li>
-              <li><a href="#" className="hover:underline">Starlight</a></li>
-              <li><a href="#" className="hover:underline">Robot Platform</a></li>
-              <li><a href="#" className="hover:underline">EEVE Roadmap</a></li>
-            </ul>
-          </div>
-
-          {/* Community & Support Section */}
-          <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-wider text-gray-700">Community & Support</h3>
-            <ul className="space-y-4 text-gray-500">
-              <li><a href="#" className="hover:underline">Willow X Community</a></li>
-              <li><a href="#" className="hover:underline">Developer & Maker Access</a></li>
-              <li><a href="#" className="hover:underline">Special Cases</a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Social Media and Footer Links */}
-      <section className="bg-white text-gray-800 ">
-        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-          <div className="flex flex-col px-10 md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-4">
-            {/* Social Media Icons */}
-            <div className="flex justify-center md:justify-start">
-              <ul className="flex gap-4">
-                <li><a href="#" className="hover:text-gray-500"><FaFacebook size={20} /></a></li>
-                <li><a href="#" className="hover:text-gray-500"><FaInstagram size={20} /></a></li>
-                <li><a href="#" className="hover:text-gray-500"><FaTwitter size={20} /></a></li>
-                <li><a href="#" className="hover:text-gray-500"><FaLinkedin size={20} /></a></li>
-              </ul>
-            </div>
-
-            {/* Footer Links */}
-            <div className="flex justify-center md:justify-center">
-              <ul className="flex space-x-12 text-sm text-gray-500">
-                <li><a href="#" className="hover:underline">March22 Recap</a></li>
-                <li><a href="#" className="hover:underline">Privacy</a></li>
-                <li><a href="#" className="hover:underline">General</a></li>
-                <li><a href="#" className="hover:underline">Contact</a></li>
-              </ul>
-            </div>
-
-            {/* Country Selector */}
-            <div className="flex justify-center md:justify-end items-center gap-2">
-              <img src={us} alt="United States Flag" className="w-5 h-5" />
-              <span className='text-gray-500'>United States (English)</span>
+    <footer className="bg-white dark:bg-gray-900">
+      <div className="container px-6 py-10 mx-auto">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
+          <div className="sm:col-span-2">
+            <h1 className="max-w-lg text-xl font-semibold tracking-tight text-gray-800 xl:text-2xl dark:text-white">
+              Subscribe to our newsletter for team collaboration tips and
+              updates.
+            </h1>
+            <div className="grid grid-cols-1 md:grid-cols-2  mx-auto mt-6 space-y-3 md:space-y-0 ">
+              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-row">
+                <input
+                  id="email"
+                  type="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value:
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                      message: "Please enter a valid email",
+                    },
+                  })}
+                  className="md:px-4 px-3 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
+                  placeholder="Email Address"
+                  aria-label="Email"
+                />
+                <button
+                  type="submit"
+                  className="w-full md:px-6 px-2 py-2.5 md:text-sm text-xs font-medium tracking-wider text-white transition-colors duration-300 transform md:w-auto md:mx-4 focus:outline-none bg-gray-800 rounded-lg hover:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80"
+                >
+                  Subscribe
+                </button>
+              </form>
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-2">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
           </div>
 
-          {/* Divider */}
-          <hr className="my-6 border-gray-300 sm:mx-auto lg:my-8" />
+          {/* Explore section with modal */}
+          <div>
+            <p className="font-semibold text-gray-800 dark:text-white">
+              Explore
+            </p>
+            <div className="flex flex-col items-start mt-5 space-y-2">
+              <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <Link className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">
+                    Home
+                  </Link>
+                </Dialog.Trigger>
+                <Dialog.Portal>
+                  <Dialog.Overlay className="bg-black bg-opacity-30 fixed inset-0" />
+                  <Dialog.Content className="bg-white rounded-lg p-6 shadow-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <Dialog.Title className="text-lg font-bold">
+                      Home
+                    </Dialog.Title>
+                    <Dialog.Description className="mt-2">
+                      Welcome to the homepage.
+                    </Dialog.Description>
+                    <Dialog.Close className="mt-4 bg-gray-700 text-white rounded px-4 py-2">
+                      Close
+                    </Dialog.Close>
+                  </Dialog.Content>
+                </Dialog.Portal>
+              </Dialog.Root>
 
-          {/* Footer Bottom Text */}
-          <span className="block text-sm text-gray-500 sm:text-center">
-            FlowMate <a href="#" className="hover:underline">© 2024</a>. All Rights Reserved.
-          </span>
+              <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <Link className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">
+                    Task Management
+                  </Link>
+                </Dialog.Trigger>
+                <Dialog.Portal>
+                  <Dialog.Overlay className="bg-black bg-opacity-30 fixed inset-0" />
+                  <Dialog.Content className="bg-white rounded-lg p-6 shadow-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <Dialog.Title className="text-lg font-bold">
+                      Task Management
+                    </Dialog.Title>
+                    <Dialog.Description className="mt-2">
+                      Here you have the ability to manage your tasks and
+                      projects.Get started by creating a new project. What are
+                      you waiting for?
+                    </Dialog.Description>
+                    <Dialog.Close className="mt-4 bg-gray-700 text-white rounded px-4 py-2">
+                      Close
+                    </Dialog.Close>
+                  </Dialog.Content>
+                </Dialog.Portal>
+              </Dialog.Root>
+
+              {/* Add more Dialog.Root for other links */}
+            </div>
+          </div>
+
+          {/* Social media links */}
+          <div>
+            <p className="font-semibold text-gray-800 dark:text-white">
+              Resources
+            </p>
+            <div className="flex flex-col items-start mt-5 space-y-2">
+              <Link className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">
+                Collaboration Tips
+              </Link>
+              <Link className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">
+                Remote Work Guide
+              </Link>
+              <Link className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500">
+                Productivity Hacks
+              </Link>
+            </div>
+          </div>
         </div>
-      </section>
+
+        <hr className="my-6 border-gray-200 md:my-8 dark:border-gray-700" />
+
+        <div className="flex items-center justify-between">
+          <Link to={"/"}>
+            <img
+              className="lg:w-40 w-28 md:w-32 h-auto"
+              src="https://i.ibb.co/sH49jvt/logo2-removebg-preview.png"
+              alt=""
+            />
+          </Link>
+
+          <div className="flex -mx-2">
+            <a
+              href="https://www.reddit.com"
+              className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+              aria-label="Reddit"
+            >
+              <FaRedditAlien className="w-5 h-5" />
+            </a>
+            <a
+              href="https://www.facebook.com"
+              className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+              aria-label="Facebook"
+            >
+              <FaFacebookF className="w-5 h-5" />
+            </a>
+            <a
+              href="https://www.github.com"
+              className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+              aria-label="Github"
+            >
+              <FaGithub className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-8 text-center text-gray-600 dark:text-gray-300">
+          Flowmate 2024 &copy; All rights reserved
+        </div>
+      </div>
     </footer>
-  
   );
 };
-
-
-
 
 export default Footer;
