@@ -83,22 +83,22 @@ const DashBoardNav = () => {
               <BsMicrosoftTeams />
               Team Request
             </NavLink>
-
-            <NavLink
+            {/* comment those line by sajib */}
+            {/* <NavLink
               to="/dashboard/my-team"
               className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
             >
               <BsMicrosoftTeams />
               My Team
-            </NavLink>
+            </NavLink> */}
 
-            <NavLink
+            {/* <NavLink
               to="/dashboard/create-team"
               className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
             >
               <RiSecurePaymentLine />
               Team Create
-            </NavLink>
+            </NavLink> */}
 
             {isAdmin && (
               <NavLink
