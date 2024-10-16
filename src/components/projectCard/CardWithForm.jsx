@@ -61,6 +61,9 @@ export function CardWithForm({ closeForm }) {
     setLoading(true);
     const boardData = {
       date: new Date().toLocaleString(),
+      teamLeader: data._id,
+      teamMembers: [data._id],
+      pendingMembers: [],
       boardName: e.target.boardName.value,
       teamName: e.target.teamName.value,
       email: user?.email,
