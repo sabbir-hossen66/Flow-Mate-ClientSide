@@ -67,7 +67,7 @@ export function CardWithForm({ closeForm }) {
       boardName: e.target.boardName.value,
       teamName: e.target.teamName.value,
       email: user?.email,
-      userName: user?.displayName,
+      displayName: user?.displayName,
     };
     try {
       console.log("Sending boardData to /createBoard");
