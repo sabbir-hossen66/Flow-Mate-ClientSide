@@ -4,6 +4,8 @@ import Container from "./Container";
 import { Button } from "./ui/button";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkout/CheckoutForm";
@@ -30,7 +32,13 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
   const [open, setOpen] = useState(false);
   const [openPaymentModal, setOpenPaymentModal] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
-
+  useEffect(() => {
+    AOS.init({
+      duration: 500, 
+      once: false, 
+      offset: 200,
+    });
+  }, []);
   const handleGetStarted = () => {
     if (!user) {
       Swal.fire({
@@ -195,13 +203,14 @@ const PricingPlans = () => {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <section className="p-4 md:p-8">
+      <section  data-aos="fade-up"
+     data-aos-duration="500" className="p-4 md:p-8">
         <div className="py-8 max-w-screen-xl lg:py-16 py-5">
-          <div className="mx-auto max-w-3xl text-center pb-12 md:pb-20">
-            <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
+          <div data-aos="fade-right" className="mx-auto max-w-3xl text-center pb-12 md:pb-20">
+            <h1 className="text-2xl md:text-4xl font-bold pb-5 text-center text-gray-800 capitalize lg:text-3xl">
               Pricing <span className="text-blue-500">Plans</span>
             </h1>
-            <p className="text-center text-gray-500">
+            <p className="text-center text-gray-500 mb-5">
               Choose a plan that best suits your data needs.
             </p>
             <div className="grid gap-3 md:grid-cols-2 my-4">

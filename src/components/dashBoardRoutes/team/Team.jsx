@@ -52,23 +52,42 @@ const Team = () => {
   // Remove member logic
   const handleRemoveMember = async (id) => {
     try {
-      await axiosCommon.delete(`/delete/${team._id}/${id}`);
-      // Update the team members in state
-      setTeam(prevTeam => ({
-        ...prevTeam,
-        teamMembers: prevTeam.teamMembers.filter(memberId => memberId !== id),
-      }));
+      // Show confirmation alert before proceeding
       Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "Remove Successfully",
-        showConfirmButton: false,
-        timer: 1500
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, remove the member!"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          // Proceed to remove the member if confirmed
+          await axiosCommon.delete(`/delete/${team._id}/${id}`);
+          
+          // Update the team members in state
+          setTeam(prevTeam => ({
+            ...prevTeam,
+            teamMembers: prevTeam.teamMembers.filter(memberId => memberId !== id),
+          }));
+          
+          // Show success alert
+          Swal.fire({
+            title: "Deleted!",
+            text: "The member has been removed.",
+            icon: "success",
+            position: "top-center",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
       });
     } catch (err) {
       console.error("Error removing member:", err.message);
     }
   };
+  
 
   // Loading state
   if (isLoading || loading || loadingTeam) {
@@ -150,14 +169,19 @@ const Team = () => {
                       </div>
                     </td>
                     {team?.teamLeader === userss[0]?._id && (
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="flex items-center gap-x-2">
-                          <button onClick={() => handleRemoveMember(member._id)} className="text-white p-2 rounded-md bg-red-500 hover:bg-red-600 duration-75">
-                            Remove
-                          </button>
-                        </div>
-                      </td>
-                    )}
+  <td className="px-4 py-4 whitespace-nowrap">
+    <div className="flex items-center gap-x-2">
+      <button 
+        onClick={() => handleRemoveMember(member._id)} 
+        disabled={member?.role === 'team-admin'}  // Disable button if the member is a 'team-admin'
+        className={`text-white p-2 rounded-md bg-red-500 hover:bg-red-600 duration-75 
+          ${member?.role === 'team-admin' ? 'opacity-50 cursor-not-allowed' : ''}`}>
+        Remove
+      </button>
+    </div>
+  </td>
+)}
+
                   </tr>
                 ))}
               </tbody>
