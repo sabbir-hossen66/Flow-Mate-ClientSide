@@ -39,13 +39,15 @@ const UpperNavigation = () => {
   }
 
   return (
-    <div className="flex flex-col bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 text-white">
+    <div className="flex flex-col bg-gradient-to-r from-slate-200 to-gray-300 text-slate-950">
       <nav className="flex flex-col lg:flex-row justify-between items-center px-6 py-4 bg-opacity-10 backdrop-filter backdrop-blur-lg sticky top-0 z-10">
         {/* Logo section */}
         <div className="flex items-center justify-between w-full lg:w-auto mb-4 lg:mb-0">
           <div className="flex items-center space-x-2">
             <MdDashboard className="text-3xl" />
-            <Link to="/" className="text-2xl font-semibold">Dashboard</Link>
+            <Link to="/" className="text-2xl font-semibold">
+              Dashboard
+            </Link>
           </div>
 
           {/* Hamburger icon for mobile */}
@@ -68,7 +70,7 @@ const UpperNavigation = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="w-full p-2 bg-white bg-opacity-20 text-white placeholder-white rounded-md outline-none"
+              className="w-full p-2  bg-opacity-20 text-gray-900 bg-slate-500 placeholder-white rounded-md outline-none"
             />
           </div>
 
