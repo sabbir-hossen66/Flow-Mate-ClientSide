@@ -10,13 +10,13 @@ export function BannerImage() {
         className="text-center text-2xl font-bold capitalize"
         color={theme.theme === "dark" ? "white" : "black"}
       >
-        <div className="w-full  ">
+        <Container className="w-full  ">
           <img
             className="w-full rounded-[14px]"
             src={photo}
             alt=""
           />
-        </div>
+        </Container>
       </ShineBorder>
     </Container>
   );
