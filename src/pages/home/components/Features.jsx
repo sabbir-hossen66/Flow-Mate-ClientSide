@@ -67,12 +67,12 @@ const Features = () => {
           modules={[Autoplay]}
           className="mySwiper"
         >
-          <div className="w-2/3 bg-slate-100 mx-auto ">
+          <div className="w-full bg-slate-100 mx-auto ">
             {features.map(({ id, title, description, icon, image }) => (
               <SwiperSlide key={id}>
-                <div className="relative">
+                <Container className="relative w-full">
                   <img
-                    className="bg-slate-100 rounded-2xl"
+                    className="bg-slate-100 rounded-2xl w-full"
                     src={image}
                     alt=""
                   />
@@ -90,7 +90,7 @@ const Features = () => {
                       {description}
                     </p>
                   </div>
-                </div>
+                </Container>
               </SwiperSlide>
             ))}
           </div>
