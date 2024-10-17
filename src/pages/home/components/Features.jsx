@@ -43,17 +43,18 @@ const features = [
     image: Timeline,
   },
 ];
-useEffect(() => {
-  AOS.init({
-    duration: 1000,
-    once: false,   
-    offset: 150,
-  });
-}, []);
+
 const Features = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,   
+      offset: 150,
+    });
+  }, []);
   return (
     <Container className="my-24 md:my-32">
-      <div className="text-center">
+      <div data-aos="zoom-out-right" className="text-center">
         <h1 className="text-2xl md:text-4xl font-bold pb-5">
           Breeze through issues at lighting speed
         </h1>
@@ -64,7 +65,9 @@ const Features = () => {
         </p>
       </div>
 
-      <div className="mt-10">
+      <div  data-aos="fade-right"
+     data-aos-offset="300"
+     data-aos-easing="ease-in-sine" className="mt-10">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
