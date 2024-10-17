@@ -59,13 +59,13 @@ const Contact = () => {
     });
   }, []);
   return (
-    <div id="contact" data-aos="zoom-in-right" className="mx-auto max-w-7xl rounded-2xl">
+    <div id="contact" data-aos="zoom-in-right" className="mx-auto container p-8 rounded-lg">
       <div className="relative my-2 mb-4 ">
         <div className="absolute inset-0">
-          <div className="absolute inset-y-0 left-0 w-1/2 bg-slate-200 rounded-2xl" />
+          <div className="absolute inset-y-0 left-0 w-1/2 bg-slate-200 rounded-lg" />
         </div>
         <div className="relative mx-auto max-w-7xl lg:grid lg:grid-cols-5">
-          <div className="bg-slate-200 px-6 py-16 lg:col-span-2 lg:px-8 lg:py-24 xl:pr-12">
+          <div className="bg-[#F1F5F9] rounded-lg px-6 py-16 lg:col-span-2 lg:px-8 lg:py-24 xl:pr-12">
             <div className="mx-auto max-w-lg">
               <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                 Get in Touch
@@ -105,7 +105,7 @@ const Contact = () => {
               </dl>
             </div>
           </div>
-          <div className="bg-white border border-y-blue-400 border-r-blue-400 rounded-r-2xl rounded-y-2xl px-6 py-16 lg:col-span-3 lg:px-8 lg:py-24 xl:pl-12">
+          <div className="bg-white border border-y-[#F1F5F9] border-r-[#F1F5F9] rounded-r-2xl rounded-y-2xl px-6 py-16 lg:col-span-3 lg:px-8 lg:py-24 xl:pl-12">
             <div className="mx-auto max-w-lg lg:max-w-none">
               <form onSubmit={sendEmail} className="grid grid-cols-1 gap-y-6 ">
                 <div>
