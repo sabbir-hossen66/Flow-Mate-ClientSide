@@ -1,5 +1,6 @@
 import Marquee from "react-fast-marquee";
 import "./MarqueeSection.css"; // Assuming you have an external CSS file
+import Container from "@/components/Container";
 
 function MarqueeSection() {
   const logosGoingToLeft = [
@@ -19,7 +20,8 @@ function MarqueeSection() {
   ];
 
   return (
-    <section className="my-8 sm:my-16">
+   <Container>
+     <section className="my-8 sm:my-16">
       <div className="my-4">
         <h2 className="text-center text-xl font-semibold leading-8 text-slate-800 pb-10">
           Trusted by
@@ -65,6 +67,7 @@ function MarqueeSection() {
         ))}
       </Marquee>
     </section>
+   </Container>
   );
 }
 
