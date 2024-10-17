@@ -84,7 +84,7 @@ const MyTeam = () => {
                   <Link to={`/dashboard/team/${team?.teamName}`} className="hover:underline">
                     <div className="flex justify-center items-center">
                       <FaEye className="mr-1" />
-                      <span>View</span>
+                      <span>View </span>
                     </div>
                   </Link>
                 </div>
