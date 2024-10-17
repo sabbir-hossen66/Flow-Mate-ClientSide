@@ -35,8 +35,8 @@ const Testmonial = () => {
   };
 
   return (
-    <div>
-      <Container className="bg-gray-200 rounded-2xl border-sky-300 shadow-md shadow-sky-200 text-black">
+    <>
+      <Container className="bg-[#F1F5F9] rounded-2xl border-sky-300 shadow-md shadow-sky-200 text-black">
         <div className="lg:px-20 px-5 py-5 lg:py-20">
           <div className="flex flex-col lg:flex-row gap-10">
             <div className="my-auto space-y-2 lg:space-y-4 flex-1 lg:text-start text-center">
@@ -111,7 +111,7 @@ const Testmonial = () => {
        
         </div>
       </Container>
-    </div>
+    </>
   );
 };
 
