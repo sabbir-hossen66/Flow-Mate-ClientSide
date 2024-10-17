@@ -14,7 +14,9 @@ import List from "../../../../public/images/features/list.png";
 import "../style.css";
 
 import { Autoplay } from "swiper/modules";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 const features = [
   {
     id: 1,
@@ -43,9 +45,16 @@ const features = [
 ];
 
 const Features = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,   
+      offset: 150,
+    });
+  }, []);
   return (
     <Container className="my-24 md:my-32">
-      <div className="text-center">
+      <div data-aos="zoom-out-right" className="text-center">
         <h1 className="text-2xl md:text-4xl font-bold pb-5">
           Breeze through issues at lighting speed
         </h1>
@@ -56,7 +65,9 @@ const Features = () => {
         </p>
       </div>
 
-      <div className="mt-10">
+      <div  data-aos="fade-right"
+     data-aos-offset="300"
+     data-aos-easing="ease-in-sine" className="mt-10">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -67,12 +78,12 @@ const Features = () => {
           modules={[Autoplay]}
           className="mySwiper"
         >
-          <div className="w-2/3 bg-slate-100 mx-auto ">
+          <div className="w-full bg-slate-100 mx-auto ">
             {features.map(({ id, title, description, icon, image }) => (
               <SwiperSlide key={id}>
-                <div className="relative">
+                <Container className="relative w-full">
                   <img
-                    className="bg-slate-100 rounded-2xl"
+                    className="bg-slate-100 rounded-2xl w-full"
                     src={image}
                     alt=""
                   />
@@ -90,7 +101,7 @@ const Features = () => {
                       {description}
                     </p>
                   </div>
-                </div>
+                </Container>
               </SwiperSlide>
             ))}
           </div>

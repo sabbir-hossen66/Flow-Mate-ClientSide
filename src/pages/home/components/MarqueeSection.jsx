@@ -1,6 +1,9 @@
 import Marquee from "react-fast-marquee";
 import "./MarqueeSection.css"; // Assuming you have an external CSS file
-
+import Container from "@/components/Container";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 function MarqueeSection() {
   const logosGoingToLeft = [
     "/images/coca_cola.png",
@@ -17,16 +20,23 @@ function MarqueeSection() {
     "/images/bravado.png",
     "/images/beacons.png",
   ];
-
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,   
+      offset: 150,
+    });
+  }, []);
   return (
-    <section className="my-8 sm:my-16">
-      <div className="my-4">
-        <h2 className="text-center text-xl font-semibold leading-8 text-slate-800 pb-10">
+   <Container>
+     <section data-aos="zoom-in" className="my-8 sm:my-16">
+      <div className="my-20">
+        <h2 className="text-center text-2xl md:text-4xl font-bold leading-8 text-slate-800 pb-5">
           Trusted by
           <span className="text-blue-800"> the world’s </span>
           most innovative teams
         </h2>
-        <p className="text-center text-sm text-slate-800 py-3">
+        <p className="text-center text-sm text-slate-800">
           Over 10,000 customers in 100+ countries use our software to build
           products their users love.
         </p>
@@ -65,6 +75,7 @@ function MarqueeSection() {
         ))}
       </Marquee>
     </section>
+   </Container>
   );
 }
 

@@ -5,6 +5,7 @@ import MainButton from "@/Shared/MainButton";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { HashLink } from "react-router-hash-link";
 
 function HeroSection() {
   useEffect(() => {
@@ -18,7 +19,7 @@ function HeroSection() {
     <Container>
       <section data-aos="fade-right"
      data-aos-easing="linear"
-     data-aos-duration="500">
+     data-aos-duration="500" className="mt-24">
         <HeroHeaderSection />
         <div>
           <div className="text-4xl font-bold md:text-[92px] text-center text-primary md:leading-[5.5rem] my-8">
@@ -31,16 +32,20 @@ function HeroSection() {
           </p>
 
           <div className="flex gap-[12px] justify-center">
+            <HashLink smooth to="/#price" className="cursor-pointer">
             <MainButton
               text="Start for free"
               size="small"
               className="border-none rounded-[12px]"
             />
+            </HashLink>
+            <HashLink smooth to="/#contact" className="cursor-pointer">
             <MainButton
               text="Talk to sales"
               size="small"
               className="rounded-[12px] border-[1px] border-[#EDEEF0] bg-white hover:bg-white text-[#31373D]"
             />
+            </HashLink>
           </div>
 
           <div className="flex w-full justify-center"></div>
