@@ -9,14 +9,17 @@ const DashBoardProfile = () => {
   const axiosCommon = UseAxiosCommon();
   const user = useSelector((state) => state.auth.user);
   const [activeTab, setActiveTab] = useState("profile");
-  const handleTabSwitch = (tab) => setActiveTab(tab);
   const dispatch = useDispatch();
+
+  const handleTabSwitch = (tab) => setActiveTab(tab);
+
   const handleUpdateProfile = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
+
     const form = e.target;
     const displayName = form.displayName.value;
     const imageFile = form.image.files[0];
-    let imageUrl = null;
+    let imageUrl = user?.photoURL; // Use current photo if none is uploaded
 
     try {
       // If the user provided a new image, upload it
@@ -34,21 +37,20 @@ const DashBoardProfile = () => {
         imageUrl = response.data.data.display_url;
       }
 
-      // Dispatch the action to update the user's profile in Redux
+      // Dispatch the action to update the user's profile in Firebase/Redux
       await dispatch(updateUserProfile({ name: displayName, photo: imageUrl }));
-
-      // Update the user profile by email in the backend
+      // Send a request to update the user profile in MongoDB using email
       const emailResponse = await axiosCommon.patch(
         "/users/updateProfileByEmail",
         {
-          email: user.email,
+          email: user?.email, // Ensure email is passed
           name: displayName,
           photo: imageUrl,
         }
       );
 
       if (emailResponse.status === 200) {
-        toast.success("Profile updated successfully");
+        toast.success("Profile updated successfully in MongoDB");
       }
 
       handleTabSwitch("profile");
