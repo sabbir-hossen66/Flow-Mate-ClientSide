@@ -228,6 +228,10 @@ const Footer = () => {
             </a>
           </div>
         </div>
+
+        <div className="mt-1 text-center text-gray-600 dark:text-gray-300">
+          Flowmate 2024 &copy; All rights reserved
+        </div>
       </div>
 
       {/* Tips Modal */}
