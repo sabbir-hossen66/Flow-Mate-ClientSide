@@ -84,6 +84,7 @@ const DashBoardSubscriptionUser = () => {
   const axiosCommon = UseAxiosCommon();
   const user = useSelector((state) => state.auth.user);
 
+
   // Fetching subscription user data
   const { data: subscription = [], isLoading, isError } = useQuery({
     queryKey: ["subscription"],
@@ -110,7 +111,7 @@ const DashBoardSubscriptionUser = () => {
           <Card className="shadow-xl hover:shadow-2xl transition-transform duration-300 transform hover:scale-105">
             <CardHeader>
               <div className="text-start space-x-4">
-               
+
                 <CardTitle className="text-lg font-semibold pb-7 text-gray-800">Subscription</CardTitle>
                 <p className="text-5xl font-bold text-black">{subscription.length}</p>
               </div>
