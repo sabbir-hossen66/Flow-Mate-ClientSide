@@ -7,7 +7,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Container from "./Container";
 
 export function FAQ() {
   useEffect(() => {
@@ -15,9 +14,10 @@ export function FAQ() {
   }, []);
 
   return (
-    <div className="flex flex-col max-w-6xl mx-auto my-20 md:flex-row justify-between gap-5 bg-slate-300 rounded-tl-2xl rounded-b-3xl py-8 px-6">
+    <div className="p-[65px]">
+      <div className="flex flex-col container  mx-auto my-20 md:flex-row justify-between gap-5 bg-[#F1F5F9] rounded-lg rounded-b-3xl py-8 px-6">
       {/* Left section with title and description */}
-      <div className="md:w-1/2" data-aos="fade-up">
+      <div className="md:w-1/2 p-5" data-aos="fade-up">
         <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
         <p className="text-md font-normal mb-12">
           Below are answers to some common questions. If you need more help,
@@ -83,6 +83,7 @@ export function FAQ() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+    </div>
     </div>
   );
 }
