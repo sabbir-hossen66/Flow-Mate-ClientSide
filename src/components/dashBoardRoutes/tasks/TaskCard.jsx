@@ -19,8 +19,9 @@ import { FaEdit } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
-
-
+import Papa from "papaparse";
+import { Button } from "@/components/ui/button";
+import Button2COmmon from "@/components/button2Commo.jsx/Button2COmmon";
 // TaskCard Component
 const TaskCard = () => {
   const axiosCommon = UseAxiosCommon();
@@ -33,13 +34,11 @@ const TaskCard = () => {
   } = useForm();
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [sortOption, setSortOption] = useState(""); // State for sort option
-// track user
+  // track user
   const user = useSelector((state) => state.auth.user);
   const email = user?.email;
   const [elapsedTime, setElapsedTime] = useState({}); // Track elapsed time for tasks
   const [timers, setTimers] = useState({}); // Track timers for each task
-  
-
 
   // Handlers for dropdown visibility
   const handleMouseEnter = () => {
@@ -163,30 +162,30 @@ const TaskCard = () => {
   const handleStopTimer = async (taskId) => {
     clearInterval(timers[taskId]); // Stop the timer
     setTimers((prev) => ({ ...prev, [taskId]: null }));
-  
+
     // Save the stop state and elapsed time in localStorage
-    const stoppedTimers = JSON.parse(localStorage.getItem("stoppedTimers")) || {};
-  
+    const stoppedTimers =
+      JSON.parse(localStorage.getItem("stoppedTimers")) || {};
+
     // Store the elapsed time when stopping the timer
     if (elapsedTime[taskId]) {
       stoppedTimers[taskId] = {
         stopped: true,
         elapsedTime: elapsedTime[taskId], // Store the current elapsed time
-    
       };
       localStorage.setItem("stoppedTimers", JSON.stringify(stoppedTimers));
-  
+
       // Prepare the data to send in the POST request
       const dataToSend = {
         taskId: taskId,
         elapsedTime: elapsedTime[taskId],
         workerMail: taskId?.workerMail,
         stopped: true,
-        taskTitle:taskId?.taskTitle,
+        taskTitle: taskId?.taskTitle,
         taskDescription: taskId?.description,
         taskDueDate: dayjs(taskId.dueDate).format("YYYY-MM-DD"),
       };
-  
+
       try {
         // Send the POST request to save the timer data
         const response = await axiosCommon.post(`timerData`, dataToSend);
@@ -210,7 +209,7 @@ const TaskCard = () => {
       }
     }
   };
-  
+
   // Timer handling in useEffect
   useEffect(() => {
     if (createTask) {
@@ -253,7 +252,26 @@ const TaskCard = () => {
       Object.values(timers).forEach(clearInterval);
     };
   }, [createTask]);
+  const exportToCSV = () => {
+    const tasks = createTask.map((task) => ({
+      TaskTitle: task.taskTitle,
+      Description: task.description,
+      DueDate: task.dueDate,
+      StartDate: task.startDate,
+      Stage: task.stage,
+    }));
 
+    const csv = Papa.unparse(tasks);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "tasks.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -343,12 +361,20 @@ const TaskCard = () => {
               </div>
             </div>
             {/* Reset Button */}
-            <button
+            <Button
               onClick={handleReset}
               className="ml-4 px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-red-500 rounded-md hover:bg-red-400 focus:bg-red-400 focus:outline-none"
             >
-              Reset 
-            </button>
+              Reset
+            </Button>
+          </div>
+          <div className="flex justify-center items-center my-3">
+            <Button
+              className="bg-blue-500 text-white p-2 rounded-md"
+              onClick={exportToCSV}
+            >
+              Export Tasks as CSV
+            </Button>
           </div>
         </div>
       </div>
@@ -374,7 +400,7 @@ const TaskCard = () => {
                   {/* Task Title */}
                   <div className="text-xl font-semibold mb-5">
                     {task?.taskTitle.slice(0, 50)}..
-                  </div>               
+                  </div>
                   <div className="text-gray-500 text-sm mb-3">
                     Elapsed Time:{" "}
                     {elapsedTime[task._id] && (
