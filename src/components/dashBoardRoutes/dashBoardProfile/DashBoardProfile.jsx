@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 import { updateUserProfile } from "@/redux/slices/authSlice";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import Swal from "sweetalert2";
 
 const DashBoardProfile = () => {
   const axiosCommon = UseAxiosCommon();
@@ -14,15 +14,15 @@ const DashBoardProfile = () => {
   const handleTabSwitch = (tab) => setActiveTab(tab);
 
   const handleUpdateProfile = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault(); // Prevents page reload
 
     const form = e.target;
     const displayName = form.displayName.value;
     const imageFile = form.image.files[0];
-    let imageUrl = user?.photoURL; // Use current photo if none is uploaded
+    let imageUrl = user?.photoURL;
 
     try {
-      // If the user provided a new image, upload it
+      // Handle image upload if an image is selected
       if (imageFile) {
         const formData = new FormData();
         formData.append("image", imageFile);
@@ -37,31 +37,40 @@ const DashBoardProfile = () => {
         imageUrl = response.data.data.display_url;
       }
 
-      // Dispatch the action to update the user's profile in Firebase/Redux
+      // Update user profile in Redux
       await dispatch(updateUserProfile({ name: displayName, photo: imageUrl }));
-      // Send a request to update the user profile in MongoDB using email
+
+      // Update user profile in the database (e.g., MongoDB)
       const emailResponse = await axiosCommon.patch(
         "/users/updateProfileByEmail",
         {
-          email: user?.email, // Ensure email is passed
+          email: user?.email,
           name: displayName,
           photo: imageUrl,
         }
       );
 
       if (emailResponse.status === 200) {
-        toast.success("Profile updated successfully in MongoDB");
+        Swal.fire({
+          icon: "success",
+          title: "Profile updated successfully",
+        });
       }
 
+      // Switch back to profile view after update
       handleTabSwitch("profile");
     } catch (error) {
-      toast.error("Something went wrong, please try again");
+      Swal.fire({
+        icon: "error",
+        title: "Error updating profile",
+        text: error.message,
+      });
       console.error("Error updating profile:", error);
     }
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 ">
+    <div className="container mx-auto px-4 py-6">
       <h1 className="text-center my-5 font-bold text-primary text-2xl">
         User Profile
       </h1>
@@ -155,7 +164,6 @@ const DashBoardProfile = () => {
                         type="file"
                         name="image"
                         className="w-full p-2 border border-gray-300 rounded"
-                        placeholder="Enter your email"
                       />
                     </div>
 
