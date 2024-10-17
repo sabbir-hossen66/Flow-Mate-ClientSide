@@ -14,7 +14,9 @@ import List from "../../../../public/images/features/list.png";
 import "../style.css";
 
 import { Autoplay } from "swiper/modules";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 const features = [
   {
     id: 1,
@@ -41,7 +43,13 @@ const features = [
     image: Timeline,
   },
 ];
-
+useEffect(() => {
+  AOS.init({
+    duration: 1000,
+    once: false,   
+    offset: 150,
+  });
+}, []);
 const Features = () => {
   return (
     <Container className="my-24 md:my-32">
