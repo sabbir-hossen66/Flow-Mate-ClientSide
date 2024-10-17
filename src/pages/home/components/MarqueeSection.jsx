@@ -22,13 +22,13 @@ function MarqueeSection() {
   return (
    <Container>
      <section className="my-8 sm:my-16">
-      <div className="my-4">
-        <h2 className="text-center text-xl font-semibold leading-8 text-slate-800 pb-10">
+      <div className="my-20">
+        <h2 className="text-center text-2xl md:text-4xl font-bold leading-8 text-slate-800 pb-5">
           Trusted by
           <span className="text-blue-800"> the world’s </span>
           most innovative teams
         </h2>
-        <p className="text-center text-sm text-slate-800 py-3">
+        <p className="text-center text-sm text-slate-800">
           Over 10,000 customers in 100+ countries use our software to build
           products their users love.
         </p>
