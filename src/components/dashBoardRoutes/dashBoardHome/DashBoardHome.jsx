@@ -1,22 +1,21 @@
 import { useState } from "react";
 import { FaBell } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import DashBoardChart from "./dashBoardChart/DashBoardChart";
 import CommonButton from "@/components/commonButton/CommonButton";
 import ProjectCreate from "@/components/projectCreate/ProjectCreate";
 import DashBoardCards from "../dashBoardCards/DashBoardCards";
 import VisitorInsightsChart from "../visitorInsightsChart/VisitorInsightsChart";
-// import DashBoardLoginUser from "../dashBoardLoginUser/DashBoardLoginUser";
-// import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
-// import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
+
 import { Link } from "react-router-dom";
 
 import BoardSystem from "./boardSystem/BoardSystem";
 
+
+
 const DashBoardHome = () => {
-  const dispatch = useDispatch();
+
   const user = useSelector((state) => state.auth.user);
-  const loading = useSelector((state) => state.auth.loading);
+
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [toggleOpen, setToggleOpen] = useState(false);
@@ -93,10 +92,10 @@ const DashBoardHome = () => {
         </div>
       </div>
 
-      <div className=" mx-10 my-10">
+      <div className="container mx-auto my-10">
         <BoardSystem />
       </div>
-      {/* <div className="lg:flex lg:justify-evenly mx-auto flex-1">
+      {/* <div className="lg:flex lg:justify-evenly mx-auto">
         <DashBoardLoginUser />
         <DashBoardSubscriptionUser />
         <DashBoardPaidUser />
