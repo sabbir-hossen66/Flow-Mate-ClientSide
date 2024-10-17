@@ -102,7 +102,7 @@ const AdminDashboard = () => {
           <PageHeader title="FlowMate Admin Dashboard"  breadcrumb={`Hello ${user.displayName}, Welcome to the admin dashboard`}   />
         </div>
         <div className="flex lg:flex-row flex-col justify-between px-10 mx-auto">
-          <div className="w-2/3">
+          <div className="lg:w-2/3 w-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-6 gap-3 text-center mx-5 my-10">
           <Card className="transition-transform transform hover:scale-105 bg-white text-slate-900">
             <CardHeader className="flex items-center">
@@ -154,13 +154,13 @@ const AdminDashboard = () => {
           </Card>
         </div>
           </div>
-          <div className="w-1/3">
-          <div className="grid grid-cols-1 lg:grid-cols-1 lg:gap-6 gap-3 text-center my-10">
+          <div className="lg:w-1/3 w-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-1 lg:gap-6 gap-3 text-center lg:my-10 my-3 mx-5 lg:mx-0">
            {/* Card 2: All Team Tasks */}
-           <div className="transition-transform transform hover:scale-105 bg-white text-slate-900 h-[350px] py-20 px-10 rounded-xl shadow-xl border">
+           <div className="transition-transform transform hover:scale-105 bg-white text-slate-900 h-auto lg:h-[350px] py-5 lg:py-20 px-5 lg:px-10 rounded-xl shadow-xl border">
             <div className="flex flex-col items-center space-y-4">
               {/* < FaTasks className="mr-2 text-3xl" /> */}
-              <img className="h-32" src={ svgImg} alt="" />
+              <img className="lg:h-32 h-20" src={ svgImg} alt="" />
               <CardTitle>All Team Tasks</CardTitle>
             </div>
             <div>
