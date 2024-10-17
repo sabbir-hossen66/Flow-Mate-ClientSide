@@ -84,7 +84,7 @@ const MyTeam = () => {
                   <Link to={`/dashboard/team/${team?.teamName}`} className="hover:underline">
                     <div className="flex justify-center items-center">
                       <FaEye className="mr-1" />
-                      <span>View </span>
+                      <span>View</span>
                     </div>
                   </Link>
                 </div>
@@ -93,7 +93,6 @@ const MyTeam = () => {
 
               <p className="opacity-80 text-[16px]">Admin: {team.displayName}</p>
               <p className="opacity-70 mb-4 text-[16px]">Members: {team.teamMembers.length}</p>
-
               {team.teamLeader === currentUser?._id && (
                 <div className="flex justify-center mt-4 space-x-4">
                   <EditTeam
