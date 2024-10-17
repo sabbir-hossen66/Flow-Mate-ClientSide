@@ -3,10 +3,15 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MdTurnSharpLeft } from "react-icons/md";
+import { useState } from "react";
 
 const DashBoardSubscriptionUser = () => {
   const axiosCommon = UseAxiosCommon();
   const user = useSelector((state) => state.auth.user);
+
+  const [error, setError] = useState(null);
+  console.log(error)
+
 
   // Fetching paid user data
   const {
@@ -18,8 +23,10 @@ const DashBoardSubscriptionUser = () => {
 
     queryFn: async () => {
       const res = await axiosCommon.get("/newsletters");
+      console.log(res)
       return res.data;
     },
+
     onError: (error) => {
       setError(error.message);
     },
