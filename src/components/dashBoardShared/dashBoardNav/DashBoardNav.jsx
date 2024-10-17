@@ -73,7 +73,7 @@ const DashBoardNav = () => {
               className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
             >
               <RiSecurePaymentLine />
-              Create tasks
+              Show all task
             </NavLink>
 
             <NavLink

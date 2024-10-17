@@ -6,9 +6,9 @@ import CommonButton from "@/components/commonButton/CommonButton";
 import ProjectCreate from "@/components/projectCreate/ProjectCreate";
 import DashBoardCards from "../dashBoardCards/DashBoardCards";
 import VisitorInsightsChart from "../visitorInsightsChart/VisitorInsightsChart";
-import DashBoardLoginUser from "../dashBoardLoginUser/DashBoardLoginUser";
-import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
-import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
+// import DashBoardLoginUser from "../dashBoardLoginUser/DashBoardLoginUser";
+// import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
+// import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
 import { Link } from "react-router-dom";
 
 import BoardSystem from "./boardSystem/BoardSystem";
@@ -96,11 +96,11 @@ const DashBoardHome = () => {
       <div className=" mx-10 my-10">
         <BoardSystem />
       </div>
-      <div className="lg:flex lg:justify-evenly mx-auto flex-1">
+      {/* <div className="lg:flex lg:justify-evenly mx-auto flex-1">
         <DashBoardLoginUser />
         <DashBoardSubscriptionUser />
         <DashBoardPaidUser />
-      </div>
+      </div> */}
 
       {/* User Stats */}
       <div className="lg:flex lg:justify-evenly mx-auto flex-1"></div>
