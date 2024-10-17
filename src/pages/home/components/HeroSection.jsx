@@ -19,7 +19,7 @@ function HeroSection() {
     <Container>
       <section data-aos="fade-right"
      data-aos-easing="linear"
-     data-aos-duration="500">
+     data-aos-duration="500" className="mt-24">
         <HeroHeaderSection />
         <div>
           <div className="text-4xl font-bold md:text-[92px] text-center text-primary md:leading-[5.5rem] my-8">

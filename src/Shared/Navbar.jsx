@@ -54,7 +54,7 @@ function Navbar() {
   const toggleMenu = () => setMenu(!menu);
 
   return (
-    <div className="md:sticky md:top-0 md:shadow-none z-20 mt-[5rem] md:mt-0">
+    <div className="fixed top-0 w-full z-50 bg-white   mt-[5rem] md:mt-0">
       {/* DESKTOP */}
       <Container>
         <div className="hidden lg:block animate-in fade-in zoom-in bg-white p-4">
