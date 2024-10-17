@@ -70,15 +70,17 @@ const DashBoardNav = () => {
             )}
 
             <NavLink
-              to="/dashboard/profilePage"
+              to="/dashboard/tasks"
               className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
             >
               <RiSecurePaymentLine />
-
               Show all task
-
-              My Profile
-
+            </NavLink>
+            <NavLink
+              to="/dashboard/profilePage"
+              className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+            >
+              <MdRoomPreferences /> My Profile
             </NavLink>
 
             <NavLink
