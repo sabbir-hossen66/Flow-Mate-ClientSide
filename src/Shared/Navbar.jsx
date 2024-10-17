@@ -8,13 +8,12 @@ import { IoIosNotifications } from "react-icons/io";
 import { useSelector } from "react-redux";
 import UseAdmin from "@/hooks/UseAdmin";
 import Dropdown from "@/components/dropdown/Dropdown";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import NotificationDropdown from "@/components/Notification/NotificationDropdown";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.loading);
-  console.log(user, loading);
 
   const defaultLinks = [
     {
@@ -33,7 +32,7 @@ function Navbar() {
       badgeCount: 0,
     },
     {
-      route: "/contact",
+      route: "/contact#contact",
       name: "Contact",
       badgeCount: 0,
     },
@@ -55,7 +54,7 @@ function Navbar() {
   const toggleMenu = () => setMenu(!menu);
 
   return (
-    <div className="md:sticky md:top-0 md:shadow-none z-20 mt-[5rem] md:mt-0">
+    <div className="fixed top-0 w-full z-50 bg-white   mt-[5rem] md:mt-0">
       {/* DESKTOP */}
       <Container>
         <div className="hidden lg:block animate-in fade-in zoom-in bg-white p-4">
@@ -65,14 +64,20 @@ function Navbar() {
               src="https://i.ibb.co.com/sH49jvt/logo2-removebg-preview.png"
               alt=""
             />
-            <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
+            <div className="flex gap-[20px] xl:gap-[50px] text-[18px] items-center select-none">
               {links.map((item, index) => (
                 <div key={index} className="flex gap-2">
-                  <Link to={item.route}>
-                    <p className="hover:text-primary cursor-pointer flex items-center gap-2 font-[500] text-gray">
-                      {item.name}
-                    </p>
-                  </Link>
+                  <NavLink
+                    to={item.route}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-[#F1F5F9] text-[#1e40af] font-[500] p-1 rounded-lg flex items-center"
+                        : "hover:text-[#1e40af] cursor-pointer flex items-center gap-2 font-[500] text-gray"
+                    }
+                  >
+                    <p>{item.name}</p>
+                  </NavLink>
+
                   {item.badgeCount ? (
                     <div className="h-8 w-8 rounded-full bg-primary flex justify-center items-center font-semibold text-white">
                       {item.badgeCount}
@@ -139,14 +144,19 @@ function Navbar() {
         </div>
         {menu && (
           <div className="my-8 select-none animate-in slide-in-from-right">
-            <div className="flex flex-col gap-8 mt-8 mx-4">
+            <div className="flex flex-col items-center justify-center gap-8 mt-8 mx-4">
               {links.map((item, index) => (
                 <div key={index} className="flex gap-2 ">
-                  <Link to={item.route}>
-                    <p className="hover:text-primary cursor-pointer flex items-center gap-2 font-[500] text-gray text-center mx-auto">
-                      {index + 1}. {item.name}
-                    </p>
-                  </Link>
+                  <NavLink
+                    to={item.route}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-[#F1F5F9] text-primary font-[500] p-1 rounded-lg flex items-center justify-center"
+                        : "hover:text-primary cursor-pointer flex items-center justify-center gap-2 font-[500] text-gray"
+                    }
+                  >
+                    <p>{item.name}</p>
+                  </NavLink>
                   {item.badgeCount ? (
                     <div className="h-8 w-8 rounded-full bg-primary flex justify-center items-center font-semibold text-white">
                       {item.badgeCount}

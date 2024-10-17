@@ -34,8 +34,8 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
   const [isSelected, setIsSelected] = useState(false);
   useEffect(() => {
     AOS.init({
-      duration: 500, 
-      once: false, 
+      duration: 500,
+      once: false,
       offset: 200,
     });
   }, []);
@@ -80,117 +80,128 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
   };
 
   return (
-    <div
-      className={`flex flex-col border-2 rounded-lg p-5 hover:shadow-lg transform delay-150 mx-auto hover:bg-slate-200 active:bg-gray-700 active:text-white ${
-        isSelected ? "bg-gray-200" : "hover:bg-gray-100"
-      }`}
-    >
-      <div className="flex flex-col text-center pb-10 md:w-[350px] w-[263px]">
-        <h3 className="text-base font-semibold">{name}</h3>
-        <p className="text-3xl font-bold">
-          {price === "0" ? "Get Started for Free!" : `$${price}`}
-          <span className="text-sm font-semibold text-zinc-500">
-            {price === "0" ? "" : ` ${paymentType ? `(${paymentType})` : ""}`}
-          </span>
-        </p>
-      </div>
-      <div className="flex flex-col justify-between h-full">
-        <ul role="list" className="mb-8 space-y-4 text-left">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-center space-x-3">
-              <FaHandPointRight className="text-blue-600" />
-              <span>{feature}</span>
-            </li>
-          ))}
-        </ul>
-        {price === "0" ? (
-          <Button
-            className="w-full font-bold gap-2 shadow uppercase p-2 text-white bg-blue-800"
-            onClick={handleStartFree}
-          >
-            Start Free
-          </Button>
-        ) : (
-          <Button
-            className="w-full font-bold gap-2 shadow uppercase p-2 text-white bg-blue-800"
-            onClick={handleGetStarted}
-          >
-            Get Started
-          </Button>
-        )}
-      </div>
-      {/* Modal for Subscription Details */}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Subscribe to {name}</DialogTitle>
-            <DialogDescription>
-              You are subscribing to the {name} plan.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4 text-start justify-start">
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="package-name" className="text-start">
-                Package name
-              </Label>
-              <Input
-                id="package-name"
-                value={name}
-                readOnly
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="price" className="text-start">
-                Price
-              </Label>
-              <Input id="price" value={price} readOnly className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="email" className="text-start">
-                Email Address
-              </Label>
-              <Input
-                id="email"
-                value={user?.email || ""}
-                readOnly
-                className="col-span-3"
-              />
-            </div>
+    <div className="container mx-auto">
+      <div>
+        <div
+          className={`flex flex-col border-2 rounded-lg p-1 hover:shadow-lg transform delay-150 mx-auto hover:bg-slate-200 active:bg-gray-700 active:text-white ${
+            isSelected ? "bg-gray-200" : "hover:bg-[#F1F5F9]"
+          }`}
+        >
+          <div className="flex flex-col text-center mt-5 pb-10 md:w-[350px] w-[263px]">
+            <h3 className="text-base font-semibold">{name}</h3>
+            <p className="text-3xl font-bold">
+              {price === "0" ? "Get Started for Free!" : `$${price}`}
+              <span className="text-sm font-semibold text-zinc-500">
+                {price === "0"
+                  ? ""
+                  : ` ${paymentType ? `(${paymentType})` : ""}`}
+              </span>
+            </p>
           </div>
-          <DialogFooter>
-            <Button type="submit" onClick={handleProceedToPayment}>
-              Proceed to Payment
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          <div className="flex p-5 flex-col justify-between h-full md:h-[600px]">
+            <ul role="list" className="mb-8 space-y-4 text-left">
+              {features.map((feature, index) => (
+                <li key={index} className="flex items-center space-x-3">
+                  <FaHandPointRight className="text-blue-600" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+            {price === "0" ? (
+              <Button
+                className="w-full font-bold gap-2 shadow uppercase p-2 text-white bg-blue-800"
+                onClick={handleStartFree}
+              >
+                Start Free
+              </Button>
+            ) : (
+              <Button
+                className="w-full font-bold gap-2 shadow uppercase p-2 text-white bg-blue-800"
+                onClick={handleGetStarted}
+              >
+                Get Started
+              </Button>
+            )}
+          </div>
+          {/* Modal for Subscription Details */}
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Subscribe to {name}</DialogTitle>
+                <DialogDescription>
+                  You are subscribing to the {name} plan.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4 text-start justify-start">
+                <div className="grid grid-cols-4 items-start gap-4">
+                  <Label htmlFor="package-name" className="text-start">
+                    Package name
+                  </Label>
+                  <Input
+                    id="package-name"
+                    value={name}
+                    readOnly
+                    className="col-span-3"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-start gap-4">
+                  <Label htmlFor="price" className="text-start">
+                    Price
+                  </Label>
+                  <Input
+                    id="price"
+                    value={price}
+                    readOnly
+                    className="col-span-3"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-start gap-4">
+                  <Label htmlFor="email" className="text-start">
+                    Email Address
+                  </Label>
+                  <Input
+                    id="email"
+                    value={user?.email || ""}
+                    readOnly
+                    className="col-span-3"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit" onClick={handleProceedToPayment}>
+                  Proceed to Payment
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
-      {/* Modal for Stripe Payment */}
-      <Dialog open={openPaymentModal} onOpenChange={setOpenPaymentModal}>
-        <DialogContent className="max-h-fit">
-          <DialogHeader>
-            <DialogTitle>Complete Your Payment</DialogTitle>
-            <DialogDescription>
-              Enter your payment details to subscribe to the {name} plan.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="">
-            <Elements stripe={stripePromise}>
-              <CheckoutForm
-                bookingData={{ name, price, user }}
-                setOpenPaymentModal={setOpenPaymentModal}
-                setOpen={setOpen}
-              />
-            </Elements>
-          </div>
-          <DialogFooter>
-            <Button type="submit" onClick={handleProceedToPayment}>
-              Proceed to Payment
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          {/* Modal for Stripe Payment */}
+          <Dialog open={openPaymentModal} onOpenChange={setOpenPaymentModal}>
+            <DialogContent className="max-h-fit">
+              <DialogHeader>
+                <DialogTitle>Complete Your Payment</DialogTitle>
+                <DialogDescription>
+                  Enter your payment details to subscribe to the {name} plan.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="">
+                <Elements stripe={stripePromise}>
+                  <CheckoutForm
+                    bookingData={{ name, price, user }}
+                    setOpenPaymentModal={setOpenPaymentModal}
+                    setOpen={setOpen}
+                  />
+                </Elements>
+              </div>
+              <DialogFooter>
+                <Button type="submit" onClick={handleProceedToPayment}>
+                  Proceed to Payment
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
     </div>
   );
 };
@@ -202,11 +213,17 @@ const PricingPlans = () => {
   const filteredPlans = pricingPlans.filter((plan) => plan.type === activeTab);
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <section  data-aos="fade-up"
-     data-aos-duration="500" className="p-4 md:p-8">
+    <div className="max-w-7xl mx-auto" id="price">
+      <section
+        data-aos="fade-up"
+        data-aos-duration="500"
+        className="p-4 md:p-8"
+      >
         <div className="py-8 max-w-screen-xl lg:py-16 py-5">
-          <div data-aos="fade-right" className="mx-auto max-w-3xl text-center pb-12 md:pb-20">
+          <div
+            data-aos="fade-right"
+            className="mx-auto max-w-3xl text-center pb-12 md:pb-20"
+          >
             <h1 className="text-2xl md:text-4xl font-bold pb-5 text-center text-gray-800 capitalize lg:text-3xl">
               Pricing <span className="text-blue-500">Plans</span>
             </h1>

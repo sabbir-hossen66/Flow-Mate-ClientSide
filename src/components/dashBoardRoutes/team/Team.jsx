@@ -10,33 +10,42 @@ import Swal from "sweetalert2";
 
 const Team = () => {
   const axiosCommon = UseAxiosCommon();
-  const initialTeam = useLoaderData(); 
+  const initialTeam = useLoaderData();
   const [team, setTeam] = useState(initialTeam); // Use state to manage team data
   const user = useSelector((state) => state.auth.user);
   const email = user?.email;
 
   // Fetch users
-  const { data: users = [], refetch, isLoading, isError } = useQuery({
-    queryKey: ['data'],
+  const {
+    data: users = [],
+    refetch,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["data"],
     queryFn: async () => {
-      const res = await axiosCommon.get('/users');
+      const res = await axiosCommon.get("/users");
       return res.data;
-    }
+    },
   });
 
   // Fetch the current logged-in user
   const { data: userss = {}, isLoading: loading } = useQuery({
-    queryKey: ['data', email],
+    queryKey: ["data", email],
     queryFn: async () => {
       const res = await axiosCommon.get(`/users?email=${email}`);
-      return res.data[0]; 
+      return res.data[0];
     },
     enabled: !!email,
   });
 
   // Fetch user teams
-  const { data: teams = [], refetch: ref, isLoading: loadingTeam } = useQuery({
-    queryKey: ['teams', user?.email],
+  const {
+    data: teams = [],
+    refetch: ref,
+    isLoading: loadingTeam,
+  } = useQuery({
+    queryKey: ["teams", user?.email],
     queryFn: async () => {
       const res = await axiosCommon.get(`/teams`);
       return res.data;
@@ -46,8 +55,8 @@ const Team = () => {
 
   // Filter members of the team
   const filteredMembers = team.teamMembers
-    .map(memberId => users.find(user => user._id === memberId))
-    .filter(member => member !== undefined);
+    .map((memberId) => users.find((user) => user._id === memberId))
+    .filter((member) => member !== undefined);
 
   // Remove member logic
   const handleRemoveMember = async (id) => {
@@ -60,18 +69,20 @@ const Team = () => {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, remove the member!"
+        confirmButtonText: "Yes, remove the member!",
       }).then(async (result) => {
         if (result.isConfirmed) {
           // Proceed to remove the member if confirmed
           await axiosCommon.delete(`/delete/${team._id}/${id}`);
-          
+
           // Update the team members in state
-          setTeam(prevTeam => ({
+          setTeam((prevTeam) => ({
             ...prevTeam,
-            teamMembers: prevTeam.teamMembers.filter(memberId => memberId !== id),
+            teamMembers: prevTeam.teamMembers.filter(
+              (memberId) => memberId !== id
+            ),
           }));
-          
+
           // Show success alert
           Swal.fire({
             title: "Deleted!",
@@ -79,7 +90,7 @@ const Team = () => {
             icon: "success",
             position: "top-center",
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         }
       });
@@ -87,7 +98,6 @@ const Team = () => {
       console.error("Error removing member:", err.message);
     }
   };
-  
 
   // Loading state
   if (isLoading || loading || loadingTeam) {
@@ -143,15 +153,22 @@ const Team = () => {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {filteredMembers?.map((member) => (
-                  <tr key={member._id} className="hover:bg-gray-50 transition-colors duration-150">
+                  <tr
+                    key={member._id}
+                    className="hover:bg-gray-50 transition-colors duration-150"
+                  >
                     <td className="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
                       <div className="flex items-center gap-x-2">
                         <img
                           className="object-cover w-10 h-10 rounded-full"
-                          src={member.photo || "https://via.placeholder.com/150"}
+                          src={
+                            member.photo || "https://via.placeholder.com/150"
+                          }
                           alt={member.displayName}
                         />
-                        <span className="font-medium">{member.displayName}</span>
+                        <span className="font-medium">
+                          {member.displayName}
+                        </span>
                       </div>
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
@@ -161,27 +178,43 @@ const Team = () => {
                       {member.email}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <div className={`inline-flex items-center px-3 py-1 rounded-full ${member.isActive ? "bg-emerald-100" : "bg-red-100"}`}>
-                        <span className={`h-1.5 w-1.5 rounded-full ${member.isActive ? "bg-emerald-500" : "bg-red-500"}`}></span>
-                        <span className={`text-sm font-normal ${member.isActive ? "text-emerald-500" : "text-red-500"}`}>
+                      <div
+                        className={`inline-flex items-center px-3 py-1 rounded-full ${
+                          member.isActive ? "bg-emerald-100" : "bg-red-100"
+                        }`}
+                      >
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${
+                            member.isActive ? "bg-emerald-500" : "bg-red-500"
+                          }`}
+                        ></span>
+                        <span
+                          className={`text-sm font-normal ${
+                            member.isActive
+                              ? "text-emerald-500"
+                              : "text-red-500"
+                          }`}
+                        >
                           {member.isActive ? "Active" : "Inactive"}
                         </span>
                       </div>
                     </td>
                     {team?.teamLeader === userss[0]?._id && (
-  <td className="px-4 py-4 whitespace-nowrap">
-    <div className="flex items-center gap-x-2">
-      <button 
-        onClick={() => handleRemoveMember(member._id)} 
-        disabled={member?.role === 'team-admin'}  // Disable button if the member is a 'team-admin'
-        className={`text-white p-2 rounded-md bg-red-500 hover:bg-red-600 duration-75 
-          ${member?.role === 'team-admin' ? 'opacity-50 cursor-not-allowed' : ''}`}>
-        Remove
-      </button>
-    </div>
-  </td>
-)}
-
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-x-2">
+                          <button
+                            onClick={() => handleRemoveMember(member._id)}
+                            disabled={member?.role === "team-admin"} // Disable button if the member is a 'team-admin'
+                            className={`text-white p-2 rounded-md bg-red-500 hover:bg-red-600 duration-75 
+          ${
+            member?.role === "team-admin" ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
