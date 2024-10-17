@@ -257,6 +257,16 @@ const TaskCard = () => {
       if (result.isConfirmed) {
         const teamName = result.value;
 
+        // Ensure that `createTask` is loaded
+        if (!createTask || createTask.length === 0) {
+          Swal.fire({
+            icon: "error",
+            title: "No Tasks Available",
+            text: "No tasks have been loaded or there is a network issue.",
+          });
+          return;
+        }
+
         // Filter tasks by the provided team name
         const filteredTasks = createTask.filter(
           (task) => task.teamName === teamName
@@ -274,10 +284,11 @@ const TaskCard = () => {
         // Map the filtered tasks to prepare them for CSV export
         const tasks = filteredTasks.map((task) => ({
           TaskTitle: task.taskTitle,
-          Description: task.description,
-          DueDate: task.dueDate,
-          StartDate: task.startDate,
+          AssignedTo: task.assignedTo,
           Stage: task.stage,
+          Priority: task.priority,
+          AssignedMail: task.workerMail,
+          StartDate: task.startDate,
           TeamName: task.teamName, // Include team name for reference
         }));
 
