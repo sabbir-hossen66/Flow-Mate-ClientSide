@@ -47,7 +47,7 @@ const DashBoardCards = () => {
     <div>
       <div className="lg:flex lg:justify-between gap-6 pb-10">
         {cardData[0] && (
-          <div className="flex flex-col lg:flex-row lg:w-full lg:justify-between bg-white hover:shadow-md rounded-lg overflow-hidden">
+          <div className="flex flex-col lg:flex-row lg:w-full lg:justify-between bg-white hover:shadow-md rounded-lg overflow-hidden shadow-lg">
             <div
               onClick={() => handleCardClick(cardData[0].navigateTo)}
               className="lg:ml-8 cursor-pointer text-black p-4 lg:p-6 w-full lg:w-1/2 flex flex-col items-center lg:items-start hover:scale-105 transform transition-transform duration-300"
