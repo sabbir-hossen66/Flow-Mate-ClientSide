@@ -22,9 +22,6 @@ import DashBoardProfile from "@/components/dashBoardRoutes/dashBoardProfile/Dash
 import BoardSystem from "@/components/dashBoardRoutes/dashBoardHome/boardSystem/BoardSystem";
 import BoardDetails from "@/components/dashBoardRoutes/dashBoardHome/boardSystem/BoardDetails";
 
-
-
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -56,12 +53,12 @@ export const router = createBrowserRouter([
         element: <DashBoardHome />,
       },
       {
-        path: 'user',
-        element: <DashBoardHome />
+        path: "user",
+        element: <DashBoardHome />,
       },
       {
-        path: 'dbprofile',
-        element: <DashBoardProfile />
+        path: "profilePage",
+        element: <DashBoardProfile />,
       },
       {
         path: "admin",
@@ -69,13 +66,13 @@ export const router = createBrowserRouter([
           <PrivateRoutes>
             <AdminDashboard />
           </PrivateRoutes>
-
         ),
       },
       {
         path: "team/:teamName",
         element: <Team />,
-        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
       },
 
       {
@@ -87,16 +84,21 @@ export const router = createBrowserRouter([
         element: <TaskDetails />,
       },
       {
-        path: 'taskCard/:id',
+        path: "taskCard/:id",
         element: <TaskCard />,
-        loader: ({ params }) => fetch(`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
+        loader: ({ params }) =>
+          fetch(
+            `https://flowmate-serverside.vercel.app/createTask/${params.id}`
+          ),
       },
       {
-        path: 'updateTask/:id',
+        path: "updateTask/:id",
         element: <UpdateTask />,
-        loader: ({ params }) => fetch(`https://flowmate-serverside.vercel.app/createTask/${params.id}`)
-      }
-      ,
+        loader: ({ params }) =>
+          fetch(
+            `https://flowmate-serverside.vercel.app/createTask/${params.id}`
+          ),
+      },
       {
         path: "tasks/taskDetails",
         element: <TaskDetails />,
@@ -118,15 +120,15 @@ export const router = createBrowserRouter([
         element: <TeamRequest />,
       },
       {
-        path: 'boardSystem',
+        path: "boardSystem",
         element: <BoardSystem />,
       },
       {
-        path: 'createBoard/:id',
+        path: "createBoard/:id",
         element: <BoardDetails />,
-        loader: ({ params }) => fetch(`http://localhost:5000/createBoard/${params.id}`)
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/createBoard/${params.id}`),
       },
-
     ],
   },
 

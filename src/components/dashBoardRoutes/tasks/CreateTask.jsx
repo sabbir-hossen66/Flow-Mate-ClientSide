@@ -26,8 +26,8 @@ import { toast } from "sonner";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import UserTeamName from "@/hooks/UserTeamName";
-export function CreateTask() {
+
+export function CreateTask({boardName,teamName}) {
   // State to manage form inputs
   const [startDate, setStartDate] = useState(new Date());
   const [taskTitle, setTaskTitle] = useState("");
@@ -40,20 +40,6 @@ export function CreateTask() {
   const user = useSelector((state) => state.auth.user);
   console.log(user);
 
-  const { teams } = UserTeamName(); // Destructuring to get 'teams' from the hook
-
-  // Log the entire teams array
-  console.log(teams);
-
-  // Check if the teams array exists and has data
-  if (teams.length > 0) {
-    teams.forEach(team => {
-      console.log('Team Leader:', team.teamLeader);
-      console.log('Team Name:', team.teamName);
-    });
-  } else {
-    console.log('No teams found.');
-  }
 
   // Get query client
   const queryClient = useQueryClient();
@@ -89,7 +75,7 @@ export function CreateTask() {
     });
 
     // Prepare the data as a JSON object
-    const firstTeam = teams?.[0];
+    // const firstTeam = teams?.[0];
 
     const taskData = {
       taskTitle,
@@ -100,8 +86,9 @@ export function CreateTask() {
       startDate: startDate.toISOString(),
       email: user?.email,
       userName: user?.displayName,
-      teamName: firstTeam?.teamName, // Correctly accessing teamName
-      teamLeaderId: firstTeam?.teamLeader // Correctly accessing teamLeader
+      boardName:boardName,
+      teamName: teamName,
+      // teamLeaderId: firstTeam?.teamLeader // Correctly accessing teamLeader
     };
 
     try {
