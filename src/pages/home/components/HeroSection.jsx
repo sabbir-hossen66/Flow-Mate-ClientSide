@@ -39,11 +39,13 @@ function HeroSection() {
               className="border-none rounded-[12px]"
             />
             </HashLink>
+            <HashLink smooth to="/#contact" className="cursor-pointer">
             <MainButton
               text="Talk to sales"
               size="small"
               className="rounded-[12px] border-[1px] border-[#EDEEF0] bg-white hover:bg-white text-[#31373D]"
             />
+            </HashLink>
           </div>
 
           <div className="flex w-full justify-center"></div>

@@ -32,7 +32,7 @@ function Navbar() {
       badgeCount: 0,
     },
     {
-      route: "/contact",
+      route: "/contact#contact",
       name: "Contact",
       badgeCount: 0,
     },
@@ -64,15 +64,15 @@ function Navbar() {
               src="https://i.ibb.co.com/sH49jvt/logo2-removebg-preview.png"
               alt=""
             />
-            <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
+            <div className="flex gap-[20px] xl:gap-[50px] text-[18px] items-center select-none">
               {links.map((item, index) => (
                 <div key={index} className="flex gap-2">
                   <NavLink
                     to={item.route}
                     className={({ isActive }) =>
                       isActive
-                        ? "bg-[#F1F5F9] text-primary font-[500] p-1 rounded-lg flex items-center"
-                        : "hover:text-primary cursor-pointer flex items-center gap-2 font-[500] text-gray"
+                        ? "bg-[#F1F5F9] text-[#1e40af] font-[500] p-1 rounded-lg flex items-center"
+                        : "hover:text-[#1e40af] cursor-pointer flex items-center gap-2 font-[500] text-gray"
                     }
                   >
                     <p>{item.name}</p>
