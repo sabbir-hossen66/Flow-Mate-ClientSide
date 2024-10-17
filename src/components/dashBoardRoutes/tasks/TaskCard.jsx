@@ -39,7 +39,7 @@ const TaskCard = () => {
   const email = user?.email;
   const [elapsedTime, setElapsedTime] = useState({}); // Track elapsed time for tasks
   const [timers, setTimers] = useState({}); // Track timers for each task
-  const [stoppedTimersState, setStoppedTimersState] = useState({});    //for disable timer
+  const [stoppedTimersState, setStoppedTimersState] = useState({}); //for disable timer
 
   // Handlers for dropdown visibility
   const handleMouseEnter = () => {
@@ -136,70 +136,68 @@ const TaskCard = () => {
 
   // Timer handling
 
+  // Function to stop the timer and store the stopped state in localStorage
+  const handleStopTimer = async (task) => {
+    clearInterval(timers[task._id]); // Stop the timer
+    setTimers((prev) => ({ ...prev, [task._id]: null }));
 
-// Function to stop the timer and store the stopped state in localStorage
-const handleStopTimer = async (task) => {
-  clearInterval(timers[task._id]); // Stop the timer
-  setTimers((prev) => ({ ...prev, [task._id]: null }));
+    // Save the stopped state and elapsed time in localStorage
+    const stoppedTimers =
+      JSON.parse(localStorage.getItem("stoppedTimers")) || {};
 
-  // Save the stopped state and elapsed time in localStorage
-  const stoppedTimers =
-    JSON.parse(localStorage.getItem("stoppedTimers")) || {};
+    if (elapsedTime[task._id]) {
+      stoppedTimers[task._id] = {
+        stopped: true,
+        elapsedTime: elapsedTime[task._id], // Store the current elapsed time
+      };
+      localStorage.setItem("stoppedTimers", JSON.stringify(stoppedTimers));
 
-  if (elapsedTime[task._id]) {
-    stoppedTimers[task._id] = {
-      stopped: true,
-      elapsedTime: elapsedTime[task._id], // Store the current elapsed time
-    };
-    localStorage.setItem("stoppedTimers", JSON.stringify(stoppedTimers));
+      // Prepare the data to send in the POST request
+      const dataToSend = {
+        taskId: task._id,
+        elapsedTime: elapsedTime[task._id],
+        workerMail: task?.workerMail,
+        stopped: true,
+        taskTitle: task?.taskTitle,
+        taskSubmitted: task?.assignedTo,
+        taskDescription: task?.description,
+        taskDueDate: dayjs(task.dueDate).format("YYYY-MM-DD"),
+      };
 
-    // Prepare the data to send in the POST request
-    const dataToSend = {
-      taskId: task._id,
-      elapsedTime: elapsedTime[task._id],
-      workerMail: task?.workerMail,
-      stopped: true,
-      taskTitle: task?.taskTitle,
-      taskSubmitted: task?.assignedTo,
-      taskDescription: task?.description,
-      taskDueDate: dayjs(task.dueDate).format("YYYY-MM-DD"),
-    };
-
-    try {
-      const response = await axiosCommon.post(`timerData`, dataToSend);
-      if (response.status === 200) {
+      try {
+        const response = await axiosCommon.post(`timerData`, dataToSend);
+        if (response.status === 200) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Timer stopped and data saved",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          // Update the stoppedTimersState
+          setStoppedTimersState((prev) => ({
+            ...prev,
+            [task._id]: true,
+          }));
+        } else {
+          throw new Error("Failed to save data");
+        }
+      } catch (error) {
         Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Timer stopped and data saved",
-          showConfirmButton: false,
-          timer: 1500,
+          icon: "error",
+          title: "Oops...",
+          text: "Failed to stop timer and save data!",
         });
-        // Update the stoppedTimersState
-        setStoppedTimersState((prev) => ({
-          ...prev,
-          [task._id]: true,
-        }));
-      } else {
-        throw new Error("Failed to save data");
       }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Failed to stop timer and save data!",
-      });
     }
-  }
-};
-
+  };
 
   // Timer handling in useEffect
   useEffect(() => {
     if (createTask) {
       const stoppedTimers =
         JSON.parse(localStorage.getItem("stoppedTimers")) || {};
-        setStoppedTimersState(stoppedTimers);
+      setStoppedTimersState(stoppedTimers);
       createTask.forEach((task) => {
         if (stoppedTimers[task._id]?.stopped) {
           // Timer was stopped, so we display the stored elapsed time
@@ -237,27 +235,75 @@ const handleStopTimer = async (task) => {
     };
   }, [createTask]);
 
-  // file attach
   const exportToCSV = () => {
-    const tasks = createTask.map((task) => ({
-      TaskTitle: task.taskTitle,
-      Description: task.description,
-      DueDate: task.dueDate,
-      StartDate: task.startDate,
-      Stage: task.stage,
-    }));
+    // Use SweetAlert2 to open a modal with input field for team name
+    Swal.fire({
+      title: "Enter Team Name",
+      input: "text",
+      inputPlaceholder: "Team name",
+      showCancelButton: true,
+      confirmButtonText: "Export",
+      showLoaderOnConfirm: true,
+      preConfirm: (teamName) => {
+        return new Promise((resolve) => {
+          if (!teamName) {
+            Swal.showValidationMessage("Please enter a valid team name.");
+            return;
+          }
+          resolve(teamName);
+        });
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const teamName = result.value;
 
-    const csv = Papa.unparse(tasks);
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", "tasks.csv");
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+        // Filter tasks by the provided team name
+        const filteredTasks = createTask.filter(
+          (task) => task.teamName === teamName
+        );
+
+        if (filteredTasks.length === 0) {
+          Swal.fire({
+            icon: "info",
+            title: "No tasks found",
+            text: `No tasks found for team "${teamName}".`,
+          });
+          return; // Exit if no tasks match the team name
+        }
+
+        // Map the filtered tasks to prepare them for CSV export
+        const tasks = filteredTasks.map((task) => ({
+          TaskTitle: task.taskTitle,
+          Description: task.description,
+          DueDate: task.dueDate,
+          StartDate: task.startDate,
+          Stage: task.stage,
+          TeamName: task.teamName, // Include team name for reference
+        }));
+
+        // Convert tasks to CSV format
+        const csv = Papa.unparse(tasks);
+
+        // Create a downloadable link for the CSV file
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `${teamName}_tasks.csv`);
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        Swal.fire({
+          icon: "success",
+          title: "CSV Exported",
+          text: `Tasks for team "${teamName}" have been exported successfully.`,
+        });
+      }
+    });
   };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -449,7 +495,7 @@ const handleStopTimer = async (task) => {
                     >
                       Stop Timer
                     </button> */}
-{/* 
+                    {/* 
 <button
       onClick={() => handleStopTimer(task)}
       disabled={stoppedTimersState[task._id]} // Disable button when timer is stopped
@@ -458,16 +504,19 @@ const handleStopTimer = async (task) => {
       Stop Timer
     </button> */}
 
-<button
-  onClick={() => handleStopTimer(task)}
-  disabled={stoppedTimersState[task._id]} // Disable button when timer is stopped
-  className={`text-sm py-1 px-3 rounded 
-    ${stoppedTimersState[task._id] ? 'bg-gray-500 cursor-not-allowed' : 'bg-red-500'} 
+                    <button
+                      onClick={() => handleStopTimer(task)}
+                      disabled={stoppedTimersState[task._id]} // Disable button when timer is stopped
+                      className={`text-sm py-1 px-3 rounded 
+    ${
+      stoppedTimersState[task._id]
+        ? "bg-gray-500 cursor-not-allowed"
+        : "bg-red-500"
+    } 
     text-white`}
->
-  Stop Timer
-</button>
-
+                    >
+                      Stop Timer
+                    </button>
 
                     <div className="flex gap-2">
                       <div className="p-2 border bg-blue-200 rounded-sm">
