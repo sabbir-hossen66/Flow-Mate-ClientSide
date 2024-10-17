@@ -1,5 +1,8 @@
-import UseAxiosCommon from '@/hooks/UseAxiosCommon';
-import { useQuery } from '@tanstack/react-query';
+import { Button } from "@/components/ui/button";
+import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import * as XLSX from "xlsx";
 
 const PaymentHistory = () => {
   const axiosCommon = UseAxiosCommon();
@@ -15,6 +18,23 @@ const PaymentHistory = () => {
       return data;
     },
   });
+  const [result, setResult] = useState([]);
+
+  // Function to export the payment data to Excel
+  const handleExportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(
+      payment.map((paymentDetail, index) => ({
+        Serial_No: index + 1,
+        Transaction_ID: paymentDetail.transactionId,
+        Amount: paymentDetail.amount.toFixed(2),
+        Package_Name: paymentDetail.package_name,
+        User_Email: paymentDetail.user_email,
+      }))
+    );
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "PaymentHistory");
+    XLSX.writeFile(workbook, "PaymentHistory.xlsx");
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -36,6 +56,14 @@ const PaymentHistory = () => {
               {payment.length} records
             </span>
           </div>
+
+          {/* Export Button */}
+          <Button
+            onClick={handleExportToExcel}
+            className="bg-blue-800 hover:bg-blue-950 text-white px-4 py-2 rounded"
+          >
+            Export to Excel
+          </Button>
         </div>
 
         <div className="flex flex-col mt-6">
@@ -43,7 +71,7 @@ const PaymentHistory = () => {
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+                  <thead className="bg-gradient-to-r from-blue-800 to-blue-700">
                     <tr>
                       <th className="px-4 py-3.5 text-sm font-normal text-left text-white">
                         Serial No
