@@ -1,3 +1,4 @@
+import PageHeader from "@/components/pageHeader/PageHeader";
 import { Button } from "@/components/ui/button";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
@@ -47,7 +48,8 @@ const PaymentHistory = () => {
   return (
     <div>
       <section className="container p-10 mx-auto">
-        <div className="flex flex-col lg:flex-row justify-between gap-x-3">
+      <PageHeader title="Payment data"  breadcrumb="All the payments here show"/>
+        <div className="flex flex-col lg:flex-row justify-between gap-x-3 mx-10">
           <div className="flex items-center">
             <h2 className="text-lg font-medium text-gray-800 dark:text-white">
               Payment History
@@ -66,7 +68,7 @@ const PaymentHistory = () => {
           </Button>
         </div>
 
-        <div className="flex flex-col mt-6">
+        <div className="flex flex-col mt-6 mx-10">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">

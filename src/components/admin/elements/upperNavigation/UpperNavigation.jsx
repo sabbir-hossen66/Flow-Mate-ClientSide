@@ -4,6 +4,9 @@ import { useSelector } from "react-redux";
 import UseAdmin from "@/hooks/UseAdmin";
 import { MdDashboard, MdMenu, MdClose } from "react-icons/md";
 import Dropdown from "@/components/dropdown/Dropdown";
+import ProjectCreate from "@/components/projectCreate/ProjectCreate";
+import CommonButton from "@/components/commonButton/CommonButton";
+
 
 const UpperNavigation = () => {
   const user = useSelector((state) => state.auth.user);
@@ -11,6 +14,11 @@ const UpperNavigation = () => {
   const loading = useSelector((state) => state.auth.loading);
   const [isNavOpen, setIsNavOpen] = useState(false); // For responsive navigation
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [toggleOpen, setToggleOpen] = useState(false);
+
+  const toggleHandler = () => {
+    setToggleOpen(!toggleOpen);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -50,6 +58,7 @@ const UpperNavigation = () => {
             </Link>
           </div>
 
+         
           {/* Hamburger icon for mobile */}
           <button
             className="text-3xl lg:hidden"
@@ -58,30 +67,35 @@ const UpperNavigation = () => {
             {isNavOpen ? <MdClose /> : <MdMenu />}
           </button>
         </div>
-
+        <div >
+            <div className="relative" onClick={toggleHandler}>
+              <CommonButton text="Create" />
+            </div>
+            {toggleOpen && <ProjectCreate />}
+          </div>
         {/* Links and actions (responsive) */}
         <div
-          className={`${
-            isNavOpen ? "block" : "hidden"
-          } w-full lg:w-auto lg:flex lg:flex-row lg:items-center lg:space-x-4`}
+          className={`${isNavOpen ? "block" : "hidden"
+            } w-full lg:w-auto lg:flex lg:flex-row lg:items-center lg:space-x-4`}
         >
           {/* Search field on its own line */}
-          <div className="w-full lg:w-auto mb-4 lg:mb-0">
+          <div className="w-full lg:w-auto mb-4 lg:mb-0 mr-8">
             <input
               type="text"
               placeholder="Search..."
               className="w-full p-2  bg-opacity-20 text-gray-900 bg-slate-500 placeholder-white rounded-md outline-none"
             />
           </div>
-
+         
           {/* User actions and Date-Time */}
-          <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
+          <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4 mx-8">
             {user && <Dropdown />}
-            <div className="text-center text-sm">
-              <p>{formattedDate}</p>
-              <p>{formattedTime}</p>
+            <div className="text-center flex text-sm">
+              <p className="text-sm font-bold text-gray-600 pr-6">{formattedDate}</p>           
+              <p className="text-sm font-bold text-gray-600">{formattedTime}</p>
             </div>
           </div>
+          
         </div>
       </nav>
     </div>
