@@ -135,9 +135,8 @@ const DashBoardHome = () => {
         </div>
       </div>
 
-   
-      {/* Charts and Graphs */}
-      <div className="flex lg:flex-row flex-col justify-between mx-14 my-10 gap-6">
+    {/* Charts and Graphs */}
+  <div className="flex lg:flex-row flex-col justify-between mx-14 my-10 gap-6">
         {/* Visitor Insights Chart */}
         <div className="w-2/3 bg-white rounded-2xl">
           <ActivityChart/>
@@ -148,6 +147,7 @@ const DashBoardHome = () => {
           <SupportiveCard/>
         </div>
       </div>
+    
     </div>
 
   );
