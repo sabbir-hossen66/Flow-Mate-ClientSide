@@ -43,6 +43,7 @@ const DashBoardCards = () => {
   const handleCardClick = (path) => {
     navigate(path); // Navigate to the respective page when a card is clicked
   };
+  
   return (
     <div>
       <div className="lg:flex lg:justify-between gap-6 pb-10">

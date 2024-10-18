@@ -27,7 +27,7 @@ import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 
-export function CreateTask({boardName,teamName}) {
+export function CreateTask({ boardName, teamName }) {
   // State to manage form inputs
   const [startDate, setStartDate] = useState(new Date());
   const [taskTitle, setTaskTitle] = useState("");
@@ -35,28 +35,27 @@ export function CreateTask({boardName,teamName}) {
   const [stage, setStage] = useState("");
   const [workerMail, setworkerMail] = useState("");
   const [priority, setPriority] = useState("");
-  const [loading, setLoading] = useState(false)
-  const axiosCommon = UseAxiosCommon()
+  const [loading, setLoading] = useState(false);
+  const axiosCommon = UseAxiosCommon();
   const user = useSelector((state) => state.auth.user);
   console.log(user);
-
 
   // Get query client
   const queryClient = useQueryClient();
 
   // data post
   const { mutateAsync } = useMutation({
-    mutationFn: async taskData => {
+    mutationFn: async (taskData) => {
       const { data } = await axiosCommon.post(`/createTask`, taskData);
       return data;
     },
     onSuccess: () => {
-      console.log('Data Saved Successfully');
-      toast.success('Task Added Successfully!');
+      console.log("Data Saved Successfully");
+      toast.success("Task Added Successfully!");
       setLoading(false);
 
       // Invalidate and refetch tasks (if necessary)
-      queryClient.invalidateQueries('tasks'); // Replace 'tasks' with the appropriate query key.
+      queryClient.invalidateQueries("tasks"); // Replace 'tasks' with the appropriate query key.
     },
   });
 
@@ -71,7 +70,7 @@ export function CreateTask({boardName,teamName}) {
       stage,
       priority,
       startDate,
-      workerMail
+      workerMail,
     });
 
     // Prepare the data as a JSON object
@@ -86,15 +85,14 @@ export function CreateTask({boardName,teamName}) {
       startDate: startDate.toISOString(),
       email: user?.email,
       userName: user?.displayName,
-      boardName:boardName,
+      boardName: boardName,
       teamName: teamName,
-      // teamLeaderId: firstTeam?.teamLeader // Correctly accessing teamLeader
     };
 
     try {
       console.log("Sending taskData to /createTask");
       const response = await mutateAsync(taskData);
-      console.log(response)
+      console.log(response);
 
       // Show a success toast notification
       toast.success("Task created successfully");
@@ -105,11 +103,11 @@ export function CreateTask({boardName,teamName}) {
       setStage("");
       setPriority("");
       setStartDate(new Date());
-
     } catch (error) {
       console.error("Error creating task:", error);
 
-      // Show an error toast notification
+      console.log("Error creating task:", error);
+
       toast.error("Failed to create task");
     }
   };
@@ -151,7 +149,7 @@ export function CreateTask({boardName,teamName}) {
                 <Label htmlFor="assign">Worker mail</Label>
                 <Input
                   id="worker_mail"
-                  type='email'
+                  type="email"
                   placeholder="example@gmail.com"
                   value={workerMail}
                   onChange={(e) => setworkerMail(e.target.value)}
@@ -222,4 +220,3 @@ export function CreateTask({boardName,teamName}) {
     </Dialog>
   );
 }
-
