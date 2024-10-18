@@ -12,8 +12,13 @@ const MyTeam = () => {
   const axiosCommon = UseAxiosCommon();
 
   // Fetch user teams using react-query
-  const { data: teams = [], isLoading, error, refetch } = useQuery({
-    queryKey: ['teams', user?.email],
+  const {
+    data: teams = [],
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["teams", user?.email],
     queryFn: async () => {
       const res = await axiosCommon.get(`/teams`);
       return res.data;
@@ -22,7 +27,7 @@ const MyTeam = () => {
   });
 
   const { data: users = [], isError } = useQuery({
-    queryKey: ['data', user?.email],
+    queryKey: ["data", user?.email],
     queryFn: async () => {
       const res = await axiosCommon.get(`/users?email=${user.email}`);
       return Array.isArray(res.data) ? res.data : [res.data];
@@ -60,7 +65,12 @@ const MyTeam = () => {
   if (error) return <div className="text-red-500">Error: {error.message}</div>;
 
   const userId = currentUser?._id;
-  const currentUserTeams = teams.filter(team => team.teamMembers.includes(userId));
+
+  const currentUserTeams = teams.filter((team) =>
+    team.teamMembers.includes(userId)
+  );
+
+
 
   return (
     <div className="container mx-auto p-6">
@@ -69,30 +79,27 @@ const MyTeam = () => {
           {currentUserTeams.map((team) => (
             <div
               key={team._id}
-              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col justify-center items-center text-center"
+
+              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6"
             >
-              <div className="flex items-center justify-between space-x-8 mb-4">
-                {/* Team Name */}
-                <div className="flex items-center space-x-2">
-                  <button className="flex items-center font-bold text-2xl p-2 rounded-lg">
-                    {team?.teamName}
-                  </button>
-                </div>
+              <h3 className="text-2xl font-[500] mb-2">
+                <Link
+                  to={`/dashboard/team/${team?.teamName}`}
+                  className="hover:underline"
+                >
+                  {team?.teamName}
+                </Link>
+              </h3>
+              <p className=" opacity-80 text-[16px]">
+                Admin: {team.displayName}
+              </p>
+              <p className=" opacity-70 mb-4 text-[16px]">
+                Members: {team.teamMembers.length}
+              </p>
 
-                {/* View Button with Icon */}
-                <div className="font-[500]">
-                  <Link to={`/dashboard/team/${team?.teamName}`} className="hover:underline">
-                    <div className="flex justify-center items-center">
-                      <FaEye className="mr-1" />
-                      <span>View</span>
-                    </div>
-                  </Link>
-                </div>
-              </div>
+              {/* Show Edit/Delete buttons if the user is the team leader */}
 
-
-              <p className="opacity-80 text-[16px]">Admin: {team.displayName}</p>
-              <p className="opacity-70 mb-4 text-[16px]">Members: {team.teamMembers.length}</p>
+             
               {team.teamLeader === currentUser?._id && (
                 <div className="flex justify-center mt-4 space-x-4">
                   <EditTeam
@@ -115,7 +122,9 @@ const MyTeam = () => {
         </div>
       ) : (
         <p className="text-center text-gray-500 text-2xl">
-          {user?.email ? `No Board found , Please create boards ${user?.email}` : "Please log in to see your boards."}
+          {user?.email
+            ? `No Board found , Please create boards ${user?.email}`
+            : "Please log in to see your boards."}
         </p>
       )}
     </div>

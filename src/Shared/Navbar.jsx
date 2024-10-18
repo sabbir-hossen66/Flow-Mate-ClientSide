@@ -32,7 +32,7 @@ function Navbar() {
       badgeCount: 0,
     },
     {
-      route: "/contact#contact",
+      route: "/contact",
       name: "Contact",
       badgeCount: 0,
     },
