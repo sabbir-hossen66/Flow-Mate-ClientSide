@@ -73,9 +73,6 @@ export function CreateTask({ boardName, teamName }) {
       workerMail,
     });
 
-    // Prepare the data as a JSON object
-    // const firstTeam = teams?.[0];
-
     const taskData = {
       taskTitle,
       assignedTo,
