@@ -114,7 +114,7 @@ const MyTeam = () => {
           ))}
         </div>
       ) : (
-        <p className="text-center text-gray-500 text-2xl">
+        <p className="text-center text-gray-500 text-2xl items-center">
           {user?.email ? `No Board found , Please create boards ${user?.email}` : "Please log in to see your boards."}
         </p>
       )}
