@@ -103,10 +103,10 @@ const MyTeam = () => {
                     <FaEdit className="mr-1" />
                   </EditTeam>
                   <button
-                    className="flex items-center bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 transition-colors duration-200"
+                    className="flex items-center text-red-400 text-2xl"
                     onClick={() => handleDelete(team._id)}
                   >
-                    <FaTrash className="mr-1" /> Delete
+                    <FaTrash className="mr-1" />
                   </button>
                 </div>
               )}
