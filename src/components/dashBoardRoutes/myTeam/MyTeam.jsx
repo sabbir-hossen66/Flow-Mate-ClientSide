@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { FaEdit, FaTrash } from "react-icons/fa"; // Importing icons
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa"; // Importing icons
 import { EditTeam } from "../editTeam/EditTeam";
 
 const MyTeam = () => {
@@ -25,11 +25,11 @@ const MyTeam = () => {
     queryKey: ['data', user?.email],
     queryFn: async () => {
       const res = await axiosCommon.get(`/users?email=${user.email}`);
-      return Array.isArray(res.data) ? res.data : [res.data]; 
+      return Array.isArray(res.data) ? res.data : [res.data];
     },
     enabled: !!user?.email,
   });
-  
+
   const currentUser = users.length > 0 ? users[0] : null;
 
   // Handle team deletion
@@ -59,33 +59,48 @@ const MyTeam = () => {
   if (isLoading) return <Loader />;
   if (error) return <div className="text-red-500">Error: {error.message}</div>;
 
-  const userId = currentUser?._id; 
+  const userId = currentUser?._id;
   const currentUserTeams = teams.filter(team => team.teamMembers.includes(userId));
 
   return (
     <div className="container mx-auto p-6">
-      {/* <h2 className="text-3xl font-bold mb-6 text-start opacity-80 text-gray-500">Total Teams ({currentUserTeams.length})</h2> */}
       {currentUserTeams.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {currentUserTeams.map((team) => (
-            <div key={team._id} className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
-              <h3 className="text-2xl font-[500] mb-2">
-                <Link to={`/dashboard/team/${team?.teamName}`} className="hover:underline">
-                {team?.teamName}
-                </Link>
-              </h3>
-              <p className=" opacity-80 text-[16px]">Admin: {team.displayName}</p>
-              <p className=" opacity-70 mb-4 text-[16px]">Members: {team.teamMembers.length}</p>
-              
-              {/* Show Edit/Delete buttons if the user is the team leader */}
+            <div
+              key={team._id}
+              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col justify-center items-center text-center"
+            >
+              <div className="flex items-center justify-between space-x-8 mb-4">
+                {/* Team Name */}
+                <div className="flex items-center space-x-2">
+                  <button className="flex items-center font-bold text-2xl p-2 rounded-lg">
+                    {team?.teamName}
+                  </button>
+                </div>
+
+                {/* View Button with Icon */}
+                <div className="font-[500]">
+                  <Link to={`/dashboard/team/${team?.teamName}`} className="hover:underline">
+                    <div className="flex justify-center items-center">
+                      <FaEye className="mr-1" />
+                      <span>View</span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
+
+              <p className="opacity-80 text-[16px]">Admin: {team.displayName}</p>
+              <p className="opacity-70 mb-4 text-[16px]">Members: {team.teamMembers.length}</p>
               {team.teamLeader === currentUser?._id && (
-                <div className="flex justify-start mt-4 space-x-4">
+                <div className="flex justify-center mt-4 space-x-4">
                   <EditTeam
                     currentUserTeams={team}
                     refetch={refetch}
                     className="flex items-center bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-colors duration-200"
                   >
-                    <FaEdit className="mr-1" /> 
+                    <FaEdit className="mr-1" />
                   </EditTeam>
                   <button
                     className="flex items-center bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 transition-colors duration-200"
@@ -104,6 +119,8 @@ const MyTeam = () => {
         </p>
       )}
     </div>
+
+
   );
 };
 
