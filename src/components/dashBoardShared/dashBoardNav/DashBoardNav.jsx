@@ -96,6 +96,13 @@ const DashBoardNav = () => {
               <BsMicrosoftTeams />
               Team Request
             </NavLink>
+            <NavLink
+                to="/dashboard/userActivity"
+                className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+              >
+                 <BsMicrosoftTeams />
+               User Activity
+              </NavLink>
             {/* comment those line by sajib */}
             {/* <NavLink
               to="/dashboard/my-team"

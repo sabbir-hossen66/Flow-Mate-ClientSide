@@ -43,6 +43,7 @@ const DashBoardCards = () => {
   const handleCardClick = (path) => {
     navigate(path); // Navigate to the respective page when a card is clicked
   };
+  
   return (
     <div>
       <div className="lg:flex lg:justify-between gap-6 pb-10">
@@ -73,7 +74,7 @@ const DashBoardCards = () => {
         )}
       </div>
 
-
+ 
 
       {/* show 3 data */}
       <div className="flex flex-col lg:flex-row lg:justify-between gap-6">
