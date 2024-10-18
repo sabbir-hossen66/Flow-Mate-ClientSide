@@ -43,15 +43,16 @@ const BoardSystem = () => {
 
                 <MyTeam />
 
-    <PageHeader
-      title="Your Work Space" 
-        breadcrumb="FlowMate Work Space"/>
-            {/* Task Section */}
-            <div className="flex lg:flex-row flex-col lg:justify-start justify-center gap-4">
-           
-                {/* sajib add this components */}
-                <MyTeam/>
+                <PageHeader
+                    title="Your Work Space"
+                    breadcrumb="FlowMate Work Space" />
+                {/* Task Section */}
+                <div className="flex lg:flex-row flex-col lg:justify-start justify-center gap-4">
 
+                    {/* sajib add this components */}
+                    <MyTeam />
+
+                </div>
             </div>
         </div>
     );
