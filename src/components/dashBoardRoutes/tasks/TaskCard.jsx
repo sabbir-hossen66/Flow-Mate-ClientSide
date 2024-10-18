@@ -40,7 +40,7 @@ const TaskCard = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const onDrop = async (acceptedFiles, taskId) => {
     console.log("Accepted Files:", acceptedFiles);
-    console.log("Before Upload - Task ID:", taskId); // Check taskId here
+    console.log("Before Upload - Task ID:", taskId);
 
     if (!taskId) {
       console.error("Task ID is invalid!");
@@ -54,16 +54,29 @@ const TaskCard = () => {
     });
 
     try {
-      const url = `/createTask/file/${taskId}`;
+      const url = `http://localhost:5000/createTask/file/${taskId}`;
       console.log("Requesting URL:", url);
 
-      const response = await axiosCommon.put(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // const response = await axiosCommon.put(url, formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
 
-      console.log("Files uploaded successfully:", response.data);
+      const response = fetch(
+        `http://localhost:5000/createTask/file/${taskId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "multipart/form-data" },
+          body: formData,
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          setUploadedFiles(data);
+        });
+      console.log("Response:", response);
     } catch (error) {
       console.error("Error uploading files:", error);
     }
