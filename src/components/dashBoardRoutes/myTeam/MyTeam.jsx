@@ -121,6 +121,8 @@ const MyTeam = () => {
           ))}
         </div>
       ) : (
+
+
         <p className="text-center text-gray-500 text-2xl">
           {user?.email
             ? `No Board found , Please create boards ${user?.email}`

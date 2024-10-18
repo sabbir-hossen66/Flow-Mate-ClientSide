@@ -35,10 +35,11 @@ const BoardSystem = () => {
     return (
         <div className="mx-auto">
             {/* Header Section */}
-            <div className="flex lg:flex-row flex-col lg:justify-start justify-center gap-4">
-                <PageHeader
+            <PageHeader
                     title="Your Work Space"
                     breadcrumb="FlowMate Work Space" />
+            <div className="flex lg:flex-row flex-col lg:justify-start justify-center gap-4">
+              
                 {/* Task Section */}
                 <div className="flex lg:flex-row flex-col lg:justify-start justify-center gap-4">
 
