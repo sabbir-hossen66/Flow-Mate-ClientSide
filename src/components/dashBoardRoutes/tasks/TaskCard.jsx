@@ -24,54 +24,22 @@ import { Button } from "@/components/ui/button";
 import Button2COmmon from "@/components/button2Commo.jsx/Button2COmmon";
 import { useDropzone } from "react-dropzone";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { BounceLoader } from "react-spinners";
+import axios from "axios";
 
 // TaskCard Component
 const TaskCard = () => {
   const axiosCommon = UseAxiosCommon();
-
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const {
     register,
     handleSubmit,
-    formState: { errors },
+
+    reset,
   } = useForm();
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-  const onDrop = async (acceptedFiles, taskId) => {
-    console.log("Accepted Files:", acceptedFiles);
-    console.log("Before Upload - Task ID:", taskId); // Check taskId here
 
-    if (!taskId) {
-      console.error("Task ID is invalid!");
-      return;
-    }
-
-    // Create a FormData object
-    const formData = new FormData();
-    acceptedFiles.forEach((file) => {
-      formData.append("files", file);
-    });
-
-    try {
-      const url = `/createTask/file/${taskId}`;
-      console.log("Requesting URL:", url);
-
-      const response = await axiosCommon.put(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      console.log("Files uploaded successfully:", response.data);
-    } catch (error) {
-      console.error("Error uploading files:", error);
-    }
-  };
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-  });
   // track user
   const user = useSelector((state) => state.auth.user);
   const email = user?.email;
@@ -95,7 +63,11 @@ const TaskCard = () => {
 
   // Handler for form submission
   const onSubmit = (data) => {
-    setSearchQuery(data.search); // Update search query state
+    if (!data.search) {
+      return;
+    }
+    reset();
+    setSearchQuery(data.search);
   };
   const handleReset = () => {
     setSearchQuery(""); // Clear search query
@@ -113,7 +85,7 @@ const TaskCard = () => {
     queryKey: ["createTask", searchQuery, sortOption, email], // Include search and sort in the query key
     queryFn: async () => {
       const res = await fetch(
-        `https://flowmate-serverside-ecru.vercel.app/createTask?search=${searchQuery}&sort=${sortOption}&email=${email}`
+        `https://flowmate-a-team-collaboration-tool.vercel.app/createTask?search=${searchQuery}&sort=${sortOption}&email=${email}`
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
@@ -352,9 +324,78 @@ const TaskCard = () => {
       }
     });
   };
+  let isUploading = false; // Add a flag to track uploading status
 
+  const onDrop = async (acceptedFiles, taskId) => {
+    // Check if files are accepted
+    console.log("Accepted Files:", acceptedFiles);
+    console.log("Before Upload - Task ID:", taskId);
+
+    if (!taskId) {
+      console.error("Task ID is invalid!");
+      return; // Exit if no valid task ID
+    }
+
+    // Prevent multiple uploads
+    if (isUploading) {
+      console.log("Upload is already in progress. Please wait.");
+      return; // Exit if already uploading
+    }
+
+    isUploading = true; // Set the flag to true
+
+    try {
+      // Loop through all accepted files and upload to Cloudinary
+      const cloudinaryUrls = await Promise.all(
+        acceptedFiles.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "all_files_preset"); // Ensure this preset allows all file types
+
+          // Upload to Cloudinary
+          const response = await axios.post(
+            `https://api.cloudinary.com/v1_1/dadvrb8ri/upload`, // Ensure the endpoint is correct
+            formData
+          );
+
+          console.log("Cloudinary upload response:", response.data);
+          return response.data.secure_url; // Return the file URL from Cloudinary
+        })
+      );
+
+      console.log("Uploaded file URLs from Cloudinary:", cloudinaryUrls);
+
+      // Now send the Cloudinary URLs to the server for the task
+      const url = `/createTask/file/${taskId}`;
+      console.log("Requesting URL to server:", url);
+
+      const response = await axiosCommon.put(
+        url,
+        { files: cloudinaryUrls }, // Send the array of file URLs
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Files successfully saved on the server:", response.data);
+    } catch (error) {
+      console.error("Error in file upload or saving to server:", error);
+    } finally {
+      isUploading = false; // Reset the flag after the upload completes
+    }
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+  });
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <BounceLoader />
+      </div>
+    );
   }
   if (error) {
     return <div>Error loading tasks</div>;
@@ -362,14 +403,34 @@ const TaskCard = () => {
 
   return (
     <div>
-      {" "}
-      <div className="flex justify-center items-center">
-        <div>
-          <h2 className="text-lg font-medium text-gray-800 dark:text-white text-center">
-            Get Your Required Task
-          </h2>
+      <div className="flex flex-col justify-center items-center">
+        <section className="bg-white rounded-2xl">
+          <div className="container flex flex-col items-center px-4 py-4 mx-auto text-center">
+            <h2 className="max-w-2xl mx-auto text-2xl font-semibold tracking-tight text-gray-800 xl:text-3xl dark:text-white">
+              Boost Your Team's Productivity to the{" "}
+              <span className="text-blue-500">Next Level.</span>
+            </h2>
 
-          <div className="flex justify-center items-center mt-4">
+            <p className="max-w-4xl mt-6 text-center text-gray-500 dark:text-gray-300">
+              Get all of task in a specific team in a single click.
+            </p>
+
+            <div className="flex justify-center items-center my-3">
+              <Button
+                className="bg-blue-500 text-white p-2 rounded-md"
+                onClick={exportToCSV}
+              >
+                Export Team Tasks as CSV
+              </Button>
+            </div>
+          </div>
+        </section>
+        <div>
+          <h2 className="font-semibold my-3 text-2xl  text-gray-800 dark:text-white text-center">
+            Get the specific task you are looking for
+          </h2>
+          {/* Search and sort */}
+          <div className="flex justify-center items-center mt-2 gap">
             {/* Search Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="mr-4">
               <div className="flex flex-col p-1.5 overflow-hidden border rounded-lg dark:border-gray-600 lg:flex-row dark:focus-within:border-blue-300 focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300">
@@ -442,20 +503,14 @@ const TaskCard = () => {
               </div>
             </div>
             {/* Reset Button */}
-            <Button
-              onClick={handleReset}
-              className="ml-4 px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-red-500 rounded-md hover:bg-red-400 focus:bg-red-400 focus:outline-none"
-            >
-              Reset
-            </Button>
-          </div>
-          <div className="flex justify-center items-center my-3">
-            <Button
-              className="bg-blue-500 text-white p-2 rounded-md"
-              onClick={exportToCSV}
-            >
-              Export Tasks as CSV
-            </Button>
+            <div className="">
+              <Button
+                onClick={handleReset}
+                className="ml-4 px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-red-500 rounded-md hover:bg-red-400 focus:bg-red-400 focus:outline-none"
+              >
+                Reset
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -559,8 +614,8 @@ const TaskCard = () => {
                               console.log(
                                 "Before calling onDrop - Task ID:",
                                 task._id
-                              ); // Log taskId here
-                              onDrop(Array.from(files), task._id);
+                              );
+                              onDrop(Array.from(files), task._id); // Pass task ID to onDrop
                             }
                           },
                         })}
@@ -580,6 +635,16 @@ const TaskCard = () => {
                     </div>
 
                     {/* Display uploaded files */}
+                    {task?.files?.length > 0 && (
+                      <div className="text-sm text-gray-500">
+                        Files:{" "}
+                        {task.files.map((file, index) => (
+                          <span key={index} className="text-blue-500">
+                            {file.originalname}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
                     <div className="flex gap-2 justify-center items-center">
                       <div className="p-2 border bg-blue-200 rounded-sm">

@@ -27,7 +27,6 @@ import Contact from "@/components/contact/Contact";
 
 import UserActivity from "@/components/dashBoardRoutes/userActivity/UserActivity";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -68,7 +67,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "user",
-        element: <DashBoardHome />,
+        element: (
+          <PrivateRoutes>
+            <DashBoardHome />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "profilePage",
@@ -108,7 +111,7 @@ export const router = createBrowserRouter([
         element: <TaskCard />,
         loader: ({ params }) =>
           fetch(
-            `https://flowmate-serverside.vercel.app/createTask/${params.id}`
+            `https://flowmate-a-team-collaboration-tool.vercel.app//createTask/${params.id}`
           ),
       },
       {
@@ -116,7 +119,7 @@ export const router = createBrowserRouter([
         element: <UpdateTask />,
         loader: ({ params }) =>
           fetch(
-            `https://flowmate-serverside.vercel.app/createTask/${params.id}`
+            `https://flowmate-a-team-collaboration-tool.vercel.app//createTask/${params.id}`
           ),
       },
       {
@@ -152,9 +155,8 @@ export const router = createBrowserRouter([
 
       {
         path: "userActivity",
-        element: <UserActivity/>,
+        element: <UserActivity />,
       },
-
     ],
   },
 
