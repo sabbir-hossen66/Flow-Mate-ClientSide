@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import MyTeam from "../../myTeam/MyTeam";
+import PageHeader from "@/components/pageHeader/PageHeader";
 
 const BoardSystem = () => {
     const axiosCommon = UseAxiosCommon();
@@ -36,10 +37,21 @@ const BoardSystem = () => {
             {/* Header Section */}
 
 
+
             {/* Task Section */}
             <div className="flex lg:flex-row flex-col lg:justify-start justify-center gap-4">
 
                 <MyTeam />
+
+    <PageHeader
+      title="Your Work Space" 
+        breadcrumb="FlowMate Work Space"/>
+            {/* Task Section */}
+            <div className="flex lg:flex-row flex-col lg:justify-start justify-center gap-4">
+           
+                {/* sajib add this components */}
+                <MyTeam/>
+
             </div>
         </div>
     );

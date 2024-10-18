@@ -67,6 +67,13 @@ const DashBoardNav = () => {
                 {/* Add your content */}
               </NavLink>
             )}
+             <NavLink
+              to="/dashboard/boardSystem"
+              className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
+            >
+              <RiSecurePaymentLine />
+              Show all Board
+            </NavLink>
 
             <NavLink
               to="/dashboard/tasks"
