@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { FaEdit, FaTrash } from "react-icons/fa"; // Importing icons
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa"; // Importing icons
 import { EditTeam } from "../editTeam/EditTeam";
 
 const MyTeam = () => {
@@ -65,18 +65,21 @@ const MyTeam = () => {
   if (error) return <div className="text-red-500">Error: {error.message}</div>;
 
   const userId = currentUser?._id;
+
   const currentUserTeams = teams.filter((team) =>
     team.teamMembers.includes(userId)
   );
 
+
+
   return (
     <div className="container mx-auto p-6">
-      {/* <h2 className="text-3xl font-bold mb-6 text-start opacity-80 text-gray-500">Total Teams ({currentUserTeams.length})</h2> */}
       {currentUserTeams.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {currentUserTeams.map((team) => (
             <div
               key={team._id}
+
               className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6"
             >
               <h3 className="text-2xl font-[500] mb-2">
@@ -95,8 +98,10 @@ const MyTeam = () => {
               </p>
 
               {/* Show Edit/Delete buttons if the user is the team leader */}
+
+             
               {team.teamLeader === currentUser?._id && (
-                <div className="flex justify-start mt-4 space-x-4">
+                <div className="flex justify-center mt-4 space-x-4">
                   <EditTeam
                     currentUserTeams={team}
                     refetch={refetch}
@@ -123,6 +128,8 @@ const MyTeam = () => {
         </p>
       )}
     </div>
+
+
   );
 };
 

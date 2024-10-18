@@ -21,8 +21,12 @@ import AdminDashboard from "@/components/admin/adminDashboard/AdminDashboard";
 import DashBoardProfile from "@/components/dashBoardRoutes/dashBoardProfile/DashBoardProfile";
 import BoardSystem from "@/components/dashBoardRoutes/dashBoardHome/boardSystem/BoardSystem";
 import BoardDetails from "@/components/dashBoardRoutes/dashBoardHome/boardSystem/BoardDetails";
+
 import PricingPlans from "@/components/PricingPlans";
 import Contact from "@/components/contact/Contact";
+
+import UserActivity from "@/components/dashBoardRoutes/userActivity/UserActivity";
+
 
 export const router = createBrowserRouter([
   {
@@ -145,6 +149,12 @@ export const router = createBrowserRouter([
         loader: ({ params }) =>
           fetch(`http://localhost:5000/createBoard/${params.id}`),
       },
+
+      {
+        path: "userActivity",
+        element: <UserActivity/>,
+      },
+
     ],
   },
 
