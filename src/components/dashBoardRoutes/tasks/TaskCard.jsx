@@ -22,6 +22,9 @@ import dayjs from "dayjs";
 import Papa from "papaparse";
 import { Button } from "@/components/ui/button";
 import Button2COmmon from "@/components/button2Commo.jsx/Button2COmmon";
+import { useDropzone } from "react-dropzone";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+
 // TaskCard Component
 const TaskCard = () => {
   const axiosCommon = UseAxiosCommon();
@@ -32,8 +35,43 @@ const TaskCard = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [searchQuery, setSearchQuery] = useState(""); // State for search query
-  const [sortOption, setSortOption] = useState(""); // State for sort option
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const onDrop = async (acceptedFiles, taskId) => {
+    console.log("Accepted Files:", acceptedFiles);
+    console.log("Before Upload - Task ID:", taskId); // Check taskId here
+
+    if (!taskId) {
+      console.error("Task ID is invalid!");
+      return;
+    }
+
+    // Create a FormData object
+    const formData = new FormData();
+    acceptedFiles.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    try {
+      const url = `/createTask/file/${taskId}`;
+      console.log("Requesting URL:", url);
+
+      const response = await axiosCommon.put(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("Files uploaded successfully:", response.data);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    }
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+  });
   // track user
   const user = useSelector((state) => state.auth.user);
   const email = user?.email;
@@ -496,29 +534,10 @@ const TaskCard = () => {
 
                   {/* Delete and Edit Icons */}
                   <div className="flex justify-between gap-1">
-                    {/* <div className="text-gray-500 text-sm mb-3"> */}
-
-                    {/* <button
-                   
-               onClick={() => handleStopTimer(task)}
-
-                      className="text-sm bg-red-500 text-white py-1 px-3 rounded"
-                    >
-                      Stop Timer
-                    </button> */}
-                    {/* 
-<button
-      onClick={() => handleStopTimer(task)}
-      disabled={stoppedTimersState[task._id]} // Disable button when timer is stopped
-          className="text-sm bg-red-500 text-white py-1 px-3 rounded"
-    >
-      Stop Timer
-    </button> */}
-
                     <button
                       onClick={() => handleStopTimer(task)}
                       disabled={stoppedTimersState[task._id]} // Disable button when timer is stopped
-                      className={`text-sm py-1 px-3 rounded 
+                      className={`text-sm py-[2px] px-3 rounded 
     ${
       stoppedTimersState[task._id]
         ? "bg-gray-500 cursor-not-allowed"
@@ -528,8 +547,41 @@ const TaskCard = () => {
                     >
                       Stop Timer
                     </button>
+                    <div
+                      {...getRootProps()}
+                      className="text-center cursor-pointer"
+                    >
+                      <input
+                        {...getInputProps({
+                          onChange: (event) => {
+                            const files = event.target.files;
+                            if (files.length > 0) {
+                              console.log(
+                                "Before calling onDrop - Task ID:",
+                                task._id
+                              ); // Log taskId here
+                              onDrop(Array.from(files), task._id);
+                            }
+                          },
+                        })}
+                      />
 
-                    <div className="flex gap-2">
+                      {isDragActive ? (
+                        <AiOutlineCloudUpload
+                          size={48}
+                          className="text-green-500"
+                        />
+                      ) : (
+                        <AiOutlineCloudUpload
+                          size={48}
+                          className="text-gray-500"
+                        />
+                      )}
+                    </div>
+
+                    {/* Display uploaded files */}
+
+                    <div className="flex gap-2 justify-center items-center">
                       <div className="p-2 border bg-blue-200 rounded-sm">
                         <span onClick={() => handleDelete(task)}>
                           <RiDeleteBin6Line />
