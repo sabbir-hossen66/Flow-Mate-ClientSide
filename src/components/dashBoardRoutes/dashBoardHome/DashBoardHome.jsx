@@ -1,19 +1,15 @@
 import { useState, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import DashBoardChart from "./dashBoardChart/DashBoardChart";
 import CommonButton from "@/components/commonButton/CommonButton";
 import ProjectCreate from "@/components/projectCreate/ProjectCreate";
 import DashBoardCards from "../dashBoardCards/DashBoardCards";
-
-import VisitorInsightsChart from "../visitorInsightsChart/VisitorInsightsChart";
-
-
 // import VisitorInsightsChart from "../visitorInsightsChart/VisitorInsightsChart";
 import { MdDashboard, MdMenu, MdClose } from "react-icons/md";
 // import DashBoardLoginUser from "../dashBoardLoginUser/DashBoardLoginUser";
 // import DashBoardPaidUser from "../dashBoardPaidUser/DashBoardPaidUser";
 // import DashBoardSubscriptionUser from "../dashBoardSubscriptionUser/DashBoardSubscriptionUser";
-
 import { Link } from "react-router-dom";
 
 import BoardSystem from "./boardSystem/BoardSystem";
@@ -23,16 +19,8 @@ import PageHeader from "@/components/pageHeader/PageHeader";
 import ActivityChart from "./Recharts/ActivityChart";
 import SupportiveCard from "./SuuportiveCard";
 
-
-
 const DashBoardHome = () => {
-
-
-  const user = useSelector((state) => state.auth.user);
-
-
   const dispatch = useDispatch();
-
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -147,29 +135,9 @@ const DashBoardHome = () => {
         </div>
       </div>
 
-<<<<<<< HEAD
-    {/* Charts and Graphs */}
-  <div className="flex lg:flex-row flex-col justify-between mx-14 my-10 gap-6">
-=======
-
-      <div className="container mx-auto my-10">
-        <BoardSystem />
-      </div>
-      {/* <div className="lg:flex lg:justify-evenly mx-auto">
-        <DashBoardLoginUser />
-        <DashBoardSubscriptionUser />
-        <DashBoardPaidUser />
-      </div> */}
-
-      {/* User Stats */}
-      <div className="lg:flex lg:justify-evenly mx-auto flex-1"></div>
-
-
    
-
       {/* Charts and Graphs */}
       <div className="flex lg:flex-row flex-col justify-between mx-14 my-10 gap-6">
->>>>>>> 1b4d02547b8127ee9bf226fa45b91f5d919aedb9
         {/* Visitor Insights Chart */}
         <div className="w-2/3 bg-white rounded-2xl">
           <ActivityChart/>
@@ -180,7 +148,6 @@ const DashBoardHome = () => {
           <SupportiveCard/>
         </div>
       </div>
-    
     </div>
 
   );
