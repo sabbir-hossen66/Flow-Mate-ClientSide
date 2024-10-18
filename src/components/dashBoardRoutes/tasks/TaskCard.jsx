@@ -378,9 +378,23 @@ const TaskCard = () => {
           },
         }
       );
+      Swal.fire({
+        title: "Congratulations!",
+        text: "You have successfully submitted your task files.",
+        imageUrl:
+          "https://www.filemail.com/images/marketing/upload-your-files.svg",
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: "Custom image",
+      });
 
       console.log("Files successfully saved on the server:", response.data);
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Failed to upload files!",
+      });
       console.error("Error in file upload or saving to server:", error);
     } finally {
       isUploading = false; // Reset the flag after the upload completes
