@@ -350,13 +350,18 @@ const TaskCard = () => {
           formData.append("file", file);
           formData.append("upload_preset", "all_files_preset");
 
-          // Upload file to Cloudinary
+          // Upload file to Cloudinary with resource_type "auto" for all file types
           const response = await axios.post(
-            `https://api.cloudinary.com/v1_1/dadvrb8ri/upload`,
-            formData
+            `https://api.cloudinary.com/v1_1/dadvrb8ri/upload`, // Cloudinary upload URL
+            formData,
+            {
+              headers: { "Content-Type": "multipart/form-data" },
+              params: { resource_type: "auto" }, // Automatically detects the type of the file
+            }
           );
-
           console.log("Cloudinary upload response:", response.data);
+
+          // Return the secure URL to access the file
           return response.data.secure_url; // Collect the secure URL for each file
         })
       );
