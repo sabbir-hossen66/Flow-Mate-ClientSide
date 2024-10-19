@@ -11,11 +11,13 @@ const Completed = () => {
   const {
     isLoading,
     error,
-    data: todos = [], // Default to an empty array to avoid errors if data is undefined
+    data: todos = [],
   } = useQuery({
     queryKey: ["todos"],
     queryFn: async () => {
-      const res = await fetch(`https://flowmate-serverside-ecru.vercel.app/createTask?email=${user.email}`);
+      const res = await fetch(
+        `https://flowmate-a-team-collaboration-tool.vercel.app/createTask?email=${user.email}`
+      );
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -32,7 +34,9 @@ const Completed = () => {
   }
 
   // Filter todos to get only those that are completed
-  const filteredTodos = todos.filter((todo) => todo.stage === "done"&& todo.email === user.email);
+  const filteredTodos = todos.filter(
+    (todo) => todo.stage === "done" && todo.email === user.email
+  );
 
   return (
     <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
