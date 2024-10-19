@@ -327,57 +327,56 @@ const TaskCard = () => {
   let isUploading = false; // Add a flag to track uploading status
 
   const onDrop = async (acceptedFiles, taskId) => {
-    // Check if files are accepted
     console.log("Accepted Files:", acceptedFiles);
     console.log("Before Upload - Task ID:", taskId);
 
     if (!taskId) {
       console.error("Task ID is invalid!");
-      return; // Exit if no valid task ID
+      return;
     }
 
-    // Prevent multiple uploads
     if (isUploading) {
       console.log("Upload is already in progress. Please wait.");
-      return; // Exit if already uploading
+      return;
     }
 
-    isUploading = true; // Set the flag to true
+    isUploading = true;
 
     try {
-      // Loop through all accepted files and upload to Cloudinary
+      // Array to store the uploaded file URLs
       const cloudinaryUrls = await Promise.all(
         acceptedFiles.map(async (file) => {
           const formData = new FormData();
           formData.append("file", file);
-          formData.append("upload_preset", "all_files_preset"); // Ensure this preset allows all file types
+          formData.append("upload_preset", "all_files_preset");
 
-          // Upload to Cloudinary
+          // Upload file to Cloudinary
           const response = await axios.post(
-            `https://api.cloudinary.com/v1_1/dadvrb8ri/upload`, // Ensure the endpoint is correct
+            `https://api.cloudinary.com/v1_1/dadvrb8ri/upload`,
             formData
           );
 
           console.log("Cloudinary upload response:", response.data);
-          return response.data.secure_url; // Return the file URL from Cloudinary
+          return response.data.secure_url; // Collect the secure URL for each file
         })
       );
 
       console.log("Uploaded file URLs from Cloudinary:", cloudinaryUrls);
 
-      // Now send the Cloudinary URLs to the server for the task
+      // Send all file URLs to the backend for storage
       const url = `/createTask/file/${taskId}`;
       console.log("Requesting URL to server:", url);
 
       const response = await axiosCommon.put(
         url,
-        { files: cloudinaryUrls }, // Send the array of file URLs
+        { files: cloudinaryUrls }, // Sending array of URLs
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
+
       Swal.fire({
         title: "Congratulations!",
         text: "You have successfully submitted your task files.",
@@ -397,7 +396,7 @@ const TaskCard = () => {
       });
       console.error("Error in file upload or saving to server:", error);
     } finally {
-      isUploading = false; // Reset the flag after the upload completes
+      isUploading = false;
     }
   };
 
