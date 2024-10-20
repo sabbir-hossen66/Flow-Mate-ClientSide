@@ -85,7 +85,7 @@ const MyTeam = () => {
               <h3 className="text-2xl font-[500] mb-2">
                 <Link
                   to={`/dashboard/team/${team?.teamName}`}
-                  className="hover:underline"
+                  className="hover:underline uppercase"
                 >
                   {team?.teamName}
                 </Link>
@@ -101,7 +101,7 @@ const MyTeam = () => {
 
              
               {team.teamLeader === currentUser?._id && (
-                <div className="flex justify-center mt-4 space-x-4">
+                <div className="flex justify-start mt-4 space-x-4">
                   <EditTeam
                     currentUserTeams={team}
                     refetch={refetch}

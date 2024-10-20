@@ -103,16 +103,18 @@ export const router = createBrowserRouter([
         element: <Tasks />,
       },
       {
-        path: "tasks/taskDetails",
+        path: "taskDetails/:id",
         element: <TaskDetails />,
-      },
-      {
-        path: "taskCard/:id",
-        element: <TaskCard />,
         loader: ({ params }) =>
           fetch(
-            `https://flowmate-a-team-collaboration-tool.vercel.app//createTask/${params.id}`
+            `http://localhost:5000/createTask/${params.id}`
           ),
+      },
+     
+        {
+        path: "taskCard",
+        element: <TaskCard />,
+        
       },
       {
         path: "updateTask/:id",
@@ -122,10 +124,7 @@ export const router = createBrowserRouter([
             `https://flowmate-a-team-collaboration-tool.vercel.app//createTask/${params.id}`
           ),
       },
-      {
-        path: "tasks/taskDetails",
-        element: <TaskDetails />,
-      },
+    
       {
         path: "payment_history",
         element: <PaymentHistory />,
