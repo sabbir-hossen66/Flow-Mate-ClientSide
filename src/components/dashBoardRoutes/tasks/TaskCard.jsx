@@ -661,18 +661,6 @@ const TaskCard = () => {
                       )}
                     </div>
 
-                    {/* Display uploaded files */}
-                    {task?.files?.length > 0 && (
-                      <div className="text-sm text-gray-500">
-                        Files:{" "}
-                        {task.files.map((file, index) => (
-                          <span key={index} className="text-blue-500">
-                            {file.originalname}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
                     <div className="flex gap-2 justify-center items-center">
                       <div className="p-2 border bg-blue-200 rounded-sm">
                         <span onClick={() => handleDelete(task)}>
