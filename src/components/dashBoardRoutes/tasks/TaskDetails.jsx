@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 const TaskDetails = () => {
   const navigate = useNavigate();
+  const details = useLoaderData()
+  console.log('dataz', details)
 
   // Example task data (replace with dynamic data if needed)
   const task = {
@@ -27,9 +29,9 @@ const TaskDetails = () => {
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-semibold">{task.taskTitle}</h1>
+        <h1 className="text-3xl font-semibold">{details.taskTitle}</h1>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard/tasks")}
           className="text-blue-500 underline cursor-pointer"
         >
           ← Back to Task List
@@ -41,7 +43,7 @@ const TaskDetails = () => {
         <button className="text-blue-600 py-2 px-4 font-medium border-b-2 border-blue-600">
           Task Detail
         </button>
-      
+
       </div>
 
       {/* Main Content */}
@@ -51,39 +53,43 @@ const TaskDetails = () => {
           {/* Priority and Status */}
           <div className="flex items-center mb-4">
             <span className="bg-blue-100 text-blue-500 px-3 py-1 text-xs rounded-full mr-2">
-              {task.priority}
+              {details?.priority}
             </span>
             <span className="bg-green-100 text-green-500 px-3 py-1 text-xs rounded-full">
-              {task.status}
+              {details?.stage}
             </span>
           </div>
 
           {/* Created At */}
           <div className="text-gray-500 text-sm mb-4">
-            Created At: {task.createdAt}
-          </div>
+  Created At: {details?.startDate ? new Date(details?.startDate).toLocaleString() : 'N/A'}
+</div>
 
           {/* Assets and Sub-Tasks */}
-          <div className="text-gray-700 font-medium mb-4">
-            Assets: {task.assets.length} | Sub-Task: {task.subTasks}
-          </div>
+       
 
           {/* Task Team */}
           <div className="mb-6">
-            <h2 className="text-lg font-medium text-gray-600 mb-2">TASK TEAM</h2>
-            <div>
-              {task.members.map((member) => (
-                <div key={member.id} className="flex items-center mb-2">
-                  <div className="bg-blue-500 text-white text-xs font-bold w-8 h-8 flex items-center justify-center rounded-full mr-3">
-                    {member.id}
-                  </div>
-                  <div>
-                    <div className="font-medium">{member.name}</div>
-                    <div className="text-sm text-gray-500">{member.role}</div>
-                  </div>
-                </div>
-              ))}
+            <h2 className="text-lg font-medium text-gray-600 mt-10 mb-2 ">TASK TEAM DETAILS</h2>
+
+            <div className="py-4 ">
+              <div className="text-gray-600 font-semibold mb-2">Board:
+                <span className="ml-1 text-gray-800">{details?.boardName}</span>
+              </div>
+
+              <div className="text-gray-600 font-semibold mb-2">Team:
+                <span className="ml-1 text-gray-800">{details?.teamName}</span>
+              </div>
+
+              <div className="text-gray-600 font-semibold mb-2">Worker Name:
+                <span className="ml-1 text-blue-600">{details?.assignedTo}</span>
+              </div>
+
+              <div className="text-gray-600 font-semibold">Worker Email:
+                <span className="ml-1 text-blue-600">{details?.workerMail}</span>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -94,21 +100,21 @@ const TaskDetails = () => {
             <h2 className="text-lg font-medium text-gray-600 mb-2">
               TASK DESCRIPTION
             </h2>
-            <p className="text-gray-700">{task.description}</p>
+            <p className="text-gray-700">{details?.description}</p>
           </div>
 
           {/* Assets */}
           <div>
             <h2 className="text-lg font-medium text-gray-600 mb-2">ASSETS</h2>
             <div className="grid grid-cols-3 gap-2">
-              {task.assets.map((asset) => (
+              {/* {details?.assets.map((asset) => (
                 <img
                   key={asset.id}
                   src={asset.img}
                   alt={asset.alt}
                   className="w-full h-auto rounded-lg shadow"
                 />
-              ))}
+              ))} */}
             </div>
           </div>
         </div>

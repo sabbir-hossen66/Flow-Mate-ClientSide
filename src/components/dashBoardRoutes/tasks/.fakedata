@@ -1,262 +1,219 @@
-import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux"; // Assuming the user's email is stored in Redux
+// import { Button } from "@/components/ui/button";
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogFooter,
+//   DialogHeader,
+//   DialogTitle,
+//   DialogTrigger,
+// } from "@/components/ui/dialog";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
+// import { useState } from "react";
+// import DatePicker from "react-datepicker";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectGroup,
+//   SelectItem,
+//   SelectLabel,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
+// import "react-datepicker/dist/react-datepicker.css";
+// import { toast } from "sonner";
+// import UseAxiosCommon from "@/hooks/UseAxiosCommon";
+// import { useMutation, useQueryClient } from "@tanstack/react-query";
+// import { useSelector } from "react-redux";
 
-const T = () => {
-  const user = useSelector((state) => state.auth.user); // Fetch user's email from Redux
+// export function CreateTask({ boardName, teamName }) {
+//   // State to manage form inputs
+//   const [startDate, setStartDate] = useState(new Date());
+//   const [taskTitle, setTaskTitle] = useState("");
+//   const [assignedTo, setAssignedTo] = useState("");
+//   const [stage, setStage] = useState("");
+//   const [workerMail, setworkerMail] = useState("");
+//   const [priority, setPriority] = useState("");
+//   const [loading, setLoading] = useState(false);
+//   const axiosCommon = UseAxiosCommon();
+//   const user = useSelector((state) => state.auth.user);
+//   console.log(user);
 
+//   // Get query client
+//   const queryClient = useQueryClient();
 
-  if (!user) {
-    return <div>Please log in to see your tasks.</div>;
-  }
+//   // data post
+//   const { mutateAsync } = useMutation({
+//     mutationFn: async (taskData) => {
+//       const { data } = await axiosCommon.post(`/createTask`, taskData);
+//       return data;
+//     },
+//     onSuccess: () => {
+//       console.log("Data Saved Successfully");
+//       toast.success("Task Added Successfully!");
+//       setLoading(false);
 
-  const {
-    isLoading,
-    error,
-    data: tasks,
-  } = useQuery({
-    queryKey: ["tasks", user.email], // Include email in queryKey
-    queryFn: async () => {
-      const res = await fetch(
-        `https://flowmate-serverside-ecru.vercel.app/createTask?email=${user.email}&stage=todo` // Fetch tasks for the logged-in user in "in progress" stage
-      );
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    },
-  });
-
-  if (isLoading) {
-    return <div>Loading.....</div>;
-  }
-
-  if (error) {
-    return <div>Error loading tasks</div>;
-  }
-
-  return (
-    <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold text-gray-700 mb-4">Todo Tasks</h2>
-<div>
-      {tasks.length === 0 ? (
-        <div className="text-gray-500">No tasks in todo recently</div>
-      ) : (
-        tasks.map((task) =>
-          task.email === user.email && ( (
-            <div key={task._id} className="p-2 mb-2 bg-gray-100 rounded-md flex justify-between items-center">
-              <span className={`text-gray-800 ${task.completed ? "line-through" : ""}`}>
-                {task.taskTitle.slice(0, 35)}
-              </span>
-            </div>
-          ))
-        ))}
-        </div>
-    </div>
-  );
-};
-
-export default T;
-
-
-
-
-
-
-
-
-// import { useQuery } from "@tanstack/react-query";
-// const InProgress = () => {
-//   const {
-//     isLoading,
-//     error,
-//     data: todos,
-//     refetch,
-//   } = useQuery({
-//     queryKey: ["todos"],
-//     queryFn: async () => {
-//       const res = await fetch("https://flowmate-serverside-ecru.vercel.app/createTask");
-
-//       if (!res.ok) {
-//         throw new Error("Network response was not ok");
-//       }
-//       return res.json();
+//       // Invalidate and refetch tasks (if necessary)
+//       queryClient.invalidateQueries("tasks"); // Replace 'tasks' with the appropriate query key.
 //     },
 //   });
-//   if (isLoading) {
-//     return <div>Loading.....</div>;
-//   }
 
-//   if (error) {
-//     return <div>Error loading products</div>;
-//   }
+//   // Function to handle form submission
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     // Log the form values before submitting to verify the data
+//     console.log("Form Values:", {
+//       taskTitle,
+//       assignedTo,
+//       stage,
+//       priority,
+//       startDate,
+//       workerMail,
+//     });
 
-//   const filteredTodos = todos.filter((todo) => todo.stage === "in progress");
+//     const taskData = {
+//       taskTitle,
+//       assignedTo,
+//       stage,
+//       priority,
+//       workerMail,
+//       startDate: startDate.toISOString(),
+//       email: user?.email,
+//       userName: user?.displayName,
+//       boardName: boardName,
+//       teamName: teamName,
+//     };
+
+//     try {
+//       console.log("Sending taskData to /createTask");
+//       const response = await mutateAsync(taskData);
+//       console.log(response);
+
+//       // Show a success toast notification
+//       toast.success("Task created successfully");
+
+//       // Optionally reset form fields after successful submission
+//       setTaskTitle("");
+//       setAssignedTo("");
+//       setStage("");
+//       setPriority("");
+//       setStartDate(new Date());
+//     } catch (error) {
+//       console.error("Error creating task:", error);
+
+//       console.log("Error creating task:", error);
+
+//       toast.error("Failed to create task");
+//     }
+//   };
 
 //   return (
-//     <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
-//       <h2 className="text-lg font-semibold text-gray-700 mb-4">Todos</h2>
+//     <Dialog>
+//       <DialogTrigger asChild>
+//         <Button className="bg-blue-700 text-white" variant="outline">
+//           Create task{" "}
+//         </Button>
+//       </DialogTrigger>
+//       <DialogContent className="sm:max-w-[425px]">
+//         <DialogHeader>
+//           <DialogTitle>Create Task</DialogTitle>
+//           <DialogDescription>Here you are creating task</DialogDescription>
+//         </DialogHeader>
+//         <form onSubmit={handleSubmit}>
+//           <div className="grid gap-6 py-4">
+//             <div className="grid gap-2">
+//               <Label htmlFor="title">Task Title</Label>
+//               <Input
+//                 id="title"
+//                 placeholder="Enter task title"
+//                 value={taskTitle}
+//                 onChange={(e) => setTaskTitle(e.target.value)}
+//               />
+//             </div>
+//             <div className="flex flex-col lg:flex-row justify-between gap-6">
+//               <div className="grid gap-2">
+//                 <Label htmlFor="assign">Assign Task To</Label>
+//                 <Input
+//                   id="assign"
+//                   placeholder="Codewave Asante, Jane Smith, Alex Johnson"
+//                   value={assignedTo}
+//                   onChange={(e) => setAssignedTo(e.target.value)}
+//                 />
+//               </div>
+//               <div className="grid gap-2">
+//                 <Label htmlFor="assign">Worker mail</Label>
+//                 <Input
+//                   id="worker_mail"
+//                   type="email"
+//                   placeholder="example@gmail.com"
+//                   value={workerMail}
+//                   onChange={(e) => setworkerMail(e.target.value)}
+//                 />
+//               </div>
+//             </div>
+//             <div className="flex flex-col lg:flex-row justify-between gap-6">
+//               <div className="grid gap-2 w-full">
+//                 <Label htmlFor="stage">Select Stage</Label>
+//                 <Select onValueChange={setStage}>
+//                   <SelectTrigger className="w-[180px]">
+//                     <SelectValue placeholder="Select a Stage" />
+//                   </SelectTrigger>
+//                   <SelectContent>
+//                     <SelectGroup>
+//                       <SelectLabel>Todo</SelectLabel>
+//                       <SelectItem value="in progress">In Progress</SelectItem>
+//                       <SelectItem value="done">Completed</SelectItem>
+//                       <SelectItem value="todo">Todo</SelectItem>
+//                     </SelectGroup>
+//                   </SelectContent>
+//                 </Select>
+//               </div>
 
-//       {/* Show message if there are no todos */}
-//       {filteredTodos.length === 0 ? (
-//         <div className="text-gray-500">No tasks inprogress recently</div>
-//       ) : (
-//         // Existing todos
-//         filteredTodos.map((todo) => (
-//           <div
-//             key={todo.id}
-//             className="p-2 mb-2 bg-gray-100 rounded-md flex justify-between items-center"
-//           >
-//             <span
-//               className={`text-gray-800 ${
-//                 todo?.completed ? "line-through" : ""
-//               }`}
-//             >
-//               {todo.taskTitle.slice(0, 35)}
-//             </span>
+//               <div className="grid gap-2 w-full">
+//                 <Label htmlFor="date">Task Date</Label>
+//                 <div className="relative">
+//                   <DatePicker
+//                     selected={startDate}
+//                     onChange={(date) => setStartDate(date)}
+//                     className="w-full p-2 border rounded"
+//                   />
+//                   <span className="absolute right-3 top-2.5 text-gray-400">
+//                     📅 {/* You can replace this with an icon if you want */}
+//                   </span>
+//                 </div>
+//               </div>
+//             </div>
+
+//             <div className="flex flex-col lg:flex-row justify-between gap-6">
+//               <div className="grid text-start gap-2 w-full">
+//                 <Label htmlFor="priority">Priority Level</Label>
+//                 <Select onValueChange={setPriority}>
+//                   <SelectTrigger className="w-[180px]">
+//                     <SelectValue placeholder="Select Priority Level" />
+//                   </SelectTrigger>
+//                   <SelectContent>
+//                     <SelectGroup>
+//                       <SelectLabel>Priority</SelectLabel>
+//                       <SelectItem value="high">Higher</SelectItem>
+//                       <SelectItem value="medium">Medium</SelectItem>
+//                       <SelectItem value="low">Lower</SelectItem>
+//                       <SelectItem value="normal">Normal</SelectItem>
+//                       <SelectItem value="urgent">Urgent</SelectItem>
+//                     </SelectGroup>
+//                   </SelectContent>
+//                 </Select>
+//               </div>
+//             </div>
 //           </div>
-//         ))
-//       )}
-//     </div>
+//           <DialogFooter>
+//             <Button type="submit" disabled={loading}>
+//               {loading ? "Submitting..." : "Submit"}
+//             </Button>
+//           </DialogFooter>
+//         </form>
+//       </DialogContent>
+//     </Dialog>
 //   );
-// };
-
-// export default InProgress;
-
-import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux"; // Assuming the user's email is stored in Redux
-
-const InProgress = () => {
-  const user = useSelector((state) => state.auth.user); // Fetch user's email from Redux
-
-
-  if (!user) {
-    return <div>Please log in to see your tasks.</div>;
-  }
-
-  const {
-    isLoading,
-    error,
-    data: tasks,
-  } = useQuery({
-    queryKey: ["tasks", user.email], // Include email in queryKey
-    queryFn: async () => {
-      const res = await fetch(
-        `https://flowmate-serverside-ecru.vercel.app/createTask?email=${user.email}&stage=in progress` // Fetch tasks for the logged-in user in "in progress" stage
-      );
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    },
-  });
-
-  if (isLoading) {
-    return <div>Loading.....</div>;
-  }
-
-  if (error) {
-    return <div>Error loading tasks</div>;
-  }
-
-  return (
-    <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold text-gray-700 mb-4">In Progress Tasks</h2>
-<div>
-      {tasks.length === 0 ? (
-        <div className="text-gray-500">No tasks in progress recently</div>
-      ) : (
-        tasks.map((task) =>
-          task.email === user.email && ( (
-            <div key={task._id} className="p-2 mb-2 bg-gray-100 rounded-md flex justify-between items-center">
-              <span className={`text-gray-800 ${task.completed ? "line-through" : ""}`}>
-                {task.taskTitle.slice(0, 35)}
-              </span>
-            </div>
-          ))
-        ))}
-        </div>
-    </div>
-  );
-};
-
-export default InProgress;
-
-
-
-
-
-
-
-
-
-
-
-
-import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux"; // Assuming the user's email is stored in Redux
-
-const Completed = () => {
-  const user = useSelector((state) => state.auth.user); // Fetch user's email from Redux
-
-  if (!user) {
-    return <div>Please log in to see your tasks.</div>;
-  }
-
-  const {
-    isLoading,
-    error,
-    data: tasks,
-  } = useQuery({
-    queryKey: ["tasks", user.email], // Include email in queryKey
-    queryFn: async () => {
-      const res = await fetch(
-        `https://flowmate-serverside-ecru.vercel.app/createTask?email=${user.email}&stage=done` // Fetch tasks for the logged-in user in "in progress" stage
-      );
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return res.json();
-    },
-  });
-
-  if (isLoading) {
-    return <div>Loading.....</div>;
-  }
-
-  if (error) {
-    return <div>Error loading tasks</div>;
-  }
-
-  return (
-    <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold text-gray-700 mb-4">
-        Completed Tasks
-      </h2>
-      <div>
-        {tasks.length === 0 ? (
-          <div className="text-gray-500">No tasks in done recently</div>
-        ) : (
-          tasks.map(
-            (task) =>
-              task.email === user.email && (
-                <div
-                  key={task._id}
-                  className="p-2 mb-2 bg-gray-100 rounded-md flex justify-between items-center"
-                >
-                  <span
-                    className={`text-gray-800 ${
-                      task.completed ? "line-through" : ""
-                    }`}
-                  >
-                    {task.taskTitle.slice(0, 35)}
-                  </span>
-                </div>
-              )
-          )
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default Completed;
+// }

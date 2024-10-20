@@ -14,8 +14,8 @@ import { useEffect, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa";
+import { Link, useLoaderData } from "react-router-dom";
+import { FaEdit, FaEye } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
@@ -30,6 +30,7 @@ import axios from "axios";
 // TaskCard Component
 const TaskCard = () => {
   const axiosCommon = UseAxiosCommon();
+
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const {
     register,
@@ -499,9 +500,8 @@ const TaskCard = () => {
               {/* Dropdown Menu */}
               <div
                 id="dropdownDelay"
-                className={`absolute left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 ${
-                  isDropdownVisible ? "" : "hidden"
-                }`}
+                className={`absolute left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 ${isDropdownVisible ? "" : "hidden"
+                  }`}
               >
                 <ul
                   className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -546,10 +546,16 @@ const TaskCard = () => {
                   key={index}
                   className="bg-white hover:shadow-lg hover:shadow-sky-200 w-80 p-4 rounded-lg shadow-lg my-2"
                 >
-                  {/* Priority */}
-                  <div className="text-blue-500 text-xs font-semibold mb-2 uppercase">
-                    {task?.priority}
+                  <div className="flex justify-between">
+                    <div className="text-blue-500 text-xs font-semibold mb-2 uppercase">
+                      {task?.priority}
+                    </div>
+                    <Link to={`/dashboard/taskDetails/${task._id}`} className="text-blue-500 text-xs font-semibold mb-2 uppercase">
+                      <span>See Details</span>
+                    </Link>
                   </div>
+                  {/* Priority */}
+
 
                   {/* Task Title */}
                   <div className="text-xl font-semibold mb-5">
@@ -610,13 +616,12 @@ const TaskCard = () => {
                     <button
                       onClick={() => handleStopTimer(task)}
                       disabled={stoppedTimersState[task._id]} // Disable button when timer is stopped
-                      className={`text-sm py-[2px] px-3 rounded 
-    ${
-      stoppedTimersState[task._id]
-        ? "bg-gray-500 cursor-not-allowed"
-        : "bg-red-500"
-    } 
-    text-white`}
+                      className={`text-sm h-9 mt-2 px-2 rounded 
+                    ${stoppedTimersState[task._id]
+                          ? "bg-gray-500 cursor-not-allowed"
+                          : "bg-red-500"
+                        } 
+                      text-white`}
                     >
                       Stop Timer
                     </button>
