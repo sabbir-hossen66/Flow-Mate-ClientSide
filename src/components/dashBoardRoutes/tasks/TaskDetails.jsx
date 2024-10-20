@@ -18,7 +18,9 @@ const TaskDetails = () => {
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-semibold">{details.taskTitle}</h1>
+        <h1 className="text-3xl font-semibold">
+          {details.taskTitle.toUpperCase()}
+        </h1>
         <button
           onClick={() => navigate("/dashboard/tasks")}
           className="text-blue-500 underline cursor-pointer"
@@ -126,23 +128,26 @@ const TaskDetails = () => {
           <h2 className="text-lg font-medium text-gray-600 mb-2">ASSETS</h2>
           <div className="grid grid-cols-1 gap-2">
             {details?.filePaths?.map((fileUrl, index) => (
-              <div key={index} className="flex justify-between mb-4">
+              <div
+                key={index}
+                className="flex justify-between mb-4 items-center"
+              >
                 <span className="text-gray-700">
                   {getFileExtension(fileUrl).toUpperCase()} File
                 </span>
-                <div>
+                <div className="flex space-x-4">
                   <a
                     href={fileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 underline mr-4"
+                    className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200"
                   >
                     Open
                   </a>
                   <a
                     href={fileUrl}
                     download
-                    className="text-blue-500 underline"
+                    className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-200"
                   >
                     Download
                   </a>
