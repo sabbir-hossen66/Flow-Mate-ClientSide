@@ -53,7 +53,6 @@ const TeamTask = () => {
     const {
         register,
         handleSubmit,
-
         reset,
     } = useForm();
     const [searchQuery, setSearchQuery] = useState("");
@@ -181,24 +180,23 @@ const TeamTask = () => {
 
 
 
-    // Timer handling
+    // Timer handlin
 
-    // Function to stop the timer and store the stopped state in localStorage
     const handleStopTimer = async (task) => {
         clearInterval(timers[task._id]); // Stop the timer
         setTimers((prev) => ({ ...prev, [task._id]: null }));
-
+    
         // Save the stopped state and elapsed time in localStorage
         const stoppedTimers =
             JSON.parse(localStorage.getItem("stoppedTimers")) || {};
-
+    
         if (elapsedTime[task._id]) {
             stoppedTimers[task._id] = {
                 stopped: true,
                 elapsedTime: elapsedTime[task._id], // Store the current elapsed time
             };
             localStorage.setItem("stoppedTimers", JSON.stringify(stoppedTimers));
-
+    
             // Prepare the data to send in the POST request
             const dataToSend = {
                 taskId: task._id,
@@ -210,7 +208,7 @@ const TeamTask = () => {
                 taskDescription: task?.description,
                 taskDueDate: dayjs(task.dueDate).format("YYYY-MM-DD"),
             };
-
+    
             try {
                 const response = await axiosCommon.post(`timerData`, dataToSend);
                 if (response.status === 200) {
@@ -226,6 +224,12 @@ const TeamTask = () => {
                         ...prev,
                         [task._id]: true,
                     }));
+                    
+                    // Update the UI to stop the timer by setting elapsedTime to the fixed value
+                    setElapsedTime((prev) => ({
+                        ...prev,
+                        [task._id]: stoppedTimers[task._id].elapsedTime, // Display the fixed elapsed time
+                    }));
                 } else {
                     throw new Error("Failed to save data");
                 }
@@ -238,16 +242,13 @@ const TeamTask = () => {
             }
         }
     };
-
-
-    // Timer handling in useEffect
     useEffect(() => {
-        if (tasks) {  // Replace createTask with tasks
+        if (tasks) {
             const stoppedTimers =
                 JSON.parse(localStorage.getItem("stoppedTimers")) || {};
             setStoppedTimersState(stoppedTimers);
-
-            tasks.forEach((task) => {  // Replace createTask with tasks
+    
+            tasks.forEach((task) => {
                 if (stoppedTimers[task._id]?.stopped) {
                     // Timer was stopped, so we display the stored elapsed time
                     setElapsedTime((prev) => ({
@@ -256,33 +257,35 @@ const TeamTask = () => {
                     }));
                     return; // Don't start a new timer
                 }
-
+    
                 const startTime = new Date(task?.startDate);
                 const updateElapsedTime = () => {
                     const now = new Date();
                     const diffInSeconds = dayjs(now).diff(dayjs(startTime), "second");
-
+    
                     const hours = Math.floor(diffInSeconds / 3600);
                     const minutes = Math.floor((diffInSeconds % 3600) / 60);
                     const seconds = diffInSeconds % 60;
-
+    
                     setElapsedTime((prev) => ({
                         ...prev,
                         [task._id]: { hours, minutes, seconds },
                     }));
                 };
-
+    
                 if (!timers[task._id]) {
                     const timerId = setInterval(updateElapsedTime, 1000);
                     setTimers((prev) => ({ ...prev, [task._id]: timerId }));
                 }
             });
         }
-
+    
         return () => {
             Object.values(timers).forEach(clearInterval);
         };
     }, [tasks, timers]);
+        
+
 
 
     const exportToCSV = () => {
