@@ -83,7 +83,7 @@ const MyTeam = () => {
             >
               <h3 className="text-2xl font-[500] mb-2">
                 <Link
-                  to={`/dashboard/team/${team?.teamName}`}
+                  to={`/dashboard/tasks${team._id}`}
                   className="hover:underline uppercase"
                 >
                   {team?.boardName}
