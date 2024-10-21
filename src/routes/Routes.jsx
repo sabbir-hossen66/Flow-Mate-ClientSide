@@ -26,6 +26,7 @@ import PricingPlans from "@/components/PricingPlans";
 import Contact from "@/components/contact/Contact";
 
 import UserActivity from "@/components/dashBoardRoutes/userActivity/UserActivity";
+import AllTeam from "@/components/dashBoardRoutes/dashBoardHome/allTeam/AllTeam";
 
 export const router = createBrowserRouter([
   {
@@ -121,7 +122,7 @@ export const router = createBrowserRouter([
         element: <UpdateTask />,
         loader: ({ params }) =>
           fetch(
-            `https://flowmate-a-team-collaboration-tool.vercel.app//createTask/${params.id}`
+            `${import.meta.env.VITE_API_URL}/createTask/${params.id}`
           ),
       },
     
@@ -156,6 +157,10 @@ export const router = createBrowserRouter([
         path: "userActivity",
         element: <UserActivity />,
       },
+      {
+        path: "all-team",
+        element: <AllTeam/>,
+      }
     ],
   },
 

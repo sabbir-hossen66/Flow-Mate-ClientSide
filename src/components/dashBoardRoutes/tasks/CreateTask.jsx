@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export function CreateTask({ boardName, teamName }) {
   // State to manage form inputs
@@ -39,7 +40,7 @@ export function CreateTask({ boardName, teamName }) {
   const axiosCommon = UseAxiosCommon();
   const user = useSelector((state) => state.auth.user);
   console.log(user);
-
+  const navigate = useNavigate()
   // Get query client
   const queryClient = useQueryClient();
 
@@ -56,6 +57,7 @@ export function CreateTask({ boardName, teamName }) {
 
       // Invalidate and refetch tasks (if necessary)
       queryClient.invalidateQueries("tasks"); // Replace 'tasks' with the appropriate query key.
+      navigate(`/dashboard/tasks`)
     },
   });
 

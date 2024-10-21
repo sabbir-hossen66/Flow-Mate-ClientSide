@@ -119,8 +119,12 @@ const TaskCard = () => {
     }
   };
 
-  const handleDelete = (task) => {
-    Swal.fire({
+
+  
+  // delete funciton
+
+  const handleDelete = async (task) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -128,22 +132,45 @@ const TaskCard = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
+    });
+  
+    if (result.isConfirmed) {
+      try {
         const res = await axiosCommon.delete(`/createTask/${task._id}`);
-        if (res.data.deletedCount > 0) {
-          refetch();
+        console.log("Delete response:", res.data); // Log the response for debugging
+  
+        // Check the response message for success
+        if (res.data.message === 'Task deleted successfully') {
+          // Refetch to update the tasks
+          await refetch(); 
+          
+          // Optionally update the local state if you're using useState to manage tasks
+          // setTasks((prevTasks) => prevTasks.filter((t) => t._id !== task._id));
+  
           Swal.fire({
             position: "center",
             icon: "success",
-            title: "Delete task success",
+            title: "Task deleted successfully",
             showConfirmButton: false,
             timer: 1500,
           });
+        } else {
+          throw new Error("Deletion failed");
         }
+      } catch (error) {
+        console.error("Error deleting task:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong! Could not delete the task.",
+        });
       }
-    });
+    }
   };
+  
+
+  
+
 
   // Timer handling
 

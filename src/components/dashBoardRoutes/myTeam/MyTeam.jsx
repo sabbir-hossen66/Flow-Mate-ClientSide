@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa"; // Importing icons
 import { EditTeam } from "../editTeam/EditTeam";
+import PageHeader from "@/components/pageHeader/PageHeader";
 
 const MyTeam = () => {
   const user = useSelector((state) => state.auth.user);
@@ -70,10 +71,8 @@ const MyTeam = () => {
     team.teamMembers.includes(userId)
   );
 
-
-
   return (
-    <div className="container mx-auto p-6">
+   <div className="container mx-auto p-6">
       {currentUserTeams.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {currentUserTeams.map((team) => (
@@ -87,7 +86,7 @@ const MyTeam = () => {
                   to={`/dashboard/team/${team?.teamName}`}
                   className="hover:underline uppercase"
                 >
-                  {team?.teamName}
+                  {team?.boardName}
                 </Link>
               </h3>
               <p className=" opacity-80 text-[16px]">
