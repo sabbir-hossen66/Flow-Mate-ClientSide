@@ -94,7 +94,7 @@ const AllTeam = () => {
             <tr key={team._id} className="border-b transition-colors duration-200">
               <td className="p-4">
                 <Link
-                  to={`/dashboard/team/${team?.teamName}`}
+                  to={`/dashboard/teamTask/${team?.teamName}`}
                   className="hover:underline  text-gray-800 text-md"
                 >
                   {team?.teamName}

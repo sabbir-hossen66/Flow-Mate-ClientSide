@@ -75,13 +75,13 @@ const DashBoardNav = () => {
               Show all Board
             </NavLink>
 
-            <NavLink
+            {/* <NavLink
               to="/dashboard/tasks"
               className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
             >
               <RiSecurePaymentLine />
               My task
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to="/dashboard/profilePage"
               className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
@@ -109,15 +109,15 @@ const DashBoardNav = () => {
               className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
             >
               <BsMicrosoftTeams />
-              My Team
+              Specific team with task
             </NavLink>
 
             {/* <NavLink
-              to="/dashboard/create-team"
+              to="/dashboard/my-task"
               className="flex items-center gap-1 hover:bg-blue-500 rounded p-2"
             >
               <RiSecurePaymentLine />
-              Team Create
+              My task
             </NavLink> */}
 
             {isAdmin && (

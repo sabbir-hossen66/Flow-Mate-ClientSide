@@ -83,10 +83,10 @@ const TaskCard = () => {
     data: createTask,
     refetch,
   } = useQuery({
-    queryKey: ["createTask", searchQuery, sortOption, email], // Include search and sort in the query key
+    queryKey: ["createTask", searchQuery, sortOption,email], // Include search and sort in the query key
     queryFn: async () => {
       const res = await fetch(
-        `https://flowmate-a-team-collaboration-tool.vercel.app/createTask?search=${searchQuery}&sort=${sortOption}&email=${email}`
+        `https://flowmate-a-team-collaboration-tool.vercel.app/createTask?search=${searchQuery}&sort=${sortOption}=&email=${email}`
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
@@ -94,6 +94,10 @@ const TaskCard = () => {
       return res.json();
     },
   });
+
+ 
+
+
 
   const handleStageChange = async (task, newStage) => {
     try {
@@ -569,7 +573,7 @@ const TaskCard = () => {
         ) : (
           createTask?.map(
             (task, index) =>
-              task.email === email && (
+              task.email=== user.email&& (
                 <div
                   key={index}
                   className="bg-white hover:shadow-lg hover:shadow-sky-200 w-80 p-4 rounded-lg shadow-lg my-2"
