@@ -57,7 +57,7 @@ export function CreateTask({ boardName, teamName }) {
 
       // Invalidate and refetch tasks (if necessary)
       queryClient.invalidateQueries("tasks"); // Replace 'tasks' with the appropriate query key.
-      navigate(`/dashboard/tasks`)
+      navigate(`/dashboard/all-team`)
     },
   });
 

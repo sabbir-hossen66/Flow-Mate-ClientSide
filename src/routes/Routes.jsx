@@ -27,6 +27,9 @@ import Contact from "@/components/contact/Contact";
 
 import UserActivity from "@/components/dashBoardRoutes/userActivity/UserActivity";
 import AllTeam from "@/components/dashBoardRoutes/dashBoardHome/allTeam/AllTeam";
+import TeamTask from "@/components/dashBoardRoutes/dashBoardHome/teamTask/TeamTask";
+import MyTask from "@/components/dashBoardRoutes/dashBoardHome/myTaskk/MyTask";
+import TodoList from "@/components/dashBoardRoutes/tasks/TodoList";
 
 export const router = createBrowserRouter([
   {
@@ -99,10 +102,10 @@ export const router = createBrowserRouter([
           fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
       },
 
-      {
-        path: "tasks",
-        element: <Tasks />,
-      },
+      // {
+      //   path: "tasks",
+      //   element: <Tasks />,
+      // },
       {
         path: "taskDetails/:id",
         element: <TaskDetails />,
@@ -134,10 +137,10 @@ export const router = createBrowserRouter([
         path: "create-team",
         element: <TeamCreate />,
       },
-      {
-        path: "my-team",
-        element: <MyTeam />,
-      },
+      // {
+      //   path: "my-team",
+      //   element: <MyTeam />,
+      // },
       {
         path: "team-request",
         element: <TeamRequest />,
@@ -160,6 +163,22 @@ export const router = createBrowserRouter([
       {
         path: "all-team",
         element: <AllTeam/>,
+      },
+      {
+        path: "teamTask/:teamName",
+        element: <TeamTask />,
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
+      },
+      // {
+      //   path: "my-task",
+      //   element: <MyTask />,
+      // },
+      {
+        path: "team-task/:teamName",
+        element: <TodoList />,
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
       }
     ],
   },

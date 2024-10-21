@@ -28,7 +28,7 @@ const UpdateTask = () => {
             if (response.data.modifiedCount > 0) {
                 toast.success('Data updated successfully');
             }
-            navigate('/dashboard/tasks')
+            navigate('/dashboard/teamTask')
         } catch (error) {
             console.error("Error updating data:", error);
             toast.error('Failed to update data');
