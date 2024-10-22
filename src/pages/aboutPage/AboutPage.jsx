@@ -13,6 +13,7 @@ const AboutPage = () => {
       {/* <FlowMateService/> */}
       <section className='p-10'>
         <div>Team page show</div>
+        <p>hello psuh</p>
       </section>
 
 
