@@ -29,6 +29,7 @@ import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import TodoList from "../../tasks/TodoList";
 import InProgress from "../../tasks/InProgress";
 import Completed from "../../tasks/Completed";
+import axios from "axios";
 
 // Function to fetch tasks from your API
 const fetchTasks = async () => {
@@ -192,7 +193,8 @@ const TeamTask = () => {
 
   // Timer handling
 
-  // Function to stop the timer and store the stopped state in localStorage
+  // Timer handlin
+
   const handleStopTimer = async (task) => {
     clearInterval(timers[task._id]); // Stop the timer
     setTimers((prev) => ({ ...prev, [task._id]: null }));
@@ -221,7 +223,7 @@ const TeamTask = () => {
       };
 
       try {
-        const response = await axiosCommon.post(`timerData`, dataToSend);
+        const response = await axiosCommon.post("/timerData", dataToSend);
         if (response.status === 200) {
           Swal.fire({
             position: "center",
@@ -235,6 +237,12 @@ const TeamTask = () => {
             ...prev,
             [task._id]: true,
           }));
+
+          // Update the UI to stop the timer by setting elapsedTime to the fixed value
+          setElapsedTime((prev) => ({
+            ...prev,
+            [task._id]: stoppedTimers[task._id].elapsedTime, // Display the fixed elapsed time
+          }));
         } else {
           throw new Error("Failed to save data");
         }
@@ -247,17 +255,13 @@ const TeamTask = () => {
       }
     }
   };
-
-  // Timer handling in useEffect
   useEffect(() => {
     if (tasks) {
-      // Replace createTask with tasks
       const stoppedTimers =
         JSON.parse(localStorage.getItem("stoppedTimers")) || {};
       setStoppedTimersState(stoppedTimers);
 
       tasks.forEach((task) => {
-        // Replace createTask with tasks
         if (stoppedTimers[task._id]?.stopped) {
           // Timer was stopped, so we display the stored elapsed time
           setElapsedTime((prev) => ({
@@ -585,14 +589,16 @@ const TeamTask = () => {
                 {task?.taskTitle.slice(0, 50)}..
               </div>
               <div className="text-gray-500 text-sm mb-3">
-                Elapsed Time:{" "}
-                {elapsedTime[task._id] && (
-                  <>
-                    {elapsedTime[task._id].hours}h{" "}
-                    {elapsedTime[task._id].minutes}m{" "}
-                    {elapsedTime[task._id].seconds}s
-                  </>
-                )}
+                <p>
+                  Time Elapsed: Elapsed Time:{" "}
+                  {elapsedTime[task._id] && (
+                    <>
+                      {elapsedTime[task._id].hours}h{" "}
+                      {elapsedTime[task._id].minutes}m{" "}
+                      {elapsedTime[task._id].seconds}s
+                    </>
+                  )}
+                </p>
               </div>
 
               <div className="flex mb-3 items-center">
@@ -634,7 +640,7 @@ const TeamTask = () => {
               <div className="flex justify-between gap-1">
                 <button
                   onClick={() => handleStopTimer(task)}
-                  disabled={stoppedTimersState[task._id]}
+                  disabled={stoppedTimersState[task._id]} // Disable button when timer is stopped
                   className={`text-sm h-9 mt-2 px-2 rounded 
                                         ${
                                           stoppedTimersState[task._id]
@@ -645,6 +651,7 @@ const TeamTask = () => {
                 >
                   Stop Timer
                 </button>
+
                 <div {...getRootProps()} className="text-center cursor-pointer">
                   <input
                     {...getInputProps({
@@ -670,7 +677,6 @@ const TeamTask = () => {
                     <AiOutlineCloudUpload size={48} className="text-gray-500" />
                   )}
                 </div>
-
                 <div className="flex gap-2 justify-center items-center">
                   <div className="p-2 border bg-blue-200 rounded-sm">
                     <span onClick={() => handleDelete(task)}>
