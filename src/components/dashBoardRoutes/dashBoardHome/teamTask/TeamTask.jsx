@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 import { VscFolderActive } from "react-icons/vsc";
-
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2"
 import dayjs from "dayjs";
@@ -176,27 +175,23 @@ const TeamTask = () => {
         }
     };
 
-
-
-
-
     // Timer handlin
 
     const handleStopTimer = async (task) => {
         clearInterval(timers[task._id]); // Stop the timer
         setTimers((prev) => ({ ...prev, [task._id]: null }));
-    
+
         // Save the stopped state and elapsed time in localStorage
         const stoppedTimers =
             JSON.parse(localStorage.getItem("stoppedTimers")) || {};
-    
+
         if (elapsedTime[task._id]) {
             stoppedTimers[task._id] = {
                 stopped: true,
                 elapsedTime: elapsedTime[task._id], // Store the current elapsed time
             };
             localStorage.setItem("stoppedTimers", JSON.stringify(stoppedTimers));
-    
+
             // Prepare the data to send in the POST request
             const dataToSend = {
                 taskId: task._id,
@@ -208,7 +203,7 @@ const TeamTask = () => {
                 taskDescription: task?.description,
                 taskDueDate: dayjs(task.dueDate).format("YYYY-MM-DD"),
             };
-    
+
             try {
                 const response = await axiosCommon.post(`timerData`, dataToSend);
                 if (response.status === 200) {
@@ -224,7 +219,7 @@ const TeamTask = () => {
                         ...prev,
                         [task._id]: true,
                     }));
-                    
+
                     // Update the UI to stop the timer by setting elapsedTime to the fixed value
                     setElapsedTime((prev) => ({
                         ...prev,
@@ -247,7 +242,7 @@ const TeamTask = () => {
             const stoppedTimers =
                 JSON.parse(localStorage.getItem("stoppedTimers")) || {};
             setStoppedTimersState(stoppedTimers);
-    
+
             tasks.forEach((task) => {
                 if (stoppedTimers[task._id]?.stopped) {
                     // Timer was stopped, so we display the stored elapsed time
@@ -257,34 +252,34 @@ const TeamTask = () => {
                     }));
                     return; // Don't start a new timer
                 }
-    
+
                 const startTime = new Date(task?.startDate);
                 const updateElapsedTime = () => {
                     const now = new Date();
                     const diffInSeconds = dayjs(now).diff(dayjs(startTime), "second");
-    
+
                     const hours = Math.floor(diffInSeconds / 3600);
                     const minutes = Math.floor((diffInSeconds % 3600) / 60);
                     const seconds = diffInSeconds % 60;
-    
+
                     setElapsedTime((prev) => ({
                         ...prev,
                         [task._id]: { hours, minutes, seconds },
                     }));
                 };
-    
+
                 if (!timers[task._id]) {
                     const timerId = setInterval(updateElapsedTime, 1000);
                     setTimers((prev) => ({ ...prev, [task._id]: timerId }));
                 }
             });
         }
-    
+
         return () => {
             Object.values(timers).forEach(clearInterval);
         };
     }, [tasks, timers]);
-        
+
 
 
 
@@ -469,25 +464,22 @@ const TeamTask = () => {
         <div>
             <PageHeader title={`${teamName}`} breadcrumb='See all task of your team'></PageHeader>
             <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 gap-3 px-5 py-10">
-          <div>
-            <TodoList />
-          </div>
-          <div>
-            <InProgress />
-          </div>
-          <div>
-            <Completed />
-          </div>
-        </div>
-
+                <div>
+                    <TodoList />
+                </div>
+                <div>
+                    <InProgress />
+                </div>
+                <div>
+                    <Completed />
+                </div>
+            </div>
             <div className="flex flex-col justify-center mx-12">
-
-                <div className='flex flex-col lg:flex-row justify-between'>
-
+                <div className='flex flex-col lg:flex-row justify-between my-8'>
                     {/* Search and sort */}
                     <div className="flex  mt-2 gap-2">
                         <Button
-                            className="bg-blue-500 text-white p-2 rounded-md"
+                            className="bg-blue-700 text-white p-2 rounded-md"
                             onClick={exportToCSV}
                         >
                             Export Team Tasks as CSV
@@ -564,8 +556,6 @@ const TeamTask = () => {
                                 </button>
                             </div>
                         </form>
-
-
                         {/* Reset Button */}
                         <div className="">
                             <Button
@@ -578,7 +568,6 @@ const TeamTask = () => {
                     </div>
                 </div>
             </div>
-
             {/* <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-1 items-center bg-gray-100 gap-6 p-4"> */}
             {/* Iterate  each task */}
             {filteredTasks.length > 0 ? (
@@ -718,16 +707,11 @@ const TeamTask = () => {
                     ))}
                 </div>
             ) : (
-
                 <div className="text-center text-gray-500 text-lg col-span-full m-20">
                     No task assign to you.
                 </div>
-
             )}
             {/* </div> */}
-
-
-
         </div>
     );
 };
