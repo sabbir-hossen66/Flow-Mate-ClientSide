@@ -7,7 +7,9 @@ import { toast } from 'sonner';
 
 const UpdateTask = () => {
     const task = useLoaderData();
-    console.log(task)
+    
+    const {teamName} = task; 
+    console.log('task',teamName)
     const navigate = useNavigate()
     const axiosCommon = UseAxiosCommon();
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -28,7 +30,8 @@ const UpdateTask = () => {
             if (response.data.modifiedCount > 0) {
                 toast.success('Data updated successfully');
             }
-            navigate('/dashboard/teamTask')
+            const teamName = task.teamName;           
+            navigate(`/dashboard/teamTask/${teamName}`);
         } catch (error) {
             console.error("Error updating data:", error);
             toast.error('Failed to update data');

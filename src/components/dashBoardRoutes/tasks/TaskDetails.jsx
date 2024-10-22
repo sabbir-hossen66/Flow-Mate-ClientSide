@@ -3,9 +3,16 @@ import { useState } from "react";
 
 const TaskDetails = () => {
   const navigate = useNavigate();
-  const details = useLoaderData();
-  console.log("dataz", details);
-
+  const details = useLoaderData(); // Fetching details
+  
+  const team = details.teamName; // Access the team name from details
+  console.log('team:', team); // Check if teamName is coming correctly
+  
+  const handleNavigate = () => {
+    const navigateUrl = `/dashboard/teamTask/${team}`;
+    console.log('Navigating to:', navigateUrl); // Verify the URL before navigating
+    navigate(navigateUrl); // Navigate to the dynamic URL
+  }
   // Local state to manage the selected tab
   const [activeTab, setActiveTab] = useState("details");
 
@@ -22,7 +29,7 @@ const TaskDetails = () => {
           {details.taskTitle.toUpperCase()}
         </h1>
         <button
-          onClick={() => navigate("/dashboard/tasks")}
+           onClick={handleNavigate}
           className="text-blue-500 underline cursor-pointer"
         >
           ← Back to Task List
