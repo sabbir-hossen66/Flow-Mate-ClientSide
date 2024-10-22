@@ -26,6 +26,10 @@ import PricingPlans from "@/components/PricingPlans";
 import Contact from "@/components/contact/Contact";
 
 import UserActivity from "@/components/dashBoardRoutes/userActivity/UserActivity";
+import AllTeam from "@/components/dashBoardRoutes/dashBoardHome/allTeam/AllTeam";
+import TeamTask from "@/components/dashBoardRoutes/dashBoardHome/teamTask/TeamTask";
+import MyTask from "@/components/dashBoardRoutes/dashBoardHome/myTaskk/MyTask";
+import TodoList from "@/components/dashBoardRoutes/tasks/TodoList";
 
 export const router = createBrowserRouter([
   {
@@ -98,34 +102,33 @@ export const router = createBrowserRouter([
           fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
       },
 
+      // {
+      //   path: "tasks",
+      //   element: <Tasks />,
+      // },
       {
-        path: "tasks",
-        element: <Tasks />,
-      },
-      {
-        path: "tasks/taskDetails",
+        path: "taskDetails/:id",
         element: <TaskDetails />,
-      },
-      {
-        path: "taskCard/:id",
-        element: <TaskCard />,
         loader: ({ params }) =>
           fetch(
-            `https://flowmate-a-team-collaboration-tool.vercel.app//createTask/${params.id}`
+            `http://localhost:5000/createTask/${params.id}`
           ),
+      },
+     
+        {
+        path: "taskCard",
+        element: <TaskCard />,
+        
       },
       {
         path: "updateTask/:id",
         element: <UpdateTask />,
         loader: ({ params }) =>
           fetch(
-            `https://flowmate-a-team-collaboration-tool.vercel.app//createTask/${params.id}`
+            `${import.meta.env.VITE_API_URL}/createTask/${params.id}`
           ),
       },
-      {
-        path: "tasks/taskDetails",
-        element: <TaskDetails />,
-      },
+    
       {
         path: "payment_history",
         element: <PaymentHistory />,
@@ -134,10 +137,10 @@ export const router = createBrowserRouter([
         path: "create-team",
         element: <TeamCreate />,
       },
-      {
-        path: "my-team",
-        element: <MyTeam />,
-      },
+      // {
+      //   path: "my-team",
+      //   element: <MyTeam />,
+      // },
       {
         path: "team-request",
         element: <TeamRequest />,
@@ -157,6 +160,26 @@ export const router = createBrowserRouter([
         path: "userActivity",
         element: <UserActivity />,
       },
+      {
+        path: "all-team",
+        element: <AllTeam/>,
+      },
+      {
+        path: "teamTask/:teamName",
+        element: <TeamTask />,
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
+      },
+      // {
+      //   path: "my-task",
+      //   element: <MyTask />,
+      // },
+      {
+        path: "team-task/:teamName",
+        element: <TodoList />,
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/team/${params.teamName}`),
+      }
     ],
   },
 

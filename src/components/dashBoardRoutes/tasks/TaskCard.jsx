@@ -14,8 +14,8 @@ import { useEffect, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa";
+import { Link, useLoaderData } from "react-router-dom";
+import { FaEdit, FaEye } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
@@ -30,6 +30,7 @@ import axios from "axios";
 // TaskCard Component
 const TaskCard = () => {
   const axiosCommon = UseAxiosCommon();
+
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const {
     register,
@@ -82,10 +83,10 @@ const TaskCard = () => {
     data: createTask,
     refetch,
   } = useQuery({
-    queryKey: ["createTask", searchQuery, sortOption, email], // Include search and sort in the query key
+    queryKey: ["createTask", searchQuery, sortOption,email], // Include search and sort in the query key
     queryFn: async () => {
       const res = await fetch(
-        `https://flowmate-a-team-collaboration-tool.vercel.app/createTask?search=${searchQuery}&sort=${sortOption}&email=${email}`
+        `https://flowmate-a-team-collaboration-tool.vercel.app/createTask?search=${searchQuery}&sort=${sortOption}=&email=${email}`
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
@@ -93,6 +94,10 @@ const TaskCard = () => {
       return res.json();
     },
   });
+
+ 
+
+
 
   const handleStageChange = async (task, newStage) => {
     try {
@@ -118,8 +123,12 @@ const TaskCard = () => {
     }
   };
 
-  const handleDelete = (task) => {
-    Swal.fire({
+
+  
+  // delete funciton
+
+  const handleDelete = async (task) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -127,22 +136,45 @@ const TaskCard = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
+    });
+  
+    if (result.isConfirmed) {
+      try {
         const res = await axiosCommon.delete(`/createTask/${task._id}`);
-        if (res.data.deletedCount > 0) {
-          refetch();
+        console.log("Delete response:", res.data); // Log the response for debugging
+  
+        // Check the response message for success
+        if (res.data.message === 'Task deleted successfully') {
+          // Refetch to update the tasks
+          await refetch(); 
+          
+          // Optionally update the local state if you're using useState to manage tasks
+          // setTasks((prevTasks) => prevTasks.filter((t) => t._id !== task._id));
+  
           Swal.fire({
             position: "center",
             icon: "success",
-            title: "Delete task success",
+            title: "Task deleted successfully",
             showConfirmButton: false,
             timer: 1500,
           });
+        } else {
+          throw new Error("Deletion failed");
         }
+      } catch (error) {
+        console.error("Error deleting task:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong! Could not delete the task.",
+        });
       }
-    });
+    }
   };
+  
+
+  
+
 
   // Timer handling
 
@@ -541,15 +573,23 @@ const TaskCard = () => {
         ) : (
           createTask?.map(
             (task, index) =>
-              task.email === email && (
+              task.email=== user.email&& (
                 <div
                   key={index}
                   className="bg-white hover:shadow-lg hover:shadow-sky-200 w-80 p-4 rounded-lg shadow-lg my-2"
                 >
-                  {/* Priority */}
-                  <div className="text-blue-500 text-xs font-semibold mb-2 uppercase">
-                    {task?.priority}
+                  <div className="flex justify-between">
+                    <div className="text-blue-500 text-xs font-semibold mb-2 uppercase">
+                      {task?.priority}
+                    </div>
+                    <Link
+                      to={`/dashboard/taskDetails/${task._id}`}
+                      className="text-blue-500 text-xs font-semibold mb-2 uppercase"
+                    >
+                      <span>See Details</span>
+                    </Link>
                   </div>
+                  {/* Priority */}
 
                   {/* Task Title */}
                   <div className="text-xl font-semibold mb-5">
@@ -610,13 +650,13 @@ const TaskCard = () => {
                     <button
                       onClick={() => handleStopTimer(task)}
                       disabled={stoppedTimersState[task._id]} // Disable button when timer is stopped
-                      className={`text-sm py-[2px] px-3 rounded 
-    ${
-      stoppedTimersState[task._id]
-        ? "bg-gray-500 cursor-not-allowed"
-        : "bg-red-500"
-    } 
-    text-white`}
+                      className={`text-sm h-9 mt-2 px-2 rounded 
+                    ${
+                      stoppedTimersState[task._id]
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-red-500"
+                    } 
+                      text-white`}
                     >
                       Stop Timer
                     </button>
@@ -651,18 +691,6 @@ const TaskCard = () => {
                         />
                       )}
                     </div>
-
-                    {/* Display uploaded files */}
-                    {task?.files?.length > 0 && (
-                      <div className="text-sm text-gray-500">
-                        Files:{" "}
-                        {task.files.map((file, index) => (
-                          <span key={index} className="text-blue-500">
-                            {file.originalname}
-                          </span>
-                        ))}
-                      </div>
-                    )}
 
                     <div className="flex gap-2 justify-center items-center">
                       <div className="p-2 border bg-blue-200 rounded-sm">
