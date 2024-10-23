@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const ForPrice = () => {
     return (
         <div>
-            <div class="flex justify-center items-center  bg-gray-50">
+            <div class="flex justify-center items-center  bg-gray-100">
   <div class="flex flex-col md:flex-row items-center gap-10 md:gap-20">
   
     <div class="flex justify-center items-center">

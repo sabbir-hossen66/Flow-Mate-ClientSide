@@ -150,7 +150,7 @@ const Testimonial = () => {
   };
 
   return (
-    <div className="bg-[#cde4fca9] mx-auto p-10">
+    <div className=" mx-auto p-10">
       <div className="text-center pb-10">
         <h1 className="text-2xl md:text-4xl font-bold mb-5">
           Some real-life feedback from our customers
