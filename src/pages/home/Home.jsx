@@ -1,7 +1,6 @@
 // import Features from "@/components/features/Features";
 import Banner from "../../components/banner/Banner";
 import { FAQ } from "./../../components/FAQ";
-import PricingPlans from "./../../components/PricingPlans";
 import Newsletters from "@/components/newsletters/Newsletters";
 import Testmonial from "@/components/Testmonial/Testmonial";
 import Contact from "@/components/contact/Contact";
@@ -14,25 +13,27 @@ import HeroSection from "./components/HeroSection";
 import MarqueeSection from "./components/MarqueeSection";
 import { BannerImage } from "./components/BannerImage";
 import Features from "./components/Features";
+import AutoMateTask from "./components/AutoMateTask";
 
 // import ModalPage from "@/components/modalPage/ModalPage";
 
 const Home = () => {
   return (
-    <div>
+    <div className="bg-gray-50">
       <HeroSection />
       <BannerImage />
       <MarqueeSection />
+      <AutoMateTask/>
       {/* <HeroHeaderSection /> */}
       {/* <Banner /> */}
 
       {/* <ModalPage /> */}
 
       {/* <MarketingComponent /> */}
-      <Features />
+      {/* <Features /> */}
       {/* <OurTeams /> */}
 
-      <PricingPlans />
+     
 
       <Testmonial />
       {/* <Newsletters /> */}
