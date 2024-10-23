@@ -83,7 +83,7 @@ const PricingPlanCard = ({ name, price, features, paymentType }) => {
     <div className="container mx-auto">
       <div>
         <div
-          className={`flex flex-col border-2 rounded-lg p-1 hover:shadow-lg transform delay-150 mx-auto hover:bg-slate-200 active:bg-gray-700 active:text-white ${
+          className={`flex flex-col border-2 rounded-lg p-1 hover:shadow-lg transform delay-150 mx-auto bg-white hover:bg-slate-200 active:bg-gray-700 active:text-white ${
             isSelected ? "bg-gray-200" : "hover:bg-[#F1F5F9]"
           }`}
         >
@@ -215,13 +215,11 @@ const PricingPlans = () => {
   return (
     <div className="max-w-7xl mx-auto" id="price">
       <section
-        data-aos="fade-up"
-        data-aos-duration="500"
         className="p-4 md:p-8"
       >
-        <div className="py-8 max-w-screen-xl lg:py-16 py-5">
+        <div className="max-w-screen-xl lg:py-16 py-5">
           <div
-            data-aos="fade-right"
+          
             className="mx-auto max-w-3xl text-center pb-12 md:pb-20"
           >
             <h1 className="text-2xl md:text-4xl font-bold pb-5 text-center text-gray-800 capitalize lg:text-3xl">

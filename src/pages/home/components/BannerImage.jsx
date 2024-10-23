@@ -1,33 +1,25 @@
 import Container from "@/components/Container";
-import { ShineBorder } from "@/components/ui/border";
+// import { ShineBorder } from "@/components/ui/border";
 import { useTheme } from "next-themes";
-import photo from '../../../../public/images/screenshot.png'
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
+import photo from '../../../assets/bn.png'
+;
 export function BannerImage() {
   const theme = useTheme();
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: false,   
-      offset: 150,
-    });
-  }, []);
+  
   return (
-    <Container data-aos="fade-down-right" className="my-8 md:my-10">
-      <ShineBorder
+    <Container className="my-8 md:my-10">
+      {/* <ShineBorder
         className="text-center text-2xl font-bold capitalize"
         color={theme.theme === "dark" ? "white" : "black"}
-      >
-        <Container className="w-full  ">
+      > */}
+        <Container className="w-full py-5">
           <img
-            className="w-full rounded-[14px]"
+            className="w-full rounded-[14px] shadow-2xl border "
             src={photo}
             alt=""
           />
         </Container>
-      </ShineBorder>
+      {/* </ShineBorder> */}
     </Container>
   );
 }
