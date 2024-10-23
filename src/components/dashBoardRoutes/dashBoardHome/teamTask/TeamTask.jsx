@@ -30,6 +30,7 @@ import TodoList from "../../tasks/TodoList";
 import InProgress from "../../tasks/InProgress";
 import Completed from "../../tasks/Completed";
 import axios from "axios";
+import CalendarView from "./CalendarView";
 
 // Function to fetch tasks from your API
 const fetchTasks = async () => {
@@ -298,8 +299,7 @@ const TeamTask = () => {
     };
   }, [tasks, timers]);
 
-// Timer handlin
-
+  // Timer handlin
 
   const exportToCSV = (teamName) => {
     // Ensure that `tasks` is loaded (assuming `tasks` is from your state or props)
@@ -456,16 +456,19 @@ const TeamTask = () => {
         title={`${teamName}`}
         breadcrumb="See all task of your team"
       ></PageHeader>
-      <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 gap-3 px-5 py-10">
-        <div>
-          <TodoList />
+      <div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 gap-3 px-5 py-10">
+          <div>
+            <TodoList />
+          </div>
+          <div>
+            <InProgress />
+          </div>
+          <div>
+            <Completed />
+          </div>
         </div>
-        <div>
-          <InProgress />
-        </div>
-        <div>
-          <Completed />
-        </div>
+        <CalendarView />
       </div>
 
       <div className="flex flex-col justify-center mx-12">
