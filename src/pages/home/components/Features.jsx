@@ -13,7 +13,6 @@ import List from "../../../../public/images/features/list.png";
 
 import "../style.css";
 
-import { Autoplay } from "swiper/modules";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
@@ -65,53 +64,12 @@ const Features = () => {
         </p>
       </div>
 
-      <div  data-aos="fade-right"
-     data-aos-offset="300"
-     data-aos-easing="ease-in-sine" className="mt-10">
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          modules={[Autoplay]}
-          className="mySwiper"
-        >
-          <div className="w-full bg-slate-100 mx-auto ">
-            {features.map(({ id, title, description, icon, image }) => (
-              <SwiperSlide key={id}>
-                <Container className="relative w-full">
-                  <img
-                    className="bg-slate-100 rounded-2xl w-full"
-                    src={image}
-                    alt=""
-                  />
-                  <div className=" h-1/2 w-1/2 md:h-1/4 md:w-1/3 absolute  bottom-2 left-2 md:bottom-8 md:left-8   rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border p-2  border-blue-400">
-                    <div className="flex text-blue-800 justify-start items-center">
-                      <div className="text-sm md:text-base space-x-2">
-                        {icon}
-                      </div>
-                      <h1 className=" text-base md:text-xl font-bold">
-                        {title}
-                      </h1>
-                    </div>
-
-                    <p className=" leading-none text-slate-900 text-justify lg:py-1 text-[10px] md:text-sm">
-                      {description}
-                    </p>
-                  </div>
-                </Container>
-              </SwiperSlide>
-            ))}
-          </div>
-        </Swiper>
-      </div>
+     
 
       {/* Bento Grid */}
 
       <div className="grid sm:grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 my-10 md:my-16 ">
-        <div className="col-span-2 bg-slate-100 text-gray-950 rounded-xl p-5 ">
+        <div className="col-span-2 bg-slate-200 text-gray-950 rounded-xl p-5 shadow-sm ">
           <ListFilter className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
           <h1 className="text-2xl font-bold text-blue-800 py-2">
@@ -128,7 +86,7 @@ const Features = () => {
             style={{ filter: "invert(1)" }}
           />
         </div>
-        <div className="col-span-2 col-start-1 row-start-2 bg-slate-200 text-gray-950 rounded-xl pt-5 pl-5">
+        <div className="col-span-2 col-start-1 row-start-2 bg-slate-200 text-gray-950 rounded-xl pt-5 pl-5 shadow-sm">
           <div className="flex justify-between">
             <div>
               <Command className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
@@ -149,7 +107,7 @@ const Features = () => {
             />
           </div>
         </div>
-        <div className="row-span-2 col-start-3 row-start-1 bg-slate-100 text-gray-950  rounded-xl pl-5 pt-5 ">
+        <div className="row-span-2 col-start-3 row-start-1 bg-slate-200 text-gray-950  rounded-xl pl-5 pt-5  shadow-sm">
           <IoNotificationsSharp className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
           <h1 className="text-2xl font-bold text-blue-800 py-2">

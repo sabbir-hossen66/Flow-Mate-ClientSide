@@ -30,7 +30,7 @@ const Home = () => {
       {/* <ModalPage /> */}
 
       {/* <MarketingComponent /> */}
-      {/* <Features /> */}
+      <Features />
       {/* <OurTeams /> */}
 
      
