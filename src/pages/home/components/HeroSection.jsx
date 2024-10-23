@@ -8,18 +8,10 @@ import { useEffect } from "react";
 import { HashLink } from "react-router-hash-link";
 
 function HeroSection() {
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: false,   
-      offset: 150,
-    });
-  }, []);
+ 
   return (
     <Container>
-      <section data-aos="fade-right"
-     data-aos-easing="linear"
-     data-aos-duration="500" className="mt-24">
+      <section className="mt-24 py-16">
         <HeroHeaderSection />
         <div>
           <div className="text-4xl font-bold md:text-[92px] text-center text-primary md:leading-[5.5rem] my-8">
@@ -32,7 +24,7 @@ function HeroSection() {
           </p>
 
           <div className="flex gap-[12px] justify-center">
-            <HashLink smooth to="/#price" className="cursor-pointer">
+            <HashLink smooth to="/pricing" className="cursor-pointer">
             <MainButton
               text="Start for free"
               size="small"
