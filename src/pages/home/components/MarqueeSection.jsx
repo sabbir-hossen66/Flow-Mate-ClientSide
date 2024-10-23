@@ -33,7 +33,7 @@ function MarqueeSection() {
       <div className="my-20">
         <h2 className="text-center text-2xl md:text-4xl font-bold leading-8 text-slate-800 pb-5">
           Trusted by
-          <span className="text-blue-800"> the world’s </span>
+          <span className="text-[#00053d]"> the world’s </span>
           most innovative teams
         </h2>
         <p className="text-center text-sm text-slate-800">

@@ -14,6 +14,7 @@ import MarqueeSection from "./components/MarqueeSection";
 import { BannerImage } from "./components/BannerImage";
 import Features from "./components/Features";
 import AutoMateTask from "./components/AutoMateTask";
+import ForPrice from "./components/ForPrice";
 
 // import ModalPage from "@/components/modalPage/ModalPage";
 
@@ -38,7 +39,8 @@ const Home = () => {
       <Testmonial />
       {/* <Newsletters /> */}
       <FAQ />
-      <Contact/>
+      {/* <Contact/> */}
+      <ForPrice/>
     </div>
   );
 };

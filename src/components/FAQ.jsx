@@ -9,18 +9,16 @@ import {
 } from "@/components/ui/accordion";
 
 export function FAQ() {
-  useEffect(() => {
-    AOS.init({ duration: 1000 }); // Initialize AOS with a 1-second animation duration
-  }, []);
+ 
 
   return (
-    <div className="p-[65px]">
-      <div className="flex flex-col container  mx-auto my-20 md:flex-row justify-between gap-5 bg-[#F1F5F9] rounded-lg rounded-b-3xl py-8 px-6">
-      {/* Left section with title and description */}
-      <div className="md:w-1/2 p-5" data-aos="fade-up">
-        <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-        <p className="text-md font-normal mb-12">
-          Below are answers to some common questions. If you need more help,
+    <div className="pt-20 pb-10 mx-20">
+       <div className="text-center pb-10">
+        <h1 className="text-2xl md:text-4xl font-bold mb-5">
+        Frequently Asked Questions
+        </h1>
+        <p className="text-gray-600 text-sm md:text-base max-w-3xl mx-auto">
+        Below are answers to some common questions. If you need more help,
           feel free to{" "}
           <a
             href="mailto:support@flowmate.com"
@@ -30,7 +28,43 @@ export function FAQ() {
           </a>
           .
         </p>
-        <img src="" alt="" />
+      </div>
+      <div className="flex flex-col container  mx-auto mt-5 mb-20 md:flex-row justify-between gap-5 bg-white rounded-lg rounded-b-3xl py-8 px-6 shadow-md">
+      {/* Left section with title and description */}
+      <div className="md:w-1/2 p-5">
+      <div class="flex justify-center items-center pt-5">
+  <div class="flex flex-col gap-5 max-w-lg w-full">
+  
+    <div class="flex items-center bg-[#00053d] text-gray-200 rounded-md shadow-sm">
+      <div class="w-1/4 bg-sky-100 flex justify-center items-center py-8">
+        <span class="text-6xl font-serif text-black ">Q</span>
+      </div>
+      <div class="w-3/4 p-4 text-right">
+        <p class="text-lg ">
+          How do I increase engagement on my social media account?
+        </p>
+      </div>
+    </div>
+
+  
+    <div class="flex items-center bg-[#00053d] text-gray-200 rounded-md shadow-sm">
+      <div class="w-3/4 p-4">
+        <p class="text-lg ">
+          Focus on posting content that is engaging and informative for your audience.
+        </p>
+      </div>
+      <div class="w-1/4 bg-sky-100 flex justify-center items-center py-8">
+        <span class="text-6xl font-serif text-black">A</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
       </div>
 
       {/* Accordion FAQ section with light background and rounded edges */}

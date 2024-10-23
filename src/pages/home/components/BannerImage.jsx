@@ -1,7 +1,8 @@
 import Container from "@/components/Container";
 // import { ShineBorder } from "@/components/ui/border";
 import { useTheme } from "next-themes";
-import photo from '../../../assets/bn.png'
+// import photo from '../../../assets/bn.png'
+import photo from '../../../assets/slider1.png'
 ;
 export function BannerImage() {
   const theme = useTheme();

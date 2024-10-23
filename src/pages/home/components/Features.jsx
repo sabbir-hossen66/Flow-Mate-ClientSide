@@ -72,7 +72,7 @@ const Features = () => {
         <div className="col-span-2 bg-slate-200 text-gray-950 rounded-xl p-5 shadow-sm ">
           <ListFilter className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
-          <h1 className="text-2xl font-bold text-blue-800 py-2">
+          <h1 className="text-2xl font-bold text-[#00053d] py-2">
             Advance Filters
           </h1>
           <p className="text-zinc-800">
@@ -91,7 +91,7 @@ const Features = () => {
             <div>
               <Command className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
-              <h1 className="text-2xl font-bold text-blue-800 py-2">
+              <h1 className="text-2xl font-bold text-[#00053d] py-2">
                 Keyboard-first Design
               </h1>
               <p className="text-zinc-800">
@@ -110,7 +110,7 @@ const Features = () => {
         <div className="row-span-2 col-start-3 row-start-1 bg-slate-200 text-gray-950  rounded-xl pl-5 pt-5  shadow-sm">
           <IoNotificationsSharp className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
-          <h1 className="text-2xl font-bold text-blue-800 py-2">
+          <h1 className="text-2xl font-bold text-[#00053d] py-2">
             Realtime Notification
           </h1>
           <p className="text-zinc-800">
