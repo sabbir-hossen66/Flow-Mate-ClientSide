@@ -33,22 +33,20 @@ import axios from "axios";
 import CalendarView from "./CalendarView";
 
 // Function to fetch tasks from your API
-const fetchTasks = async () => {
-  const response = await fetch(
-    "https://flowmate-a-team-collaboration-tool.vercel.app/createTask"
-  );
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
-};
+// const fetchTasks = async () => {
+//   const response = await fetch(
+//     "https://flowmate-a-team-collaboration-tool.vercel.app/createTask"
+//   );
+//   if (!response.ok) {
+//     throw new Error("Network response was not ok");
+//   }
+//   return response.json();
+// };
 
 // Main Component
 const TeamTask = () => {
   const axiosCommon = UseAxiosCommon();
   // track user
-  const user = useSelector((state) => state.auth.user);
-  const email = user?.email;
   const [elapsedTime, setElapsedTime] = useState({}); // Track elapsed time for tasks
   const [timers, setTimers] = useState({}); // Track timers for each task
   const [stoppedTimersState, setStoppedTimersState] = useState({}); //for disable timer
@@ -356,15 +354,20 @@ const TeamTask = () => {
       });
     }
   };
+  const userEmail = useSelector((state) => state.auth.user?.email); // Get user email from Redux
 
   let isUploading = false; // Add a flag to track uploading status
-
   const onDrop = async (acceptedFiles, taskId) => {
     console.log("Accepted Files:", acceptedFiles);
     console.log("Before Upload - Task ID:", taskId);
 
     if (!taskId) {
       console.error("Task ID is invalid!");
+      return;
+    }
+
+    if (!userEmail) {
+      console.error("User email is not available!");
       return;
     }
 
@@ -410,6 +413,7 @@ const TeamTask = () => {
         }
       );
 
+      // Show success message
       Swal.fire({
         title: "Congratulations!",
         text: "You have successfully submitted your task files.",
@@ -421,6 +425,11 @@ const TeamTask = () => {
       });
 
       console.log("Files successfully saved on the server:", response.data);
+
+      // Update file count for the user
+      const updateFileCountUrl = `/users/update-file-count/${userEmail}`;
+      await axiosCommon.put(updateFileCountUrl);
+      console.log("File count updated for user:", userEmail);
     } catch (error) {
       Swal.fire({
         icon: "error",
