@@ -91,9 +91,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-white dark:bg-gray-900 mt-40">
+    <footer className="bg-white dark:bg-gray-900 mt-10">
       <div className="container px-6 py-10 mx-auto">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4 pb-6">
           <div className="sm:col-span-2">
             <h1 className="max-w-lg text-xl font-semibold tracking-tight text-gray-800 xl:text-2xl dark:text-white">
               Subscribe to our newsletter for team collaboration tips and
