@@ -1,14 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
-import { Star } from "lucide-react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-
-const Testmonial = () => {
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { Autoplay } from "swiper/modules";
+const Testimonial = () => {
   const axiosCommon = UseAxiosCommon();
   const [feedbacks, setFeedbacks] = useState([]);
   const swiperRef = useRef(null); // To control Swiper manually
+  const [visibleSlides, setVisibleSlides] = useState(1); // Track the number of visible slides
 
   useEffect(() => {
     axiosCommon
@@ -21,97 +22,131 @@ const Testmonial = () => {
       });
   }, [axiosCommon]);
 
-  const handleSlideLeft = () => {
-    if (swiperRef.current) {
-      swiperRef.current.slidePrev();
-    }
-  };
+  const defaultImage =
+    "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
-  const handleSlideRight = () => {
-    if (swiperRef.current) {
-      swiperRef.current.slideNext();
-    }
-  };
+  // Update the number of visible slides based on the Swiper breakpoints
+  const updateVisibleSlides = (swiper) => {
+    const breakpoints = swiper.params.breakpoints;
+    const currentWidth = window.innerWidth;
+    let slides = 1;
 
+    if (breakpoints[1280] && currentWidth >= 1280) slides = 3;
+    else if (breakpoints[1024] && currentWidth >= 1024) slides = 2;
+    else if (breakpoints[640] && currentWidth >= 640) slides = 1;
+
+    setVisibleSlides(slides);
+  };
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,
+      offset: 150,
+    });
+  }, []);
   return (
-    <div className="  container mx-auto p-10">
-      <div className="bg-[#F1F5F9] container mx-auto rounded-2xl border-sky-300 shadow-md shadow-sky-200 text-black">
-        <div className="lg:px-20 px-5 py-5 lg:py-20">
-          <div className="flex flex-col lg:flex-row gap-10">
-            <div className="my-auto space-y-2 lg:space-y-4 flex-1 lg:text-start text-center">
-              <h1 className="text-xl font-bold">Clients Feedback</h1>
-              <h2 className="lg:text-3xl text-sm lg:font-bold">
-                What Our Happy <br />
-                Customers Are Saying
-              </h2>
-              <p className="text-sm">
-                Here are the thoughts from our team on how collaboration helps
-                us achieve success together. And reviews from our talented users
-                who are using this extraordinary team collaboration tool.
-              </p>
-            </div>
+    <div className=" mx-auto p-10">
+      <div data-aos="zoom-in" className="text-center pt-6 pb-10">
+        <h1 className="text-2xl md:text-4xl font-bold mb-5">
+          Some real-life feedback from our customers
+        </h1>
+        <p className="text-gray-600 text-sm md:text-base max-w-3xl mx-auto">
+          For over a decade, more than 50,000 teams made Real Work happen with
+          FlowMate. Here are the thoughts from our team on how collaboration
+          helps us achieve success together.
+        </p>
+      </div>
 
-            {/* Swiper Implementation for Sliding Cards */}
-            <div className="bg-white p-5 lg:p-14 rounded-2xl flex-1 lg:w-[600px]">
-              <Swiper
-                spaceBetween={20}
-                slidesPerView={1}
-                loop={true}
-                pagination={{ clickable: true }}
-                className="swiper-container"
-                onSwiper={(swiper) => (swiperRef.current = swiper)}
+      <div className="container mx-auto px-5 py-5">
+        {/* Swiper Implementation for Sliding Cards */}
+        <Swiper
+         modules={[Autoplay]} // Add Autoplay module here
+         autoplay={{ delay: 3000 }} // 3 seconds delay for autoplay
+          spaceBetween={30}
+          slidesPerView={1} // One visible card on small screens, can be adjusted
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            1024: { slidesPerView: 2 },
+            1280: { slidesPerView: 3 }, // Three visible cards on larger screens
+          }}
+          loop={true}
+          pagination={{ clickable: true }}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+            updateVisibleSlides(swiper); // Call this to initialize the visible slides count
+          }}
+          onResize={(swiper) => updateVisibleSlides(swiper)} // Update on window resize
+        >
+          {feedbacks.map((feedback, index) => {
+            const middleIndex = Math.floor(visibleSlides / 2);
+
+            return (
+              <SwiperSlide key={index} className="rounded-3xl">
+              <div
+                className={`relative p-8 rounded-2xl overflow-visible transition-transform transform hover:scale-105 w-96 h-80 group 
+                ${index % visibleSlides === middleIndex ? "bg-[#00053d] text-white" : "bg-white hover:bg-[#00053d] hover:text-white rounded-3xl"}
+                `}
               >
-                {feedbacks.map((feedback, index) => (
-                  <SwiperSlide key={index}>
-                    <div className="bg-white rounded-xl shadow-sm flex flex-col sm:flex-row h-auto sm:h-60">
-                      <div className="shrink-0 sm:w-60 relative rounded-xl overflow-hidden sm:pt-[40%]">
-                        <img
-                          className="size-full absolute top-0 start-0 object-cover w-full h-full sm:h-auto"
-                          src={feedback.image}
-                          alt={feedback.name}
-                        />
-                      </div>
-                      <div className="flex flex-col sm:flex-wrap w-full sm:w-auto">
-                        <div className="px-4 py-2 sm:px-8 sm:py-2 flex flex-col justify-between h-full">
-                          <h3 className="text-lg font-bold text-gray-800 py-2 sm:py-3 text-center sm:text-start">
-                            {feedback.name}
-                          </h3>
-                          <div className="flex justify-center sm:justify-start">
-                            {Array.from({ length: feedback.rating }, (_, i) => (
-                              <Star key={i} className="text-yellow-400" />
-                            ))}
-                          </div>
-                          <p className="mt-2 text-gray-500 text-center sm:text-start">
-                            {feedback.feedback}
-                          </p>
-                          <div className="mt-5 sm:mt-auto flex justify-center sm:justify-start gap-3">
-                            <button
-                              className="bg-black p-3 rounded-full text-yellow-600"
-                              onClick={handleSlideLeft}
-                            >
-                              <FaChevronLeft />
-                            </button>
-                            <button
-                              className="bg-black p-3 rounded-full text-yellow-600"
-                              onClick={handleSlideRight}
-                            >
-                              <FaChevronRight />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          </div>
-
-       
-        </div>
+                {/* User Image */}
+                <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-32 h-32 rounded-full border-4 border-white overflow-hidden z-20">
+                  <img
+                    src={feedback.image ? defaultImage : feedback.image}
+                    alt={feedback.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+            
+                {/* Card Content */}
+                <div className="mt-20 text-center pt-12">
+                  {/* Stars */}
+                  <div
+                    className={`flex justify-center mb-4 ${
+                      index % visibleSlides === middleIndex
+                        ? "text-white"
+                        : "group-hover:text-white"
+                    }`}
+                  >
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <span
+                        key={i}
+                        className={`${i < feedback.rating ? (index % visibleSlides === middleIndex ? "text-white" : "text-yellow-400 group-hover:text-white") : "text-gray-300 group-hover:text-white"} text-xl`}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+            
+                  {/* Review Text */}
+                  <p
+                    className={`mb-6 leading-relaxed ${
+                      index % visibleSlides === middleIndex
+                        ? "text-white"
+                        : "text-gray-500 group-hover:text-white"
+                    }`}
+                  >
+                    {feedback.feedback}
+                  </p>
+            
+                  {/* Reviewer Name */}
+                  <p
+                    className={`font-bold text-lg ${
+                      index % visibleSlides === middleIndex
+                        ? "text-white"
+                        : "text-gray-900 group-hover:text-white"
+                    }`}
+                  >
+                    {feedback.name}
+                  </p>
+                </div>
+              </div>
+            </SwiperSlide>
+            
+            );
+          })}
+        </Swiper>
       </div>
     </div>
   );
 };
 
-export default Testmonial;
+export default Testimonial;

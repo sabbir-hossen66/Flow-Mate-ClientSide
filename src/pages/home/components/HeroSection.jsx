@@ -11,10 +11,10 @@ function HeroSection() {
  
   return (
     <Container>
-      <section className="mt-24 py-16">
+      <section className=" py-16">
         <HeroHeaderSection />
         <div>
-          <div className="text-4xl font-bold md:text-[92px] text-center text-primary md:leading-[5.5rem] my-8">
+          <div className="text-4xl font-bold md:text-[92px] text-center text-[#00053d] md:leading-[5.5rem] my-8">
             Empower Your Team, <br /> Achieve More Together
           </div>
 
@@ -31,7 +31,7 @@ function HeroSection() {
               className="border-none rounded-[12px]"
             />
             </HashLink>
-            <HashLink smooth to="/#contact" className="cursor-pointer">
+            <HashLink smooth to="/contact" className="cursor-pointer">
             <MainButton
               text="Talk to sales"
               size="small"

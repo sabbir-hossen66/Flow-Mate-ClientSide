@@ -54,10 +54,10 @@ function Navbar() {
   const toggleMenu = () => setMenu(!menu);
 
   return (
-    <div className="fixed top-0 w-full z-50 bg-white mt-[5rem] md:mt-0">
+    <div className="fixed top-0 w-full z-50">
       {/* DESKTOP */}
       <Container>
-        <div className="hidden lg:block animate-in fade-in zoom-in bg-white p-4">
+        <div className="hidden lg:block animate-in fade-in zoom-in bg-white p-4 rounded-full mt-5 shadow-2xl">
           <div className="flex justify-between mx-4 items-center">
             <img
               className="h-14 w-auto"
@@ -71,7 +71,7 @@ function Navbar() {
                     to={item.route}
                     className={({ isActive }) =>
                       isActive
-                        ? "bg-[#F1F5F9] text-[#1e40af] font-[500] p-1 rounded-lg flex items-center"
+                        ? "relative rounded px-5 py-2 overflow-hidden group bg-[#00053d] relative hover:bg-gradient-to-r hover:from-[#00053d] hover:to-[#00053d9c] text-white hover:ring-2 hover:ring-offset-2 hover:ring-[#00053d] transition-all ease-out duration-300"
                         : "hover:text-[#1e40af] cursor-pointer flex items-center gap-2 font-[500] text-gray"
                     }
                   >
@@ -193,6 +193,7 @@ function Navbar() {
         )}
       </div>
     </div>
+   
   );
 }
 

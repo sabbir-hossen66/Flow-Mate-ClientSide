@@ -52,29 +52,41 @@ const Contact = () => {
       }
     });
   };
-  useEffect(() => {
-    AOS.init({
-      duration: 500,  
-      once: false, 
-    });
-  }, []);
+
   return (
-    <div id="contact" data-aos="zoom-in-right" className="mx-auto container p-8 rounded-lg">
+    <div className=" bg-gray-100 py-10">
+    <div id="contact" className="mx-auto container rounded-lg px-10 pt-20">
+      <div className="text-center pb-10">
+        <h1 className="text-2xl md:text-4xl font-bold mb-5">
+        Contact Us
+        </h1>
+        <p className="text-gray-600 text-sm md:text-base max-w-3xl mx-auto">
+        Below are answers to some common questions. If you need more help,
+          feel free to{" "}
+          <a
+            href="mailto:support@flowmate.com"
+            className="text-blue-600 underline"
+          >
+            email us
+          </a>
+          .
+        </p>
+      </div>
       <div className="relative my-2 mb-4 ">
         <div className="absolute inset-0">
-          <div className="absolute inset-y-0 left-0 w-1/2 bg-slate-200 rounded-lg" />
+          <div className="absolute inset-y-0 left-0 w-1/2 bg-white rounded-lg shadow-sm" />
         </div>
         <div className="relative mx-auto max-w-7xl lg:grid lg:grid-cols-5">
-          <div className="bg-[#F1F5F9] rounded-lg px-6 py-16 lg:col-span-2 lg:px-8 lg:py-24 xl:pr-12">
+          <div className="bg-[#00053d] rounded-lg px-6 py-16 lg:col-span-2 lg:px-8 lg:py-24 xl:pr-12">
             <div className="mx-auto max-w-lg">
-              <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+              <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
                 Get in Touch
               </h2>
-              <p className="mt-3 text-lg leading-6 text-gray-500">
+              <p className="mt-3 text-lg leading-6 text-gray-100">
                 We’d love to hear from you! If you have any questions or
                 comments, please feel free to reach out.
               </p>
-              <dl className="mt-8 text-base text-gray-500">
+              <dl className="mt-8 text-base text-gray-100">
                 <div>
                   <dt className="sr-only">Postal Address</dt>
                   <dd>
@@ -87,7 +99,7 @@ const Contact = () => {
                   <dd className="flex">
                     <PhoneIcon
                       aria-hidden="true"
-                      className="h-6 w-6 flex-shrink-0 text-gray-400"
+                      className="h-6 w-6 flex-shrink-0 text-gray-100"
                     />
                     <span className="ml-3">+880 100000000</span>
                   </dd>
@@ -97,7 +109,7 @@ const Contact = () => {
                   <dd className="flex">
                     <MessageSquareCode
                       aria-hidden="true"
-                      className="h-6 w-6 flex-shrink-0 text-gray-400"
+                      className="h-6 w-6 flex-shrink-0 text-gray-100"
                     />
                     <span className="ml-3">support@flowmate.com</span>
                   </dd>
@@ -118,7 +130,7 @@ const Contact = () => {
                     type="text"
                     placeholder="Full Name"
                     autoComplete="name"
-                    className="block w-full rounded-md border-gray-300 px-4 py-3 placeholder-gray-500 shadow-lg focus:border-indigo-500 focus:ring-indigo-500 "
+                    className="block w-full rounded-md border-gray-300 px-4 py-3 placeholder-graytext-gray-100 shadow-lg focus:border-indigo-500 focus:ring-indigo-500 "
                   />
                 </div>
                 <div>
@@ -131,7 +143,7 @@ const Contact = () => {
                     type="email"
                     placeholder="Email"
                     autoComplete="email"
-                    className="block w-full rounded-md border-gray-300 px-4 py-3 placeholder-gray-500 shadow-lg focus:border-indigo-500 focus:ring-indigo-500"
+                    className="block w-full rounded-md border-gray-300 px-4 py-3 placeholder-graytext-gray-100 shadow-lg focus:border-indigo-500 focus:ring-indigo-500"
                   />
                 </div>
                 <div>
@@ -143,14 +155,14 @@ const Contact = () => {
                     name="message"
                     rows={4}
                     placeholder="Your Message"
-                    className="block w-full rounded-md border-zinc-800 px-4 py-3 placeholder-gray-500 shadow-lg focus:border-indigo-500 focus:ring-indigo-500"
+                    className="block w-full rounded-md border-zinc-800 px-4 py-3 placeholder-graytext-gray-100 shadow-lg focus:border-indigo-500 focus:ring-indigo-500"
                     defaultValue={""}
                   />
                 </div>
                 <div>
                   <button
                     type="submit"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-[#00053d] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[#23296e] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Submit
                   </button>
@@ -160,6 +172,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

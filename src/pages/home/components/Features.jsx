@@ -52,8 +52,8 @@ const Features = () => {
     });
   }, []);
   return (
-    <Container className="my-24 md:my-32">
-      <div data-aos="zoom-out-right" className="text-center">
+    <Container className="mt-14">
+      <div data-aos="zoom-in" className="text-center">
         <h1 className="text-2xl md:text-4xl font-bold pb-5">
           Breeze through issues at lighting speed
         </h1>
@@ -69,10 +69,10 @@ const Features = () => {
       {/* Bento Grid */}
 
       <div className="grid sm:grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 my-10 md:my-16 ">
-        <div className="col-span-2 bg-slate-200 text-gray-950 rounded-xl p-5 shadow-sm ">
+        <div className="col-span-2 bg-slate-300 text-gray-950 rounded-xl p-5 shadow-sm ">
           <ListFilter className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
-          <h1 className="text-2xl font-bold text-blue-800 py-2">
+          <h1 className="text-2xl font-bold text-[#00053d] py-2">
             Advance Filters
           </h1>
           <p className="text-zinc-800">
@@ -86,12 +86,12 @@ const Features = () => {
             style={{ filter: "invert(1)" }}
           />
         </div>
-        <div className="col-span-2 col-start-1 row-start-2 bg-slate-200 text-gray-950 rounded-xl pt-5 pl-5 shadow-sm">
+        <div className="col-span-2 col-start-1 row-start-2 bg-slate-300 text-gray-950 rounded-xl pt-5 pl-5 shadow-sm">
           <div className="flex justify-between">
             <div>
               <Command className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
-              <h1 className="text-2xl font-bold text-blue-800 py-2">
+              <h1 className="text-2xl font-bold text-[#00053d] py-2">
                 Keyboard-first Design
               </h1>
               <p className="text-zinc-800">
@@ -107,10 +107,10 @@ const Features = () => {
             />
           </div>
         </div>
-        <div className="row-span-2 col-start-3 row-start-1 bg-slate-200 text-gray-950  rounded-xl pl-5 pt-5  shadow-sm">
+        <div className="row-span-2 col-start-3 row-start-1 bg-slate-300 text-gray-950  rounded-xl pl-5 pt-5  shadow-sm">
           <IoNotificationsSharp className="w-10 h-10 border rounded-xl p-2 border-slate-500" />
 
-          <h1 className="text-2xl font-bold text-blue-800 py-2">
+          <h1 className="text-2xl font-bold text-[#00053d] py-2">
             Realtime Notification
           </h1>
           <p className="text-zinc-800">

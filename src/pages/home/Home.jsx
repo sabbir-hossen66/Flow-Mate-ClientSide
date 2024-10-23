@@ -14,12 +14,14 @@ import MarqueeSection from "./components/MarqueeSection";
 import { BannerImage } from "./components/BannerImage";
 import Features from "./components/Features";
 import AutoMateTask from "./components/AutoMateTask";
+import ForPrice from "./components/ForPrice";
+import ProjectIdea from "./components/ProjectIdea";
 
 // import ModalPage from "@/components/modalPage/ModalPage";
 
 const Home = () => {
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-100">
       <HeroSection />
       <BannerImage />
       <MarqueeSection />
@@ -32,13 +34,14 @@ const Home = () => {
       {/* <MarketingComponent /> */}
       <Features />
       {/* <OurTeams /> */}
-
+      <ProjectIdea/>
      
 
       <Testmonial />
       {/* <Newsletters /> */}
       <FAQ />
-      <Contact/>
+      {/* <Contact/> */}
+      <ForPrice/>
     </div>
   );
 };

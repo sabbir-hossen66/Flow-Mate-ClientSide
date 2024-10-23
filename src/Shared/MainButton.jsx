@@ -14,7 +14,7 @@ const MainButton = forwardRef(
       isSubmitable,
       width,
       dataLoadingText = "Please wait ...",
-      variant = "primary",
+      variant = "[#00053d]",
       className,
       iconRoute,
       rightIconRoute,
@@ -33,7 +33,7 @@ const MainButton = forwardRef(
           : "w-[245px]"
         : "";
 
-    const isSecondaryVariant = variant !== "primary";
+    const isSecondaryVariant = variant !== "[#00053d]";
 
     const size_height =
       size === "normal"
@@ -43,13 +43,13 @@ const MainButton = forwardRef(
         : "h-[2.625rem]";
 
     const variant_hover =
-      variant === "primary" ? "hover:bg-primary" : "hover:bg-secondary";
+      variant === "[#00053d]" ? "hover:bg-[#00053d]" : "hover:bg-secondary";
 
     return !isLoading ? (
       <Button
         form={form}
         className={`border-[.2rem] border-[#555E67] ${
-          isSecondaryVariant ? " text-white  bg-secondary" : "bg-primary"
+          isSecondaryVariant ? " text-white  bg-secondary" : "bg-[#00053d]"
         } text-white  ${propWidth} md:${propWidth}  select-none rounded-[1.3rem] hover:opacity-90 ${variant_hover} ${size_height} ${className}`}
         onClick={!disabled ? action : () => undefined}
         type={isSubmitable ? "submit" : "button"}
@@ -78,7 +78,7 @@ const MainButton = forwardRef(
       </Button>
     ) : (
       <Button
-        className={`bg-primary text-white ${propWidth} md:${propWidth} select-none rounded-[0.625rem] cursor-not-allowed ${size_height} ${
+        className={`bg-[#00053d] text-white ${propWidth} md:${propWidth} select-none rounded-[0.625rem] cursor-not-allowed ${size_height} ${
           className ? className : ""
         }`}
         ref={ref}
