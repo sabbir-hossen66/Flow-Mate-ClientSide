@@ -13,9 +13,8 @@ const UserActivity = () => {
         <div className="w-full bg-white rounded-2xl">
           <ActivityChart />
         </div>
-        <div className='w-2/4'>
+        <div className='w-2/4 mx-auto'>
           <UserContributionSummary />
-
         </div>
         {/* Round Graph */}
         <div className="  w-1/3  ">
