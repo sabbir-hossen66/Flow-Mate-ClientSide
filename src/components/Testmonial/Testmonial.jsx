@@ -5,22 +5,25 @@ import "swiper/css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Autoplay } from "swiper/modules";
+import { useQuery } from "@tanstack/react-query";
+
 const Testimonial = () => {
   const axiosCommon = UseAxiosCommon();
-  const [feedbacks, setFeedbacks] = useState([]);
   const swiperRef = useRef(null); // To control Swiper manually
   const [visibleSlides, setVisibleSlides] = useState(1); // Track the number of visible slides
 
-  useEffect(() => {
-    axiosCommon
-      .get("feedbacks")
-      .then((response) => {
-        setFeedbacks(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [axiosCommon]);
+  const {
+    data: feedbackData = [], // Default to an empty array
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["feedbackData"],
+    queryFn: async () => {
+      const { data } = await axiosCommon.get(`/feedbacks`);
+      return data;
+    },
+  });
 
   const defaultImage =
     "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
@@ -37,6 +40,7 @@ const Testimonial = () => {
 
     setVisibleSlides(slides);
   };
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -44,6 +48,10 @@ const Testimonial = () => {
       offset: 150,
     });
   }, []);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+
   return (
     <div className=" mx-auto p-10">
       <div data-aos="zoom-in" className="text-center pt-6 pb-10">
@@ -60,8 +68,8 @@ const Testimonial = () => {
       <div className="container mx-auto px-5 py-5">
         {/* Swiper Implementation for Sliding Cards */}
         <Swiper
-         modules={[Autoplay]} // Add Autoplay module here
-         autoplay={{ delay: 3000 }} // 3 seconds delay for autoplay
+          modules={[Autoplay]} // Add Autoplay module here
+          autoplay={{ delay: 3000 }} // 3 seconds delay for autoplay
           spaceBetween={30}
           slidesPerView={1} // One visible card on small screens, can be adjusted
           breakpoints={{
@@ -77,72 +85,85 @@ const Testimonial = () => {
           }}
           onResize={(swiper) => updateVisibleSlides(swiper)} // Update on window resize
         >
-          {feedbacks.map((feedback, index) => {
-            const middleIndex = Math.floor(visibleSlides / 2);
+          {feedbackData.length > 0 ? (
+            feedbackData.map((feedback, index) => {
+              const middleIndex = Math.floor(visibleSlides / 2);
 
-            return (
-              <SwiperSlide key={index} className="rounded-3xl">
-              <div
-                className={`relative p-8 rounded-2xl overflow-visible transition-transform transform hover:scale-105 w-96 h-80 group 
-                ${index % visibleSlides === middleIndex ? "bg-[#00053d] text-white" : "bg-white hover:bg-[#00053d] hover:text-white rounded-3xl"}
-                `}
-              >
-                {/* User Image */}
-                <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-32 h-32 rounded-full border-4 border-white overflow-hidden z-20">
-                  <img
-                    src={feedback.image ? defaultImage : feedback.image}
-                    alt={feedback.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-            
-                {/* Card Content */}
-                <div className="mt-20 text-center pt-12">
-                  {/* Stars */}
+              return (
+                <SwiperSlide key={index} className="rounded-3xl">
                   <div
-                    className={`flex justify-center mb-4 ${
-                      index % visibleSlides === middleIndex
-                        ? "text-white"
-                        : "group-hover:text-white"
-                    }`}
+                    className={`relative p-8 rounded-2xl overflow-visible transition-transform transform hover:scale-105 w-96 h-80 group 
+                ${
+                  index % visibleSlides === middleIndex
+                    ? "bg-[#00053d] text-white"
+                    : "bg-white hover:bg-[#00053d] hover:text-white rounded-3xl"
+                }
+                `}
                   >
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <span
-                        key={i}
-                        className={`${i < feedback.rating ? (index % visibleSlides === middleIndex ? "text-white" : "text-yellow-400 group-hover:text-white") : "text-gray-300 group-hover:text-white"} text-xl`}
+                    {/* User Image */}
+                    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-32 h-32 rounded-full border-4 border-white overflow-hidden z-20">
+                      <img
+                        src={feedback.image || defaultImage}
+                        alt={feedback.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Card Content */}
+                    <div className="mt-20 text-center pt-12">
+                      {/* Stars */}
+                      <div
+                        className={`flex justify-center mb-4 ${
+                          index % visibleSlides === middleIndex
+                            ? "text-white"
+                            : "group-hover:text-white"
+                        }`}
                       >
-                        ★
-                      </span>
-                    ))}
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <span
+                            key={i}
+                            className={`${
+                              i < feedback.rating
+                                ? index % visibleSlides === middleIndex
+                                  ? "text-white"
+                                  : "text-yellow-400 group-hover:text-white"
+                                : "text-gray-300 group-hover:text-white"
+                            } text-xl`}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Review Text */}
+                      <p
+                        className={`mb-6 leading-relaxed ${
+                          index % visibleSlides === middleIndex
+                            ? "text-white"
+                            : "text-gray-500 group-hover:text-white"
+                        }`}
+                      >
+                        {feedback.feedback.split(" ").slice(0, 5).join(" ")}...
+                      </p>
+
+                      {/* Reviewer Name */}
+                      <p
+                        className={`font-bold text-lg ${
+                          index % visibleSlides === middleIndex
+                            ? "text-white"
+                            : "text-gray-900 group-hover:text-white"
+                        }`}
+                      >
+                        {feedback.name}
+                      </p>
+                    </div>
                   </div>
-            
-                  {/* Review Text */}
-                  <p
-                    className={`mb-6 leading-relaxed ${
-                      index % visibleSlides === middleIndex
-                        ? "text-white"
-                        : "text-gray-500 group-hover:text-white"
-                    }`}
-                  >
-                    {feedback.feedback}
-                  </p>
-            
-                  {/* Reviewer Name */}
-                  <p
-                    className={`font-bold text-lg ${
-                      index % visibleSlides === middleIndex
-                        ? "text-white"
-                        : "text-gray-900 group-hover:text-white"
-                    }`}
-                  >
-                    {feedback.name}
-                  </p>
-                </div>
-              </div>
-            </SwiperSlide>
-            
-            );
-          })}
+                </SwiperSlide>
+              );
+            })
+          ) : (
+            <p>No feedback available.</p>
+          )}
         </Swiper>
       </div>
     </div>
