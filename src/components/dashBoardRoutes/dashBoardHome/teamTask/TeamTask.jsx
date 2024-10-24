@@ -31,6 +31,7 @@ import InProgress from "../../tasks/InProgress";
 import Completed from "../../tasks/Completed";
 import axios from "axios";
 import CalendarView from "./CalendarView";
+import DragAndDrop from "../../tasks/DragAndDrop";
 
 // Main Component
 const TeamTask = () => {
@@ -452,17 +453,7 @@ const TeamTask = () => {
         breadcrumb="See all task of your team"
       ></PageHeader>
       <div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 gap-3 px-5 py-10">
-          <div>
-            <TodoList />
-          </div>
-          <div>
-            <InProgress />
-          </div>
-          <div>
-            <Completed />
-          </div>
-        </div>
+        <DragAndDrop />
         <CalendarView />
       </div>
 

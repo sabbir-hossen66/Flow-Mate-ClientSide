@@ -44,7 +44,9 @@ const InProgress = () => {
 
   return (
     <div className="p-4 w-80 mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold text-gray-700 mb-4">Completed</h2>
+      <h2 className="text-lg font-semibold text-gray-700 mb-4">
+        In Progress
+      </h2>
 
       {/* Show message if there are no completed tasks */}
       {tasks.length === 0 ? (
