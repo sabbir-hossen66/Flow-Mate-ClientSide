@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import UseAxiosCommon from "@/hooks/UseAxiosCommon";
 import { useEffect } from "react";
 
-const TaskBoard = () => {
+const DragAndDrop = () => {
   const { teamName } = useLoaderData();
   const axiosCommon = UseAxiosCommon();
 
@@ -152,4 +152,4 @@ const TaskBoard = () => {
   );
 };
 
-export default TaskBoard;
+export default DragAndDrop;

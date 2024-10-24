@@ -13,18 +13,15 @@ const Tasks = () => {
     <div>
       <section className="container  mx-auto">
         {/* Header and Create Task Button */}
-
         <PageHeader
           title=" Here all the tasks"
           breadcrumb="At first create board then create task"
         />
-
-        {/* Task Lists (Todo, InProgress, Completed) */}
-        <DragAndDrop />
-
+        
+        {/* <DragAndDrop /> */}
+      
         {/* Filter Component */}
         <div></div>
-
         {/* Task Cards */}
         <div>
           <TaskCard />
