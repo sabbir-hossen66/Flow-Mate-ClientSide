@@ -456,9 +456,6 @@ const TeamTask = () => {
     return <div>Error loading tasks: {error.message}</div>;
   }
 
-  // Filter tasks based on the teamName
-  // const filteredTasks = tasks.filter((task) => task.teamName === teamName);
-
   return (
     <div>
       <PageHeader

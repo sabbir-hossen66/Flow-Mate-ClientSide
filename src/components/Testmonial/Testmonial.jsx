@@ -6,14 +6,17 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Autoplay } from "swiper/modules";
 import { useQuery } from "@tanstack/react-query";
-
+import { Rating } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
+import "swiper/css/effect-coverflow";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 const Testimonial = () => {
   const axiosCommon = UseAxiosCommon();
-  const swiperRef = useRef(null); // To control Swiper manually
-  const [visibleSlides, setVisibleSlides] = useState(1); // Track the number of visible slides
+  const swiperRef = useRef(null);
+  const [visibleSlides, setVisibleSlides] = useState(1);
 
   const {
-    data: feedbackData = [], // Default to an empty array
+    data: feedbackData = [],
     isLoading,
     isError,
     error,
@@ -28,7 +31,6 @@ const Testimonial = () => {
   const defaultImage =
     "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
-  // Update the number of visible slides based on the Swiper breakpoints
   const updateVisibleSlides = (swiper) => {
     const breakpoints = swiper.params.breakpoints;
     const currentWidth = window.innerWidth;
@@ -51,9 +53,10 @@ const Testimonial = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error.message}</div>;
-
+  const cardIamge =
+    "https://st.depositphotos.com/2890953/3549/i/450/depositphotos_35491151-stock-photo-feedback-process-design-with-group.jpg";
   return (
-    <div className=" mx-auto p-10">
+    <div className="mx-auto lg:p-10 md:p-5 p-1">
       <div data-aos="zoom-in" className="text-center pt-6 pb-10">
         <h1 className="text-2xl md:text-4xl font-bold mb-5">
           Some real-life feedback from our customers
@@ -65,102 +68,94 @@ const Testimonial = () => {
         </p>
       </div>
 
-      <div className="container mx-auto px-5 py-5">
-        {/* Swiper Implementation for Sliding Cards */}
+      <div className="container mx-auto px-5 py-2">
         <Swiper
-          modules={[Autoplay]} // Add Autoplay module here
-          autoplay={{ delay: 3000 }} // 3 seconds delay for autoplay
+          modules={[Autoplay, EffectCoverflow]}
+          effect={"coverflow"}
+          autoplay={{ delay: 3000 }}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
           spaceBetween={30}
-          slidesPerView={1} // One visible card on small screens, can be adjusted
+          slidesPerView={1}
           breakpoints={{
             640: { slidesPerView: 1 },
             1024: { slidesPerView: 2 },
-            1280: { slidesPerView: 3 }, // Three visible cards on larger screens
+            1280: { slidesPerView: 3 },
           }}
           loop={true}
           pagination={{ clickable: true }}
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
-            updateVisibleSlides(swiper); // Call this to initialize the visible slides count
+            updateVisibleSlides(swiper);
           }}
-          onResize={(swiper) => updateVisibleSlides(swiper)} // Update on window resize
+          onResize={(swiper) => updateVisibleSlides(swiper)}
         >
           {feedbackData.length > 0 ? (
-            feedbackData.map((feedback, index) => {
-              const middleIndex = Math.floor(visibleSlides / 2);
-
-              return (
-                <SwiperSlide key={index} className="rounded-3xl">
-                  <div
-                    className={`relative p-8 rounded-2xl overflow-visible transition-transform transform hover:scale-105 w-96 h-80 group 
-                ${
-                  index % visibleSlides === middleIndex
-                    ? "bg-[#00053d] text-white"
-                    : "bg-white hover:bg-[#00053d] hover:text-white rounded-3xl"
-                }
-                `}
-                  >
-                    {/* User Image */}
-                    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-32 h-32 rounded-full border-4 border-white overflow-hidden z-20">
-                      <img
-                        src={feedback.image || defaultImage}
-                        alt={feedback.name}
-                        className="w-full h-full object-cover"
-                      />
+            feedbackData.map((feedback, index) => (
+              <SwiperSlide key={index} className="rounded-3xl">
+                <div className="overflow-hidden  bg-white text-slate-500 shadow-md shadow-slate-200  group transition-transform transform hover:scale-95 rounded-2xl text-center hover:bg-[#2c2f52] lg:max-h-[450px] hover:text-white">
+                  <div className="flex flex-col justify-center items-center">
+                    <div className="p-4">
+                      <header className="flex gap-2 py-1">
+                        <a
+                          href="#"
+                          className="relative inline-flex h-12 w-12 items-center justify-center rounded-full text-white"
+                        >
+                          <img
+                            src={feedback.image || defaultImage}
+                            alt={feedback.name}
+                            className="max-w-full rounded-full"
+                          />
+                        </a>
+                        <div>
+                          <h3 className="text-xl font-medium text-slate-700">
+                            {feedback.name}
+                          </h3>
+                          <p className="text-sm text-slate-400">
+                            Given on{" "}
+                            {feedback.createdAt
+                              ? new Date(feedback.createdAt).toLocaleString()
+                              : "Unknown date"}
+                          </p>
+                        </div>
+                      </header>
                     </div>
-
-                    {/* Card Content */}
-                    <div className="mt-20 text-center pt-12">
-                      {/* Stars */}
-                      <div
-                        className={`flex justify-center mb-4 ${
-                          index % visibleSlides === middleIndex
-                            ? "text-white"
-                            : "group-hover:text-white"
-                        }`}
-                      >
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <span
-                            key={i}
-                            className={`${
-                              i < feedback.rating
-                                ? index % visibleSlides === middleIndex
-                                  ? "text-white"
-                                  : "text-yellow-400 group-hover:text-white"
-                                : "text-gray-300 group-hover:text-white"
-                            } text-xl`}
-                          >
-                            ★
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Review Text */}
-                      <p
-                        className={`mb-6 leading-relaxed ${
-                          index % visibleSlides === middleIndex
-                            ? "text-white"
-                            : "text-gray-500 group-hover:text-white"
-                        }`}
-                      >
-                        {feedback.feedback.split(" ").slice(0, 5).join(" ")}...
+                    <figure>
+                      <img
+                        src={feedback.feedbackImage || cardIamge}
+                        alt="card image"
+                        className="aspect-video w-full"
+                      />
+                    </figure>
+                    <div className="p-2 ">
+                      <p>
+                        {feedback.feedback.split(" ").slice(0, 12).join(" ")}...
                       </p>
-
-                      {/* Reviewer Name */}
-                      <p
-                        className={`font-bold text-lg ${
-                          index % visibleSlides === middleIndex
-                            ? "text-white"
-                            : "text-gray-900 group-hover:text-white"
-                        }`}
-                      >
-                        {feedback.name}
+                    </div>
+                    <div className="flex justify-end gap-2 p-2 pt-0">
+                      <p className="inline-flex h-10 items-center justify-center gap-2 rounded px-5 text-sm font-medium text-emerald-500 transition hover:bg-emerald-100 ">
+                        <span className="relative">
+                          <Rating
+                            style={{ maxWidth: 120 }}
+                            value={
+                              typeof feedback.rating === "number"
+                                ? feedback.rating
+                                : 0
+                            } // Fallback to 0 if the rating is invalid
+                            readOnly
+                          />
+                        </span>
                       </p>
                     </div>
                   </div>
-                </SwiperSlide>
-              );
-            })
+                </div>
+              </SwiperSlide>
+            ))
           ) : (
             <p>No feedback available.</p>
           )}
