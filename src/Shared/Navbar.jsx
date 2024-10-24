@@ -143,7 +143,7 @@ function Navbar() {
           </div>
         </div>
         {menu && (
-          <div className="my-8 select-none animate-in slide-in-from-right">
+          <div className="my-4 select-none animate-in slide-in-from-right">
             <div className="flex flex-col items-center justify-center gap-8 mt-8 mx-4">
               {links.map((item, index) => (
                 <div key={index} className="flex gap-2 ">
