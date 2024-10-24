@@ -64,7 +64,7 @@ const DashBoardCards = () => {
           <p className="text-4xl mt-4">{task.done}</p>
         </div>
 
-        {/* In Progress Tasks Card */}
+
         <div className="bg-yellow-500 text-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
           <h3 className="text-lg font-semibold">In Progress Tasks</h3>
           <p className="text-4xl mt-4">{task.inProgress}</p>
