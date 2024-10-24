@@ -32,17 +32,6 @@ import Completed from "../../tasks/Completed";
 import axios from "axios";
 import CalendarView from "./CalendarView";
 
-// Function to fetch tasks from your API
-// const fetchTasks = async () => {
-//   const response = await fetch(
-//     "https://flowmate-a-team-collaboration-tool.vercel.app/createTask"
-//   );
-//   if (!response.ok) {
-//     throw new Error("Network response was not ok");
-//   }
-//   return response.json();
-// };
-
 // Main Component
 const TeamTask = () => {
   const axiosCommon = UseAxiosCommon();

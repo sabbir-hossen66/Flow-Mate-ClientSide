@@ -15,7 +15,7 @@ const ProjectIdea = () => {
     <div className="bg-gray-50">
       <Container>
         <div data-aos="zoom-in" className="text-center pt-10 pb-10">
-          <h1 className="text-2xl md:text-4xl font-bold mb-5">
+          <h1 className="text-2xl md:text-4xl font-bold mb-5 uppercase">
             Explore our project system
           </h1>
           <p className="text-gray-600 text-sm md:text-base max-w-3xl mx-auto">
@@ -26,13 +26,13 @@ const ProjectIdea = () => {
         </div>
         <div className="flex flex-col lg:flex-row justify-between items-center py-16 px-8 gap-10">
           <div className="lg:w-1/2 text-left">
-            <h1 className="text-2xl md:text-5xl text-gray-800 mb-6">
+            <h1 className="text-2xl md:text-5xl text-gray-800 mb-6 capitalize">
               Built-in project time tracking & team reporting
             </h1>
-            <p className="text-lg text-gray-600 mb-4">
+            <p className="text-lg text-gray-600 mb-4 ">
               Per project and task time tracking is as simple as possible and is
               designed in a way that requires little to no effort.{" "}
-              <span class="font-semibold text-gray-800">
+              <span className="font-semibold text-gray-800">
                 Reporting features make daily check-ins unnecessary
               </span>{" "}
               as all work can be viewed and progress tracked by selected team
@@ -52,7 +52,7 @@ const ProjectIdea = () => {
             </div>
           </div>
 
-          <div class="lg:w-1/2 mt-10 lg:mt-0">
+          <div className="lg:w-1/2 mt-10 lg:mt-0">
             <img src={task} alt="Team Tracking UI" class="w-full h-auto" />
           </div>
         </div>
