@@ -61,7 +61,7 @@ function Navbar() {
           <div className="flex justify-between mx-4 items-center">
             <img
               className="h-14 w-auto"
-              src="https://i.ibb.co.com/sH49jvt/logo2-removebg-preview.png"
+              src="https://i.ibb.co.com/9ncLQzX/newlogo-removebg-preview.png"
               alt=""
             />
             <div className="flex gap-[20px] xl:gap-[50px] text-[18px] items-center select-none">
@@ -125,7 +125,7 @@ function Navbar() {
           <Link to="/">
             <img
               className="h-8 md:h-12 w-auto"
-              src="https://i.ibb.co.com/sH49jvt/logo2-removebg-preview.png"
+              src="https://i.ibb.co.com/9ncLQzX/newlogo-removebg-preview.png"
               alt=""
             />
           </Link>
@@ -193,7 +193,6 @@ function Navbar() {
         )}
       </div>
     </div>
-   
   );
 }
 
