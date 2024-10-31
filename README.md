@@ -72,7 +72,7 @@ Flowmate is a team collaboration platform designed to help teams work efficientl
         ```
     - For frontend
         ```bash
-        cd Flo-Mate-ClientSide
+        cd Flow-Mate-ClientSide
         npm install
         ```
 
